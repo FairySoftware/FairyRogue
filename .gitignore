@@ -1,0 +1,11 @@
+# Ignore Gradle project-specific cache directory
+.gradle/
+.idea/
+.vscode/
+
+# Ignore Gradle build output directory
+build
+
+# Ignore fxgl generated directory
+logs
+system
