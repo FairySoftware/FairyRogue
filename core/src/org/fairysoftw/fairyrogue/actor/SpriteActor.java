@@ -7,9 +7,11 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import org.fairysoftw.fairyrogue.stage.MiniMapStage;
 
 public class SpriteActor extends Actor {
     protected Sprite sprite;
+    public MiniMapStage miniMapStage = null;
 
     public SpriteActor(TextureRegion region) {
         sprite = new Sprite(region);
@@ -25,6 +27,14 @@ public class SpriteActor extends Actor {
     public void spritePos(float x, float y) {
         sprite.setPosition(x, y);
         setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
+    }
+
+    @Override
+    public boolean remove() {
+        if(miniMapStage != null) {
+            miniMapStage.remove(this, true);
+        }
+        return super.remove();
     }
 
     @Override

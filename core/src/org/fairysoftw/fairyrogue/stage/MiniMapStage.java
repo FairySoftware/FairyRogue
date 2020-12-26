@@ -35,6 +35,10 @@ public class MiniMapStage extends Stage {
         this.group.addActor(actor);
     }
 
+    public void remove(Actor actor, boolean bool) {
+        group.removeActor(actor, bool);
+    }
+
     @Override
     public void draw() {
         viewport.apply();

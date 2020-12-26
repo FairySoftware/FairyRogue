@@ -63,6 +63,7 @@ public class MainScreen extends ScreenAdapter {
                 actor.setY(mapObject.getY());
                 stage.addActor(actor);
                 miniMapStage.addActor(actor);
+                ((SpriteActor)actor).miniMapStage = miniMapStage;
             }
         }
     }
