@@ -108,7 +108,6 @@ public class GameStage extends Stage {
                     props.propsType = ((PropsActor) actor).getPropsType();
                     playerActor.pickUp(props);
                     actor.remove();
-                    Gdx.app.debug("player", "picked up " + props.name);
                 }
             }
         }

@@ -59,13 +59,11 @@ public class CreatureActor extends SpriteActor {
         if (now - lastAttack > 1000000000 / attackSpeed && !this.isDead() && opponent!=null) {
             this.lastAttack = now;
             float realDamage = this.opponent.takeDamage(this.attackDamage, this.abilityPower, this);
-            Gdx.app.debug(this.getName(), "take " + realDamage + " damage to " + opponent.getName());
         }
         else if (now - lastAttack > 0 && opponent != null) {
             float s = (now - lastAttack) / (1000000000 / attackSpeed);
             this.setX((float) (posBeforeBattle.x + (opponent.getX() - posBeforeBattle.x) * s * 0.5));
             this.setY((float) (posBeforeBattle.y + (opponent.getY() - posBeforeBattle.y) * s * 0.5));
-            Gdx.app.debug(this.getName(), "current at " + this.getX() + " " + this.getY());
         }
     }
 
@@ -77,7 +75,6 @@ public class CreatureActor extends SpriteActor {
 
     public void takeDeath() {
         this.remove();
-        Gdx.app.debug(this.getName(), "is dead");
         //TODO: add die animation
     }
 
