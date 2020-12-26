@@ -37,21 +37,6 @@ public class CreatureActor extends SpriteActor {
         magicalDefence = (float) properties.get("magicalDefence");
     }
 
-    public float takeDamage(Attack attack) {
-        float realDamage = 0;
-        if (attack.attackDamage - physicalDefence > 0) {
-            realDamage += attack.attackDamage - physicalDefence;
-        }
-        if (attack.abilityPower - magicalDefence > 0) {
-            realDamage += attack.abilityPower - magicalDefence;
-        }
-        healthPoint -= realDamage;
-        if (this.healthPoint <= 0) {
-            takeDeath();
-        }
-        return realDamage;
-    }
-
     public float takeDamage(float attackDamage, float abilityPower, CreatureActor attacker) {
         if (!inBattle) {
             inBattle = true;
