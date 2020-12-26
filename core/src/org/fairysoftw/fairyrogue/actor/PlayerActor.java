@@ -9,17 +9,15 @@ import com.badlogic.gdx.utils.Array;
 import org.fairysoftw.fairyrogue.props.Equipment;
 import org.fairysoftw.fairyrogue.props.Props;
 
-import static com.badlogic.gdx.utils.JsonValue.ValueType.object;
-
 public class PlayerActor extends CreatureActor {
-    private Vector2 lastPosition;
+    private Vector2 lastPosition = new Vector2();
     public Array<Props> backpack = new Array<>();
     private final int backpackCapacity = 100;
-    private Equipment weapon = null;
-    private Equipment apparel_head = null;
-    private Equipment apparel_upper_body = null;
-    private Equipment apparel_lower_body = null;
-    private Equipment accessories = null;
+    private Equipment weapon = new Equipment(Equipment.EquipmentType.NONE);
+    private Equipment apparel_head = new Equipment(Equipment.EquipmentType.NONE);
+    private Equipment apparel_upper_body = new Equipment(Equipment.EquipmentType.NONE);
+    private Equipment apparel_lower_body = new Equipment(Equipment.EquipmentType.NONE);
+    private Equipment accessories = new Equipment(Equipment.EquipmentType.NONE);
 
     public PlayerActor(TextureRegion region) {
         super(region);
@@ -31,30 +29,34 @@ public class PlayerActor extends CreatureActor {
 
     @Override
     public void act(float delta) {
-        lastPosition = new Vector2(this.getX(), this.getY());
-        if (Gdx.input.isKeyJustPressed(Input.Keys.K) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.W) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.UP))//up
-        {
-            sprite.setY(sprite.getY() + 32);
-        }
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.J) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.S) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.DOWN))//down
-        {
-            sprite.setY(sprite.getY() - 32);
-        }
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.H) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.A) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.LEFT))//left
-        {
-            sprite.setX(sprite.getX() - 32);
-        }
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.L) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.D) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))//right
-        {
-            sprite.setX(sprite.getX() + 32);
+        super.act(delta);
+        lastPosition.x = this.getX();
+        lastPosition.y = this.getY();
+        if (!inBattle) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.K) ||
+                    Gdx.input.isKeyJustPressed(Input.Keys.W) ||
+                    Gdx.input.isKeyJustPressed(Input.Keys.UP))//up
+            {
+                sprite.setY(sprite.getY() + 32);
+            }
+            else if (Gdx.input.isKeyJustPressed(Input.Keys.J) ||
+                    Gdx.input.isKeyJustPressed(Input.Keys.S) ||
+                    Gdx.input.isKeyJustPressed(Input.Keys.DOWN))//down
+            {
+                sprite.setY(sprite.getY() - 32);
+            }
+            else if (Gdx.input.isKeyJustPressed(Input.Keys.H) ||
+                    Gdx.input.isKeyJustPressed(Input.Keys.A) ||
+                    Gdx.input.isKeyJustPressed(Input.Keys.LEFT))//left
+            {
+                sprite.setX(sprite.getX() - 32);
+            }
+            else if (Gdx.input.isKeyJustPressed(Input.Keys.L) ||
+                    Gdx.input.isKeyJustPressed(Input.Keys.D) ||
+                    Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))//right
+            {
+                sprite.setX(sprite.getX() + 32);
+            }
         }
     }
 
@@ -67,6 +69,37 @@ public class PlayerActor extends CreatureActor {
         if (backpack.size < backpackCapacity) {
             backpack.add(props);
         }
+        if (props.propsType == PropsActor.PropsType.EQUIPMENT) {
+            Equipment equipment = (Equipment) props;
+            switch (equipment.equipmentType) {
+                case WEAPON:
+                    if (this.weapon.equipmentType == Equipment.EquipmentType.NONE) {
+                        this.weapon = equipment;
+                    }
+                    break;
+                case APPAREL_HEAD:
+                    if (this.apparel_head.equipmentType == Equipment.EquipmentType.NONE) {
+                        this.apparel_head = equipment;
+                    }
+                    break;
+                case APPAREL_UPPER_BODY:
+                    if (this.apparel_upper_body.equipmentType == Equipment.EquipmentType.NONE) {
+                        this.apparel_upper_body = equipment;
+                    }
+                    break;
+                case APPAREL_LOWER_BODY:
+                    if (this.apparel_lower_body.equipmentType == Equipment.EquipmentType.NONE) {
+                        this.apparel_lower_body = equipment;
+                    }
+                    break;
+                case ACCESSORIES:
+                    if (this.accessories.equipmentType == Equipment.EquipmentType.NONE) {
+                        this.accessories = equipment;
+                    }
+                    break;
+            }
+            updateAttributes();
+        }
     }
 
     public void dropDown(Props props) {
@@ -74,7 +107,7 @@ public class PlayerActor extends CreatureActor {
     }
 
     public void equip(Equipment equipment) {
-        switch (equipment.type) {
+        switch (equipment.equipmentType) {
             case WEAPON:
                 weapon = equipment;
                 break;
@@ -97,6 +130,11 @@ public class PlayerActor extends CreatureActor {
     }
 
     private void updateAttributes() {
+        if (this.weapon.equipmentType == Equipment.EquipmentType.NONE) {
+            this.weapon.attackDamage = 1;
+            this.weapon.attackSpeed = 1;
+        }
+        this.attackSpeed = weapon.attackSpeed;
         this.attackDamage = weapon.attackDamage;
         this.abilityPower = weapon.abilityPower;
         this.physicalDefence = apparel_head.physicalDefence +

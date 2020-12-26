@@ -8,5 +8,5 @@ import org.fairysoftw.fairyrogue.actor.PropsActor;
 public class Props {
     public Texture icon;
     public String name;
-    public PropsActor.PropsType type;
+    public PropsActor.PropsType propsType;
 }

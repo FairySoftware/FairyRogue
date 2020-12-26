@@ -19,6 +19,7 @@ public class SpriteActor extends Actor {
 
     public SpriteActor(MapObject mapObject) {
         this(((TiledMapTileMapObject) mapObject).getTextureRegion());
+        this.setName(mapObject.getName());
     }
 
     public void spritePos(float x, float y) {

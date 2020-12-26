@@ -10,6 +10,7 @@ public class FairyRogue extends Game {
 
     @Override
     public void create() {
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
         Assets.load();
         mainScreen = new MainScreen(this);
         setScreen(mainScreen);

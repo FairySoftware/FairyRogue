@@ -37,8 +37,16 @@ public class GameStage extends Stage {
                 playerActor = (PlayerActor) actor;
                 playerRectangle = new Rectangle(playerActor.getX(), playerActor.getY(), playerActor.getWidth(), playerActor.getHeight());
             }
-            else if (actor instanceof WallActor || actor instanceof MonsterActor || actor instanceof NpcActor) {
+            else if (actor instanceof WallActor || actor instanceof NpcActor) {
                 rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
+            }
+            else if(actor instanceof MonsterActor) {
+                Rectangle monsterRectangle = new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight());
+                if(monsterRectangle.overlaps(playerRectangle))
+                {
+                    playerActor.undoAct();
+                    playerActor.takeBattle((CreatureActor) actor);
+                }
             }
             else if (actor instanceof DoorActor) {
                 //TODO: add locked door action
@@ -65,9 +73,10 @@ public class GameStage extends Stage {
                     }
                     props.name = ((PropsActor) actor).getPropsName();
                     props.icon = ((PropsActor) actor).getTexture();
-                    props.type = ((PropsActor) actor).getPropsType();
+                    props.propsType = ((PropsActor) actor).getPropsType();
                     playerActor.pickUp(props);
                     actor.remove();
+                    Gdx.app.debug("player", "picked up " + props.name);
                 }
             }
         }
@@ -79,5 +88,10 @@ public class GameStage extends Stage {
                 }
             }
         }
+    }
+
+    private void move()
+    {
+
     }
 }

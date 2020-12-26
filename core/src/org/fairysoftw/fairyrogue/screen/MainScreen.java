@@ -46,11 +46,11 @@ public class MainScreen extends ScreenAdapter {
                 actor = new DoorActor(mapObject);
             }
             else if (object.getName().contains("player")) {
-                playerActor = new PlayerActor(mapObject.getTextureRegion());
+                playerActor = new PlayerActor(mapObject);
                 actor = playerActor;
             }
             else if (object.getName().contains("monster")) {
-                actor = new MonsterActor(mapObject.getTextureRegion());
+                actor = new MonsterActor(mapObject);
             }
             else if (object.getName().contains("npc")) {
                 actor = new NpcActor(mapObject.getTextureRegion());
