@@ -6,7 +6,7 @@ public class Key extends Props {
     private final String id;
 
     public Key(MapProperties properties) {
-        id = (String)properties.get("id");
+        id = (String) properties.get("id");
     }
 
     public String getId() {

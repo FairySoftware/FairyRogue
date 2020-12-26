@@ -25,10 +25,10 @@ public class MiniMapStage extends Stage {
         this.camera = new OrthographicCamera();
         this.viewport = new ExtendViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT, camera);
         this.group = new NotUniqueGroup();
-        viewport.setScreenPosition(0,0);
+        viewport.setScreenPosition(0, 0);
         camera.zoom = 3;
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-        viewport.setScreenPosition(-FairyRogue.VIRTUAL_WIDTH/3,-FairyRogue.VIRTUAL_HEIGHT/3);
+        viewport.setScreenPosition(-FairyRogue.VIRTUAL_WIDTH / 3, -FairyRogue.VIRTUAL_HEIGHT / 3);
     }
 
     @Override

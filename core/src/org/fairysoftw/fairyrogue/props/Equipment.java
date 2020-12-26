@@ -22,8 +22,7 @@ public class Equipment extends Props {
 
     public Equipment(MapProperties properties) {
         this.propsType = PropsActor.PropsType.EQUIPMENT;
-        switch ((String)properties.get("type"))
-        {
+        switch ((String) properties.get("type")) {
             case "weapon":
                 this.equipmentType = EquipmentType.WEAPON;
                 break;
@@ -42,14 +41,14 @@ public class Equipment extends Props {
             default:
                 throw new IllegalStateException("Unexpected value: " + properties.get("type"));
         }
-        attackDamage = (float)properties.get("attackDamage");
-        attackSpeed = (float)properties.get("attackSpeed");
-        abilityPower = (float)properties.get("abilityPower");
-        physicalDefence = (float)properties.get("physicalDefence");
-        magicalDefence = (float)properties.get("magicalDefence");
-        healthConsume = (float)properties.get("healthConsume");
-        magicConsume = (float)properties.get("magicConsume");
-        durability = (float)properties.get("durability");
+        attackDamage = (float) properties.get("attackDamage");
+        attackSpeed = (float) properties.get("attackSpeed");
+        abilityPower = (float) properties.get("abilityPower");
+        physicalDefence = (float) properties.get("physicalDefence");
+        magicalDefence = (float) properties.get("magicalDefence");
+        healthConsume = (float) properties.get("healthConsume");
+        magicConsume = (float) properties.get("magicConsume");
+        durability = (float) properties.get("durability");
 
     }
 

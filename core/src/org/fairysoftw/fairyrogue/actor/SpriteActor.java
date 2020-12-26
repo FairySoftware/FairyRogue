@@ -35,7 +35,7 @@ public class SpriteActor extends Actor {
     public boolean remove() {
         Group parent = this.getParent();
         Stage stage = this.getStage();
-        if(miniMapStage != null) {
+        if (miniMapStage != null) {
             miniMapStage.remove(this, true);
         }
         this.setParent(parent);

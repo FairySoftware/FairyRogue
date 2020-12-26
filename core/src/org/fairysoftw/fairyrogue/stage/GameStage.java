@@ -33,10 +33,8 @@ public class GameStage extends Stage {
         Rectangle playerRectangle = new Rectangle();
         Array<Rectangle> rectangles = new Array<>();
         Array<Actor> actors = this.getActors();
-        for(Actor actor : actors)
-        {
-            if(actor instanceof PlayerActor)
-            {
+        for (Actor actor : actors) {
+            if (actor instanceof PlayerActor) {
                 playerActor = (PlayerActor) actor;
                 playerRectangle = new Rectangle(playerActor.getX(), playerActor.getY(), playerActor.getWidth(), playerActor.getHeight());
             }
@@ -45,10 +43,9 @@ public class GameStage extends Stage {
             if (actor instanceof WallActor || actor instanceof NpcActor) {
                 rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
             }
-            else if(actor instanceof MonsterActor && !playerActor.isInBattle()) {
+            else if (actor instanceof MonsterActor && !playerActor.isInBattle()) {
                 Rectangle monsterRectangle = new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight());
-                if(monsterRectangle.overlaps(playerRectangle))
-                {
+                if (monsterRectangle.overlaps(playerRectangle)) {
                     playerActor.undoAct();
                     playerActor.takeBattle((CreatureActor) actor);
                 }
@@ -61,26 +58,20 @@ public class GameStage extends Stage {
                 }
                 Vector2 distanceVector = new Vector2(doorRectangle.x - playerRectangle.x, doorRectangle.y - playerRectangle.y);
                 double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
-                if (distance <= 33 && Gdx.input.isKeyJustPressed(Input.Keys.F) && !playerRectangle.overlaps(doorRectangle))
-                {
-                    if(doorActor.isLocked())
-                    {
-                        for(Props props:playerActor.backpack)
-                        {
-                            if(props.propsType == PropsActor.PropsType.KEY)
-                            {
-                                if(doorActor.unlock(((Key)props).getId())) {
-                                    playerActor.backpack.removeValue(props,false);
+                if (distance <= 33 && Gdx.input.isKeyJustPressed(Input.Keys.F) && !playerRectangle.overlaps(doorRectangle)) {
+                    if (doorActor.isLocked()) {
+                        for (Props props : playerActor.backpack) {
+                            if (props.propsType == PropsActor.PropsType.KEY) {
+                                if (doorActor.unlock(((Key) props).getId())) {
+                                    playerActor.backpack.removeValue(props, false);
                                 }
                             }
                         }
                     }
-                    else if(doorActor.isClosed())
-                    {
+                    else if (doorActor.isClosed()) {
                         doorActor.open();
                     }
-                    else
-                    {
+                    else {
                         doorActor.close();
                     }
                 }
@@ -119,10 +110,5 @@ public class GameStage extends Stage {
                 }
             }
         }
-    }
-
-    private void move()
-    {
-
     }
 }

@@ -1,6 +1,5 @@
 package org.fairysoftw.fairyrogue.actor;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -56,7 +55,7 @@ public class CreatureActor extends SpriteActor {
 
     public void takeAttack() {
         long now = TimeUtils.nanoTime();
-        if (now - lastAttack > 1000000000 / attackSpeed && !this.isDead() && opponent!=null) {
+        if (now - lastAttack > 1000000000 / attackSpeed && !this.isDead() && opponent != null) {
             this.lastAttack = now;
             float realDamage = this.opponent.takeDamage(this.attackDamage, this.abilityPower, this);
         }

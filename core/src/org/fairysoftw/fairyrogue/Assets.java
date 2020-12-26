@@ -2,7 +2,6 @@ package org.fairysoftw.fairyrogue;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;
@@ -11,8 +10,6 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
-
-import java.util.Properties;
 
 public class Assets {
     private static final AssetManager manager = new AssetManager();
@@ -29,17 +26,13 @@ public class Assets {
     public static void load() {
         map = new TmxMapLoader().load("tiledmap/map_0.tmx");
         MapObjects mapObjects = map.getLayers().get("Objects_to_use").getObjects();
-        for(MapObject mapObject:mapObjects)
-        {
-            TiledMapTileMapObject tileMapObject = (TiledMapTileMapObject)mapObject;
-            if(tileMapObject.getName().contains("door"))
-            {
+        for (MapObject mapObject : mapObjects) {
+            TiledMapTileMapObject tileMapObject = (TiledMapTileMapObject) mapObject;
+            if (tileMapObject.getName().contains("door")) {
                 MapProperties mapProperties = tileMapObject.getProperties();
                 TextureRegion textureRegion = tileMapObject.getTextureRegion();
-                if(mapProperties.get("material").equals("iron"))
-                {
-                    switch ((String)mapProperties.get("status"))
-                    {
+                if (mapProperties.get("material").equals("iron")) {
+                    switch ((String) mapProperties.get("status")) {
                         case "locked":
                             lockedIronDoor = textureRegion;
                             break;
@@ -51,10 +44,8 @@ public class Assets {
                             break;
                     }
                 }
-                if(mapProperties.get("material").equals("wood"))
-                {
-                    switch ((String)mapProperties.get("status"))
-                    {
+                if (mapProperties.get("material").equals("wood")) {
+                    switch ((String) mapProperties.get("status")) {
                         case "closed":
                             closedWoodDoor = textureRegion;
                             break;

@@ -63,7 +63,7 @@ public class MainScreen extends ScreenAdapter {
                 actor.setY(mapObject.getY());
                 stage.addActor(actor);
                 miniMapStage.addActor(actor);
-                ((SpriteActor)actor).miniMapStage = miniMapStage;
+                ((SpriteActor) actor).miniMapStage = miniMapStage;
             }
         }
     }
@@ -92,7 +92,7 @@ public class MainScreen extends ScreenAdapter {
     }
 
     private void updateCamera() {
-        if(!playerActor.isInBattle()) {
+        if (!playerActor.isInBattle()) {
             mainCamera.position.x = playerActor.getX();
             mainCamera.position.y = playerActor.getY();
         }
