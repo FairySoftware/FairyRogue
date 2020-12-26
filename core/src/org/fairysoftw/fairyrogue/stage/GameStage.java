@@ -2,7 +2,9 @@ package org.fairysoftw.fairyrogue.stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -33,6 +35,7 @@ public class GameStage extends Stage {
         Rectangle playerRectangle = new Rectangle();
         Array<Rectangle> rectangles = new Array<>();
         Array<Actor> actors = this.getActors();
+        Array<CreatureActor> toLogActors = new Array<>();
         for (Actor actor : actors) {
             if (actor instanceof PlayerActor) {
                 playerActor = (PlayerActor) actor;
@@ -43,11 +46,19 @@ public class GameStage extends Stage {
             if (actor instanceof WallActor || actor instanceof NpcActor) {
                 rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
             }
-            else if (actor instanceof MonsterActor && !playerActor.isInBattle()) {
-                Rectangle monsterRectangle = new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight());
-                if (monsterRectangle.overlaps(playerRectangle)) {
-                    playerActor.undoAct();
-                    playerActor.takeBattle((CreatureActor) actor);
+            else if (actor instanceof MonsterActor) {
+                if(!((CreatureActor)actor).isInBattle()) {
+                    Rectangle monsterRectangle = new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight());
+                    if (monsterRectangle.overlaps(playerRectangle)) {
+                        playerActor.undoAct();
+                        playerActor.takeBattle((CreatureActor) actor);
+                    }
+                }
+                Vector2 distanceVector = new Vector2(actor.getX() - playerActor.getX(), actor.getY() - playerActor.getY());
+                double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
+                if (distance < 33)
+                {
+                    toLogActors.add((CreatureActor) actor);
                 }
             }
             else if (actor instanceof DoorActor) {
@@ -56,7 +67,7 @@ public class GameStage extends Stage {
                 if (doorActor.isLocked() || doorActor.isClosed()) {
                     rectangles.add(doorRectangle);
                 }
-                Vector2 distanceVector = new Vector2(doorRectangle.x - playerRectangle.x, doorRectangle.y - playerRectangle.y);
+                Vector2 distanceVector = new Vector2(actor.getX() - playerActor.getX(), actor.getY() - playerActor.getY());
                 double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
                 if (distance <= 33 && Gdx.input.isKeyJustPressed(Input.Keys.F) && !playerRectangle.overlaps(doorRectangle)) {
                     if (doorActor.isLocked()) {
@@ -110,5 +121,22 @@ public class GameStage extends Stage {
                 }
             }
         }
+
+        String str = "";
+        for(CreatureActor actor: toLogActors)
+        {
+            str += "HP: " +  actor.getHealthPoint() + "\n" +
+                    "MP: " + actor.getMagicPoint() + "\n" +
+                    "AD: " + actor.getAttackDamage() + "\n" +
+                    "AP: " + actor.getAbilityPower() + "\n" +
+                    "AS: " + actor.getAttackSpeed() + "\n" +
+                    "PD: " + actor.getPhysicalDefence() + "\n" +
+                    "MD: " + actor.getMagicalDefence() + "\n\n";
+        }
+        this.getBatch().begin();
+        BitmapFont font = new BitmapFont();
+        font.setColor(Color.RED);
+        font.draw(this.getBatch(), str, this.getCamera().position.x + 370, this.getCamera().position.y + 370);
+        this.getBatch().end();
     }
 }

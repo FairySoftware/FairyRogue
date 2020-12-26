@@ -5,11 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.fairysoftw.fairyrogue.Assets;
@@ -26,6 +30,8 @@ public class MainScreen extends ScreenAdapter {
     private MiniMapStage miniMapStage;
     private PlayerActor playerActor;
     private OrthographicCamera mainCamera;
+    private BitmapFont font;
+    private Table table = new Table();
 
     public MainScreen(Game game) {
         mainCamera = new OrthographicCamera();
@@ -35,6 +41,9 @@ public class MainScreen extends ScreenAdapter {
         mapRenderer = new OrthogonalTiledMapRenderer(Assets.map, batch);
         mapRenderer.setView(mainCamera);
         miniMapStage = new MiniMapStage(mapRenderer, batch);
+        font = new BitmapFont();
+        table.setFillParent(true);
+        stage.addActor(table);
 
         for (MapObject object : Assets.map.getLayers().get("Objects").getObjects()) {
             TiledMapTileMapObject mapObject = (TiledMapTileMapObject) object;
@@ -82,6 +91,15 @@ public class MainScreen extends ScreenAdapter {
         mapRenderer.setView(mainCamera);
         mapRenderer.render();
         stage.act();
+        batch.begin();
+        font.draw(batch,"HP: " + playerActor.getHealthPoint() + "\n" +
+                "MP: " + playerActor.getMagicPoint() + "\n" +
+                "AD: " + playerActor.getAttackDamage() + "\n" +
+                "AP: " + playerActor.getAbilityPower() + "\n" +
+                "AS: " + playerActor.getAttackSpeed() + "\n" +
+                "PD: " + playerActor.getPhysicalDefence() + "\n" +
+                "MD: " + playerActor.getMagicalDefence() + "\n", mainCamera.position.x - 470, mainCamera.position.y + 370);
+        batch.end();
         stage.draw();
         miniMapStage.draw();
     }

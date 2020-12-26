@@ -98,4 +98,33 @@ public class CreatureActor extends SpriteActor {
             takeAttack();
         }
     }
+
+    public float getAttackDamage() {
+        return attackDamage;
+    }
+
+    public float getAbilityPower() {
+        return abilityPower;
+    }
+
+    public float getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public float getHealthPoint() {
+        return healthPoint;
+    }
+
+    public float getMagicPoint() {
+        return magicPoint;
+    }
+
+    public float getPhysicalDefence() {
+        return physicalDefence;
+    }
+
+    public float getMagicalDefence() {
+        return magicalDefence;
+    }
+
 }
