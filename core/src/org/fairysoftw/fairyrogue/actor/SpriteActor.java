@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import org.fairysoftw.fairyrogue.stage.MiniMapStage;
 
@@ -31,9 +33,13 @@ public class SpriteActor extends Actor {
 
     @Override
     public boolean remove() {
+        Group parent = this.getParent();
+        Stage stage = this.getStage();
         if(miniMapStage != null) {
             miniMapStage.remove(this, true);
         }
+        this.setParent(parent);
+        this.setStage(stage);
         return super.remove();
     }
 
