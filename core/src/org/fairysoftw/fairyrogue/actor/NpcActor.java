@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.MapObject;
 public class NpcActor extends CreatureActor {
     public NpcActor(TextureRegion region) {
         super(region);
+
     }
 
     public NpcActor(MapObject object) {

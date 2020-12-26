@@ -1,3 +1,4 @@
+
 package org.fairysoftw.fairyrogue.actor;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -62,3 +63,4 @@ public class SpriteActor extends Actor {
         return sprite.getHeight();
     }
 }
+

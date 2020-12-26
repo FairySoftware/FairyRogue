@@ -3,12 +3,16 @@ package org.fairysoftw.fairyrogue.stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.actor.*;
 import org.fairysoftw.fairyrogue.props.Equipment;
 import org.fairysoftw.fairyrogue.props.Key;
@@ -19,6 +23,35 @@ public class GameStage extends Stage {
 
     public GameStage(Viewport viewport, Batch batch) {
         super(viewport, batch);
+        for (MapObject object : Assets.map.getLayers().get("Objects").getObjects()) {
+            TiledMapTileMapObject mapObject = (TiledMapTileMapObject) object;
+            Actor actor = null;
+            if (object.getName().contains("wall")) {
+                actor = new WallActor(mapObject.getTextureRegion());
+            }
+            else if (object.getName().contains("door")) {
+                actor = new DoorActor(mapObject);
+            }
+            else if (object.getName().contains("player")) {
+
+                actor = new PlayerActor(mapObject);
+                actor.setName("player");
+            }
+            else if (object.getName().contains("monster")) {
+                actor = new MonsterActor(mapObject);
+            }
+            else if (object.getName().contains("npc")) {
+                actor = new NpcActor(mapObject.getTextureRegion());
+            }
+            else if (object.getName().contains("props")) {
+                actor = new PropsActor(mapObject);
+            }
+            if (actor != null) {
+                actor.setX(mapObject.getX());
+                actor.setY(mapObject.getY());
+                this.addActor(actor);
+            }
+        }
     }
 
     public GameStage() {
@@ -32,16 +65,12 @@ public class GameStage extends Stage {
         Rectangle playerRectangle = new Rectangle();
         Array<Rectangle> rectangles = new Array<>();
         Array<Actor> actors = this.getActors();
-        for(Actor actor : actors)
-        {
-            if(actor instanceof PlayerActor)
-            {
+        for (Actor actor : actors) {
+            if (actor instanceof PlayerActor) {
                 playerActor = (PlayerActor) actor;
                 playerRectangle = new Rectangle(playerActor.getX(), playerActor.getY(), playerActor.getWidth(), playerActor.getHeight());
             }
-        }
-        for (Actor actor : actors) {
-            if (actor instanceof WallActor || actor instanceof NpcActor) {
+            else if (actor instanceof WallActor || actor instanceof NpcActor) {
                 rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
             }
             else if(actor instanceof MonsterActor) {
@@ -115,5 +144,14 @@ public class GameStage extends Stage {
     private void move()
     {
 
+    }
+
+    public Actor getActor(String name){
+        for(Actor a:this.getActors()){
+            if(name.equals(a.getName())){
+                return a;
+            }
+        }
+        return null;
     }
 }

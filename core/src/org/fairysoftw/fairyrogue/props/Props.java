@@ -1,3 +1,4 @@
+
 package org.fairysoftw.fairyrogue.props;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -10,3 +11,4 @@ public class Props {
     public String name;
     public PropsActor.PropsType propsType;
 }
+

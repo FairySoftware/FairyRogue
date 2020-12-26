@@ -1,3 +1,4 @@
+
 package org.fairysoftw.fairyrogue.actor;
 
 import com.badlogic.gdx.Gdx;
@@ -25,6 +26,7 @@ public class PlayerActor extends CreatureActor {
 
     public PlayerActor(MapObject mapObject) {
         super(mapObject);
+
     }
 
     @Override
@@ -143,3 +145,4 @@ public class PlayerActor extends CreatureActor {
                 accessories.magicalDefence;
     }
 }
+

@@ -1,3 +1,4 @@
+
 package org.fairysoftw.fairyrogue;
 
 import com.badlogic.gdx.*;
@@ -28,3 +29,4 @@ public class FairyRogue extends Game {
         mainScreen.dispose();
     }
 }
+

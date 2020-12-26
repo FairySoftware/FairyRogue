@@ -1,3 +1,4 @@
+
 package org.fairysoftw.fairyrogue.actor;
 
 import com.badlogic.gdx.Gdx;
@@ -96,3 +97,5 @@ public class CreatureActor extends SpriteActor {
         }
     }
 }
+
+

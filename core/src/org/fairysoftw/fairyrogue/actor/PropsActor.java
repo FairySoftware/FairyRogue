@@ -22,6 +22,7 @@ public class PropsActor extends SpriteActor {
     public PropsActor(MapObject mapObject) {
         super(mapObject);
         this.mapObject = mapObject;
+
     }
 
     public PropsType getPropsType() {
