@@ -1,12 +1,10 @@
 package org.fairysoftw.fairyrogue.actor;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class CreatureActor extends SpriteActor {
@@ -20,6 +18,7 @@ public class CreatureActor extends SpriteActor {
     protected float physicalDefence = 0;
     protected float magicalDefence = 0;
     protected long lastAttack = 0;
+    private Vector2 posBeforeBattle;
 
     public CreatureActor(TextureRegion region) {
         super(region);
@@ -39,8 +38,7 @@ public class CreatureActor extends SpriteActor {
 
     public float takeDamage(float attackDamage, float abilityPower, CreatureActor attacker) {
         if (!inBattle) {
-            inBattle = true;
-            this.opponent = attacker;
+            takeBattle(attacker);
         }
         float realDamage = 0;
         if (attackDamage - physicalDefence > 0) {
@@ -58,16 +56,23 @@ public class CreatureActor extends SpriteActor {
 
     public void takeAttack() {
         long now = TimeUtils.nanoTime();
-        if (now - lastAttack > 1000000000 / attackSpeed && !this.isDead()) {
-            lastAttack = now;
+        if (now - lastAttack > 1000000000 / attackSpeed && !this.isDead() && opponent!=null) {
+            this.lastAttack = now;
             float realDamage = this.opponent.takeDamage(this.attackDamage, this.abilityPower, this);
             Gdx.app.debug(this.getName(), "take " + realDamage + " damage to " + opponent.getName());
+        }
+        else if (now - lastAttack > 0 && opponent != null) {
+            float s = (now - lastAttack) / (1000000000 / attackSpeed);
+            this.setX((float) (posBeforeBattle.x + (opponent.getX() - posBeforeBattle.x) * s * 0.5));
+            this.setY((float) (posBeforeBattle.y + (opponent.getY() - posBeforeBattle.y) * s * 0.5));
+            Gdx.app.debug(this.getName(), "current at " + this.getX() + " " + this.getY());
         }
     }
 
     public void takeBattle(CreatureActor opponent) {
         this.opponent = opponent;
         this.inBattle = true;
+        this.posBeforeBattle = new Vector2(this.getX(), this.getY());
     }
 
     public void takeDeath() {
@@ -91,6 +96,8 @@ public class CreatureActor extends SpriteActor {
             if (this.opponent.isDead()) {
                 this.inBattle = false;
                 this.opponent = null;
+                this.setX(posBeforeBattle.x);
+                this.setY(posBeforeBattle.y);
             }
             takeAttack();
         }

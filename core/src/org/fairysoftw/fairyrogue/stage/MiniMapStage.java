@@ -17,6 +17,7 @@ public class MiniMapStage extends Stage {
     private Viewport viewport;
     private NotUniqueGroup group;
     private Batch batch;
+    private final float alpha = 0.5f;
 
     public MiniMapStage(MapRenderer mapRenderer, Batch batch) {
         this.mapRenderer = mapRenderer;

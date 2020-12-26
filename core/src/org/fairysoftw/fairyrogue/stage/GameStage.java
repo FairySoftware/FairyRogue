@@ -45,7 +45,7 @@ public class GameStage extends Stage {
             if (actor instanceof WallActor || actor instanceof NpcActor) {
                 rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
             }
-            else if(actor instanceof MonsterActor) {
+            else if(actor instanceof MonsterActor && !playerActor.isInBattle()) {
                 Rectangle monsterRectangle = new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight());
                 if(monsterRectangle.overlaps(playerRectangle))
                 {

@@ -92,8 +92,10 @@ public class MainScreen extends ScreenAdapter {
     }
 
     private void updateCamera() {
-        mainCamera.position.x = playerActor.getX();
-        mainCamera.position.y = playerActor.getY();
+        if(!playerActor.isInBattle()) {
+            mainCamera.position.x = playerActor.getX();
+            mainCamera.position.y = playerActor.getY();
+        }
 
         mainCamera.update();
     }
