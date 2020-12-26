@@ -22,6 +22,7 @@ public class PlayerActor extends CreatureActor {
 
     public PlayerActor(TextureRegion region) {
         super(region);
+
     }
 
     public PlayerActor(MapObject mapObject) {

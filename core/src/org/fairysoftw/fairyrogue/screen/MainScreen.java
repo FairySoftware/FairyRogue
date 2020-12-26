@@ -79,7 +79,7 @@ public class MainScreen extends ScreenAdapter {
 
 
 
-        currentViewport.apply(true);
+        currentViewport.apply();
         mapRenderer.setView(mainCamera);
         mapRenderer.render();
         stage.act();
@@ -101,6 +101,7 @@ public class MainScreen extends ScreenAdapter {
     private void updateCamera() {
         mainCamera.position.x = stage.getActor("player").getX();
         mainCamera.position.y = stage.getActor("player").getY();
+//        System.out.println(stage.getActor("player").getX()+"  "+stage.getActor("player").getY());
 
         mainCamera.update();
         mapCamera.update();
