@@ -5,36 +5,36 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.FairyRogue;
 import org.fairysoftw.fairyrogue.actor.*;
 import org.fairysoftw.fairyrogue.stage.GameStage;
+import org.fairysoftw.fairyrogue.stage.MiniMapStage;
 
 public class MainScreen extends ScreenAdapter {
     private OrthogonalTiledMapRenderer mapRenderer;
-    private Viewport currentViewport;
+    private Viewport mainViewport;
     private SpriteBatch batch;
     private GameStage stage;
+    private MiniMapStage miniMapStage;
     private PlayerActor playerActor;
     private OrthographicCamera mainCamera;
 
     public MainScreen(Game game) {
         mainCamera = new OrthographicCamera();
-        currentViewport = new ExtendViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT, mainCamera);
+        mainViewport = new ExtendViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT, mainCamera);
         batch = new SpriteBatch();
-        stage = new GameStage(currentViewport, batch);
+        stage = new GameStage(mainViewport, batch);
         mapRenderer = new OrthogonalTiledMapRenderer(Assets.map, batch);
         mapRenderer.setView(mainCamera);
+        miniMapStage = new MiniMapStage(mapRenderer, batch);
 
         for (MapObject object : Assets.map.getLayers().get("Objects").getObjects()) {
             TiledMapTileMapObject mapObject = (TiledMapTileMapObject) object;
@@ -62,6 +62,7 @@ public class MainScreen extends ScreenAdapter {
                 actor.setX(mapObject.getX());
                 actor.setY(mapObject.getY());
                 stage.addActor(actor);
+                miniMapStage.addActor(actor);
             }
         }
     }
@@ -76,15 +77,17 @@ public class MainScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         updateCamera();
+        mainViewport.apply();
         mapRenderer.setView(mainCamera);
         mapRenderer.render();
         stage.act();
         stage.draw();
+        miniMapStage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        currentViewport.update(width, height);
+        mainViewport.update(width, height);
     }
 
     private void updateCamera() {
