@@ -7,9 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import org.fairysoftw.fairyrogue.actor.DoorActor;
-import org.fairysoftw.fairyrogue.actor.PlayerActor;
-import org.fairysoftw.fairyrogue.actor.WallActor;
+import org.fairysoftw.fairyrogue.actor.*;
 
 public class GameStage extends Stage {
 
@@ -37,7 +35,7 @@ public class GameStage extends Stage {
                 playerActor = (PlayerActor) actor;
                 playerRectangle = new Rectangle(playerActor.getX(), playerActor.getY(), playerActor.getWidth(), playerActor.getHeight());
             }
-            else if(actor instanceof WallActor)
+            else if(actor instanceof WallActor || actor instanceof MonsterActor || actor instanceof NpcActor)
             {
                 rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
             }

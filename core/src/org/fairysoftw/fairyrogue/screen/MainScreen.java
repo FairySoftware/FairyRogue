@@ -17,9 +17,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.FairyRogue;
-import org.fairysoftw.fairyrogue.actor.DoorActor;
-import org.fairysoftw.fairyrogue.actor.PlayerActor;
-import org.fairysoftw.fairyrogue.actor.WallActor;
+import org.fairysoftw.fairyrogue.actor.*;
 import org.fairysoftw.fairyrogue.stage.GameStage;
 
 public class MainScreen extends ScreenAdapter {
@@ -29,7 +27,6 @@ public class MainScreen extends ScreenAdapter {
     private GameStage stage;
     private PlayerActor playerActor;
     private OrthographicCamera mainCamera;
-    private Array<Sprite> walls;
 
     public MainScreen(Game game) {
         mainCamera = new OrthographicCamera();
@@ -39,34 +36,39 @@ public class MainScreen extends ScreenAdapter {
         mapRenderer = new OrthogonalTiledMapRenderer(Assets.map, batch);
         mapRenderer.setView(mainCamera);
 
-        walls = new Array<>();
         for(MapObject object:Assets.map.getLayers().get("Objects").getObjects())
         {
             TiledMapTileMapObject mapObject = (TiledMapTileMapObject)object;
+            Actor actor = null;
             if(object.getName().contains("wall"))
             {
-
-                WallActor wall = new WallActor(mapObject.getTextureRegion());
-                wall.setX(mapObject.getX());
-                wall.setY(mapObject.getY());
-                stage.addActor(wall);
+                actor = new WallActor(mapObject.getTextureRegion());
             }
             else if(object.getName().contains("door"))
             {
-                DoorActor door = new DoorActor(mapObject.getTextureRegion());
-                door.setX(mapObject.getX());
-                door.setY(mapObject.getY());
-                stage.addActor(door);
+                actor = new DoorActor(mapObject.getTextureRegion());
             }
             else if(object.getName().contains("player"))
             {
                 playerActor = new PlayerActor(mapObject.getTextureRegion());
-                playerActor.setX(mapObject.getX());
-                playerActor.setY(mapObject.getY());
-                stage.addActor(playerActor);
+                actor = playerActor;
             }
-            //TODO: finish display of monster
-            //TODO: finish display of npc
+            else if(object.getName().contains("monster"))
+            {
+                actor = new MonsterActor(mapObject.getTextureRegion());
+            }
+            else if(object.getName().contains("npc"))
+            {
+                actor = new NpcActor(mapObject.getTextureRegion());
+            }
+            else if(object.getName().contains("props")) {
+                actor = new PropsActor(mapObject.getTextureRegion());
+            }
+            if(actor != null) {
+                actor.setX(mapObject.getX());
+                actor.setY(mapObject.getY());
+                stage.addActor(actor);
+            }
         }
     }
 
@@ -82,14 +84,6 @@ public class MainScreen extends ScreenAdapter {
         updateCamera();
         mapRenderer.setView(mainCamera);
         mapRenderer.render();
-
-        batch.begin();
-        for(Sprite wall:walls)
-        {
-            wall.draw(batch);
-        }
-        batch.end();
-
         stage.act();
         stage.draw();
     }
