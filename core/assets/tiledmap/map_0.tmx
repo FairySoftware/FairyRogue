@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="160">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="172">
  <tileset firstgid="1" name="colored_packed" tilewidth="32" tileheight="32" tilecount="1056" columns="48">
   <image source="../tileset/colored_packed.png" width="1536" height="704"/>
  </tileset>
@@ -167,34 +167,46 @@
   <object id="124" name="wall" gid="625" x="544" y="320" width="32" height="32"/>
   <object id="125" name="wall" gid="625" x="544" y="352" width="32" height="32"/>
   <object id="126" name="wall" gid="625" x="512" y="352" width="32" height="32"/>
-  <object id="127" name="door" gid="436" x="288" y="544" width="32" height="32">
+  <object id="127" name="door" gid="1492" x="288" y="544" width="32" height="32">
    <properties>
+    <property name="closed" type="bool" value="true"/>
     <property name="locked" type="bool" value="false"/>
+    <property name="material" value="wood"/>
    </properties>
   </object>
-  <object id="128" name="door" gid="436" x="544" y="448" width="32" height="32">
+  <object id="128" name="door" gid="1492" x="544" y="448" width="32" height="32">
    <properties>
+    <property name="closed" type="bool" value="true"/>
     <property name="locked" type="bool" value="false"/>
+    <property name="material" value="wood"/>
    </properties>
   </object>
-  <object id="129" name="door" gid="436" x="736" y="448" width="32" height="32">
+  <object id="129" name="door" gid="1492" x="736" y="448" width="32" height="32">
    <properties>
+    <property name="closed" type="bool" value="true"/>
     <property name="locked" type="bool" value="false"/>
+    <property name="material" value="wood"/>
    </properties>
   </object>
-  <object id="130" name="door" gid="436" x="608" y="608" width="32" height="32">
+  <object id="130" name="door" gid="1492" x="608" y="608" width="32" height="32">
    <properties>
+    <property name="closed" type="bool" value="true"/>
     <property name="locked" type="bool" value="false"/>
+    <property name="material" value="wood"/>
    </properties>
   </object>
-  <object id="131" name="door" gid="436" x="480" y="704" width="32" height="32">
+  <object id="131" name="door" gid="1492" x="480" y="704" width="32" height="32">
    <properties>
+    <property name="closed" type="bool" value="true"/>
     <property name="locked" type="bool" value="false"/>
+    <property name="material" value="wood"/>
    </properties>
   </object>
-  <object id="132" name="door" gid="433" x="800" y="704" width="32" height="32">
+  <object id="132" name="door" gid="1489" x="800" y="704" width="32" height="32">
    <properties>
+    <property name="closed" type="bool" value="true"/>
     <property name="locked" type="bool" value="true"/>
+    <property name="material" value="iron"/>
    </properties>
   </object>
   <object id="140" name="player" gid="1231" x="64" y="544" width="32" height="32">
@@ -316,9 +328,35 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="Objects_to_use">
-  <object id="134" name="door" type="opened" gid="433" x="0" y="960" width="32" height="32"/>
-  <object id="135" name="door" type="closeed" gid="435" x="32" y="960" width="32" height="32"/>
-  <object id="136" name="door" type="unlocked" gid="436" x="64" y="960" width="32" height="32"/>
-  <object id="137" name="door" type="locked" gid="439" x="96" y="960" width="32" height="32"/>
+  <object id="163" name="door" gid="1491" x="0" y="960" width="32" height="32">
+   <properties>
+    <property name="material" value="iron"/>
+    <property name="status" value="opened"/>
+   </properties>
+  </object>
+  <object id="164" name="door" gid="1489" x="32" y="960" width="32" height="32">
+   <properties>
+    <property name="material" value="iron"/>
+    <property name="status" value="locked"/>
+   </properties>
+  </object>
+  <object id="165" name="door" gid="1492" x="64" y="960" width="32" height="32">
+   <properties>
+    <property name="material" value="wood"/>
+    <property name="status" value="closed"/>
+   </properties>
+  </object>
+  <object id="166" name="door" gid="1495" x="96" y="960" width="32" height="32">
+   <properties>
+    <property name="material" value="wood"/>
+    <property name="status" value="opened"/>
+   </properties>
+  </object>
+  <object id="168" name="door" gid="1490" x="0" y="928" width="32" height="32">
+   <properties>
+    <property name="material" value="iron"/>
+    <property name="status" value="closed"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -3,8 +3,8 @@ package org.fairysoftw.fairyrogue.stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
@@ -29,15 +29,19 @@ public class GameStage extends Stage {
     public void act() {
         super.act();
         PlayerActor playerActor = null;
-        Rectangle playerRectangle = null;
+        Rectangle playerRectangle = new Rectangle();
         Array<Rectangle> rectangles = new Array<>();
         Array<Actor> actors = this.getActors();
-        for (Actor actor : actors) {
-            if (actor instanceof PlayerActor) {
+        for(Actor actor : actors)
+        {
+            if(actor instanceof PlayerActor)
+            {
                 playerActor = (PlayerActor) actor;
                 playerRectangle = new Rectangle(playerActor.getX(), playerActor.getY(), playerActor.getWidth(), playerActor.getHeight());
             }
-            else if (actor instanceof WallActor || actor instanceof NpcActor) {
+        }
+        for (Actor actor : actors) {
+            if (actor instanceof WallActor || actor instanceof NpcActor) {
                 rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
             }
             else if(actor instanceof MonsterActor) {
@@ -49,9 +53,27 @@ public class GameStage extends Stage {
                 }
             }
             else if (actor instanceof DoorActor) {
-                //TODO: add locked door action
-                if (((DoorActor) actor).isLocked()) {
-                    rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
+                DoorActor doorActor = (DoorActor) actor;
+                Rectangle doorRectangle = new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight());
+                if (doorActor.isLocked() || doorActor.isClosed()) {
+                    rectangles.add(doorRectangle);
+                }
+                Vector2 distanceVector = new Vector2(doorRectangle.x - playerRectangle.x, doorRectangle.y - playerRectangle.y);
+                double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
+                if (distance <= 33 && Gdx.input.isKeyJustPressed(Input.Keys.F))
+                {
+                    if(doorActor.isLocked())
+                    {
+                        doorActor.unLock();
+                    }
+                    else if(doorActor.isClosed())
+                    {
+                        doorActor.open();
+                    }
+                    else
+                    {
+                        doorActor.close();
+                    }
                 }
             }
             else if (actor instanceof PropsActor) {
@@ -81,7 +103,7 @@ public class GameStage extends Stage {
             }
         }
 
-        if (playerRectangle != null && rectangles.size > 0) {
+        if (rectangles.size > 0) {
             for (Rectangle rectangle : rectangles) {
                 if (playerRectangle.overlaps(rectangle)) {
                     playerActor.undoAct();
