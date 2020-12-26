@@ -205,6 +205,7 @@
   <object id="132" name="door" gid="1489" x="800" y="704" width="32" height="32">
    <properties>
     <property name="closed" type="bool" value="true"/>
+    <property name="id" value="0"/>
     <property name="locked" type="bool" value="true"/>
     <property name="material" value="iron"/>
    </properties>
@@ -277,7 +278,11 @@
    </properties>
   </object>
   <object id="148" name="npc" gid="1081" x="416" y="512" width="32" height="32"/>
-  <object id="152" name="props" type="key" gid="1618" x="768" y="256" width="32" height="32"/>
+  <object id="152" name="props" type="key" gid="1618" x="768" y="256" width="32" height="32">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </object>
   <object id="153" name="monster" gid="1373" x="768" y="288" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="0"/>

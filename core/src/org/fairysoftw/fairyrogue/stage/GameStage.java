@@ -3,6 +3,7 @@ package org.fairysoftw.fairyrogue.stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -60,11 +61,19 @@ public class GameStage extends Stage {
                 }
                 Vector2 distanceVector = new Vector2(doorRectangle.x - playerRectangle.x, doorRectangle.y - playerRectangle.y);
                 double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
-                if (distance <= 33 && Gdx.input.isKeyJustPressed(Input.Keys.F))
+                if (distance <= 33 && Gdx.input.isKeyJustPressed(Input.Keys.F) && !playerRectangle.overlaps(doorRectangle))
                 {
                     if(doorActor.isLocked())
                     {
-                        doorActor.unLock();
+                        for(Props props:playerActor.backpack)
+                        {
+                            if(props.propsType == PropsActor.PropsType.KEY)
+                            {
+                                if(doorActor.unlock(((Key)props).getId())) {
+                                    playerActor.backpack.removeValue(props,false);
+                                }
+                            }
+                        }
                     }
                     else if(doorActor.isClosed())
                     {
@@ -80,15 +89,16 @@ public class GameStage extends Stage {
                 Rectangle propsRectangle = new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight());
                 if (propsRectangle.overlaps(playerRectangle) && Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                     Props props;
+                    MapProperties properties = ((PropsActor) actor).getProperties();
                     switch (((PropsActor) actor).getPropsType()) {
                         case POTION:
                             props = new Potion();
                             break;
                         case EQUIPMENT:
-                            props = new Equipment(((PropsActor) actor).getProperties());
+                            props = new Equipment(properties);
                             break;
                         case KEY:
-                            props = new Key();
+                            props = new Key(properties);
                             break;
                         default:
                             throw new IllegalStateException("Unexpected value: " + ((PropsActor) actor).getPropsType());
