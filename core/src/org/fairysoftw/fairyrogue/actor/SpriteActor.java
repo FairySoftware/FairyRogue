@@ -3,6 +3,8 @@ package org.fairysoftw.fairyrogue.actor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
@@ -15,7 +17,11 @@ public class SpriteActor extends Actor {
         setTouchable(Touchable.enabled);
     }
 
-    public void spritePos(float x, float y){
+    public SpriteActor(MapObject mapObject) {
+        this(((TiledMapTileMapObject) mapObject).getTextureRegion());
+    }
+
+    public void spritePos(float x, float y) {
         sprite.setPosition(x, y);
         setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
     }

@@ -13,14 +13,12 @@ public class Assets {
     private static final AssetDescriptor<Map> mapDescriptor =
             new AssetDescriptor<>("tiledmap/map_0.tmx", Map.class);
 
-    public static void load()
-    {
+    public static void load() {
         map = new TmxMapLoader().load("tiledmap/map_0.tmx");
         manager.finishLoading();
     }
 
-    public static void dispose()
-    {
+    public static void dispose() {
         manager.dispose();
     }
 }

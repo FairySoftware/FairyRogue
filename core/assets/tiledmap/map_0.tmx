@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="158">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="160">
  <tileset firstgid="1" name="colored_packed" tilewidth="32" tileheight="32" tilecount="1056" columns="48">
   <image source="../tileset/colored_packed.png" width="1536" height="704"/>
  </tileset>
@@ -167,12 +167,36 @@
   <object id="124" name="wall" gid="625" x="544" y="320" width="32" height="32"/>
   <object id="125" name="wall" gid="625" x="544" y="352" width="32" height="32"/>
   <object id="126" name="wall" gid="625" x="512" y="352" width="32" height="32"/>
-  <object id="127" name="door" gid="436" x="288" y="544" width="32" height="32"/>
-  <object id="128" name="door" gid="436" x="544" y="448" width="32" height="32"/>
-  <object id="129" name="door" gid="436" x="736" y="448" width="32" height="32"/>
-  <object id="130" name="door" gid="436" x="608" y="608" width="32" height="32"/>
-  <object id="131" name="door" gid="436" x="480" y="704" width="32" height="32"/>
-  <object id="132" name="door" type="locked" gid="433" x="800" y="704" width="32" height="32"/>
+  <object id="127" name="door" gid="436" x="288" y="544" width="32" height="32">
+   <properties>
+    <property name="locked" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="128" name="door" gid="436" x="544" y="448" width="32" height="32">
+   <properties>
+    <property name="locked" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="129" name="door" gid="436" x="736" y="448" width="32" height="32">
+   <properties>
+    <property name="locked" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="130" name="door" gid="436" x="608" y="608" width="32" height="32">
+   <properties>
+    <property name="locked" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="131" name="door" gid="436" x="480" y="704" width="32" height="32">
+   <properties>
+    <property name="locked" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="132" name="door" gid="433" x="800" y="704" width="32" height="32">
+   <properties>
+    <property name="locked" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="140" name="player" gid="1231" x="64" y="544" width="32" height="32"/>
   <object id="141" name="monster" gid="1372" x="736" y="288" width="32" height="32"/>
   <object id="142" name="monster" gid="1323" x="448" y="704" width="32" height="32"/>
@@ -184,13 +208,14 @@
   <object id="152" name="props" type="key" gid="1618" x="768" y="256" width="32" height="32"/>
   <object id="153" name="monster" gid="1373" x="768" y="288" width="32" height="32"/>
   <object id="154" name="monster" gid="1327" x="352" y="736" width="32" height="32"/>
-  <object id="155" name="props" type="sword" gid="1185" x="320" y="768" width="32" height="32">
+  <object id="155" name="props" type="weapon" gid="1185" x="320" y="768" width="32" height="32">
    <properties>
-    <property name="&#10;attackPower" value="1"/>
-    <property name="&#10;quality" value="normal"/>
+    <property name="attackPower" value="1"/>
     <property name="attackSpeed" value="1"/>
+    <property name="quality" value="normal"/>
    </properties>
   </object>
+  <object id="159" name="props" type="potion" gid="1626" x="352" y="544" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="Objects_to_use">
   <object id="134" name="door" type="opened" gid="433" x="0" y="960" width="32" height="32"/>

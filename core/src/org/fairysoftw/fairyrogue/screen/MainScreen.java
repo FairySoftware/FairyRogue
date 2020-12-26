@@ -36,35 +36,29 @@ public class MainScreen extends ScreenAdapter {
         mapRenderer = new OrthogonalTiledMapRenderer(Assets.map, batch);
         mapRenderer.setView(mainCamera);
 
-        for(MapObject object:Assets.map.getLayers().get("Objects").getObjects())
-        {
-            TiledMapTileMapObject mapObject = (TiledMapTileMapObject)object;
+        for (MapObject object : Assets.map.getLayers().get("Objects").getObjects()) {
+            TiledMapTileMapObject mapObject = (TiledMapTileMapObject) object;
             Actor actor = null;
-            if(object.getName().contains("wall"))
-            {
+            if (object.getName().contains("wall")) {
                 actor = new WallActor(mapObject.getTextureRegion());
             }
-            else if(object.getName().contains("door"))
-            {
-                actor = new DoorActor(mapObject.getTextureRegion());
+            else if (object.getName().contains("door")) {
+                actor = new DoorActor(mapObject);
             }
-            else if(object.getName().contains("player"))
-            {
+            else if (object.getName().contains("player")) {
                 playerActor = new PlayerActor(mapObject.getTextureRegion());
                 actor = playerActor;
             }
-            else if(object.getName().contains("monster"))
-            {
+            else if (object.getName().contains("monster")) {
                 actor = new MonsterActor(mapObject.getTextureRegion());
             }
-            else if(object.getName().contains("npc"))
-            {
+            else if (object.getName().contains("npc")) {
                 actor = new NpcActor(mapObject.getTextureRegion());
             }
-            else if(object.getName().contains("props")) {
-                actor = new PropsActor(mapObject.getTextureRegion());
+            else if (object.getName().contains("props")) {
+                actor = new PropsActor(mapObject);
             }
-            if(actor != null) {
+            if (actor != null) {
                 actor.setX(mapObject.getX());
                 actor.setY(mapObject.getY());
                 stage.addActor(actor);
