@@ -29,7 +29,7 @@ public class PropsActor extends SpriteActor {
             return null;
         }
         String type = (String) mapObject.getProperties().get("type");
-        if (type.contains("weapon")) {
+        if (type.contains("equipment")) {
             return PropsType.EQUIPMENT;
         }
         else if (type.contains("key")) {
@@ -52,6 +52,15 @@ public class PropsActor extends SpriteActor {
     public MapProperties getProperties() {
         if (mapObject != null) {
             return mapObject.getProperties();
+        }
+        else {
+            return null;
+        }
+    }
+
+    public MapObject getMapObject() {
+        if (mapObject != null) {
+            return mapObject;
         }
         else {
             return null;

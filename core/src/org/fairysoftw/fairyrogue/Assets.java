@@ -1,5 +1,6 @@
 package org.fairysoftw.fairyrogue;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,11 +11,13 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
     private static final AssetManager manager = new AssetManager();
 
     public static TiledMap map = null;
+    public static Skin skin = null;
     public static TextureRegion lockedIronDoor = null;
     public static TextureRegion closedIronDoor = null;
     public static TextureRegion openedIronDoor = null;
@@ -25,6 +28,7 @@ public class Assets {
 
     public static void load() {
         map = new TmxMapLoader().load("tiledmap/map_0.tmx");
+        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         MapObjects mapObjects = map.getLayers().get("Objects_to_use").getObjects();
         for (MapObject mapObject : mapObjects) {
             TiledMapTileMapObject tileMapObject = (TiledMapTileMapObject) mapObject;

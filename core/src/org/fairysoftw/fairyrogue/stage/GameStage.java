@@ -5,7 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -43,11 +46,20 @@ public class GameStage extends Stage {
             }
         }
         for (Actor actor : actors) {
-            if (actor instanceof WallActor || actor instanceof NpcActor) {
+            if (actor instanceof WallActor) {
                 rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
             }
+            else if (actor instanceof NpcActor) {
+                rectangles.add(new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()));
+                Vector2 distanceVector = new Vector2(actor.getX() - playerActor.getX(), actor.getY() - playerActor.getY());
+                double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
+                if (distance < 33 && Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+                    toLogActors.add((CreatureActor) actor);
+                    playerActor.takeDialogue((NpcActor) actor);
+                }
+            }
             else if (actor instanceof MonsterActor) {
-                if(!((CreatureActor)actor).isInBattle()) {
+                if (!((CreatureActor) actor).isInBattle()) {
                     Rectangle monsterRectangle = new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight());
                     if (monsterRectangle.overlaps(playerRectangle)) {
                         playerActor.undoAct();
@@ -56,8 +68,7 @@ public class GameStage extends Stage {
                 }
                 Vector2 distanceVector = new Vector2(actor.getX() - playerActor.getX(), actor.getY() - playerActor.getY());
                 double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
-                if (distance < 33)
-                {
+                if (distance < 33) {
                     toLogActors.add((CreatureActor) actor);
                 }
             }
@@ -94,10 +105,10 @@ public class GameStage extends Stage {
                     MapProperties properties = ((PropsActor) actor).getProperties();
                     switch (((PropsActor) actor).getPropsType()) {
                         case POTION:
-                            props = new Potion();
+                            props = new Potion(((PropsActor) actor).getMapObject());
                             break;
                         case EQUIPMENT:
-                            props = new Equipment(properties);
+                            props = new Equipment(((PropsActor) actor).getMapObject());
                             break;
                         case KEY:
                             props = new Key(properties);
@@ -106,7 +117,7 @@ public class GameStage extends Stage {
                             throw new IllegalStateException("Unexpected value: " + ((PropsActor) actor).getPropsType());
                     }
                     props.name = ((PropsActor) actor).getPropsName();
-                    props.icon = ((PropsActor) actor).getTexture();
+                    props.icon = new Sprite(((PropsActor) actor).getTexture());
                     props.propsType = ((PropsActor) actor).getPropsType();
                     playerActor.pickUp(props);
                     actor.remove();
@@ -123,9 +134,8 @@ public class GameStage extends Stage {
         }
 
         String str = "";
-        for(CreatureActor actor: toLogActors)
-        {
-            str += "HP: " +  actor.getHealthPoint() + "\n" +
+        for (CreatureActor actor : toLogActors) {
+            str += "HP: " + actor.getHealthPoint() + "\n" +
                     "MP: " + actor.getMagicPoint() + "\n" +
                     "AD: " + actor.getAttackDamage() + "\n" +
                     "AP: " + actor.getAbilityPower() + "\n" +

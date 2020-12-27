@@ -1,5 +1,6 @@
 package org.fairysoftw.fairyrogue.props;
 
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import org.fairysoftw.fairyrogue.actor.PropsActor;
 
@@ -20,9 +21,11 @@ public class Equipment extends Props {
         LEGENDARY
     }
 
-    public Equipment(MapProperties properties) {
+    public Equipment(MapObject mapObject) {
+        super(mapObject);
+        MapProperties properties = mapObject.getProperties();
         this.propsType = PropsActor.PropsType.EQUIPMENT;
-        switch ((String) properties.get("type")) {
+        switch ((String) properties.get("equipment_type")) {
             case "weapon":
                 this.equipmentType = EquipmentType.WEAPON;
                 break;

@@ -2,12 +2,14 @@ package org.fairysoftw.fairyrogue.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import org.fairysoftw.fairyrogue.props.Equipment;
 import org.fairysoftw.fairyrogue.props.Props;
+import org.fairysoftw.fairyrogue.screen.MainScreen;
 
 public class PlayerActor extends CreatureActor {
     private Vector2 lastPosition = new Vector2();
@@ -18,6 +20,7 @@ public class PlayerActor extends CreatureActor {
     private Equipment apparel_upper_body = new Equipment(Equipment.EquipmentType.NONE);
     private Equipment apparel_lower_body = new Equipment(Equipment.EquipmentType.NONE);
     private Equipment accessories = new Equipment(Equipment.EquipmentType.NONE);
+    private boolean inDialogue = false;
 
     public PlayerActor(TextureRegion region) {
         super(region);
@@ -25,6 +28,8 @@ public class PlayerActor extends CreatureActor {
 
     public PlayerActor(MapObject mapObject) {
         super(mapObject);
+        weapon.attackDamage = this.attackDamage;
+        weapon.abilityPower= this.abilityPower;
     }
 
     @Override
@@ -32,7 +37,7 @@ public class PlayerActor extends CreatureActor {
         super.act(delta);
         lastPosition.x = this.getX();
         lastPosition.y = this.getY();
-        if (!inBattle) {
+        if (!inBattle && !inDialogue) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.K) ||
                     Gdx.input.isKeyJustPressed(Input.Keys.UP))//up
             {
@@ -125,19 +130,30 @@ public class PlayerActor extends CreatureActor {
         updateAttributes();
     }
 
-    private void updateAttributes() {
-        if (this.weapon.equipmentType == Equipment.EquipmentType.NONE) {
-            this.weapon.attackDamage = 1;
-            this.weapon.attackSpeed = 1;
+    public void takeDialogue(NpcActor actor) {
+        if(!inDialogue) {
+            this.inDialogue = true;
+            actor.takeDialogue(this.getStage(), this);
         }
+    }
+
+    public boolean inDialogue() {
+        return inDialogue;
+    }
+
+    public void overDialogue() {
+        this.inDialogue = false;
+    }
+
+    private void updateAttributes() {
         this.attackSpeed = weapon.attackSpeed;
         this.attackDamage = weapon.attackDamage;
         this.abilityPower = weapon.abilityPower;
-        this.physicalDefence = apparel_head.physicalDefence +
+        this.physicalDefence += apparel_head.physicalDefence +
                 apparel_upper_body.physicalDefence +
                 apparel_lower_body.physicalDefence +
                 accessories.physicalDefence;
-        this.magicalDefence = apparel_head.magicalDefence +
+        this.magicalDefence += apparel_head.magicalDefence +
                 apparel_upper_body.magicalDefence +
                 apparel_lower_body.magicalDefence +
                 accessories.magicalDefence;

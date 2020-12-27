@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setWindowedMode(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT);
 		config.useVsync(false);
+		config.setResizable(false);
 		new Lwjgl3Application(new FairyRogue(), config);
 	}
 }

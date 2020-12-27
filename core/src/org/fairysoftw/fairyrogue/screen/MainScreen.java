@@ -30,7 +30,7 @@ public class MainScreen extends ScreenAdapter {
     private MiniMapStage miniMapStage;
     private PlayerActor playerActor;
     private OrthographicCamera mainCamera;
-    private BitmapFont font;
+    public static BitmapFont font;
     private Table table = new Table();
 
     public MainScreen(Game game) {
@@ -62,7 +62,7 @@ public class MainScreen extends ScreenAdapter {
                 actor = new MonsterActor(mapObject);
             }
             else if (object.getName().contains("npc")) {
-                actor = new NpcActor(mapObject.getTextureRegion());
+                actor = new NpcActor(mapObject);
             }
             else if (object.getName().contains("props")) {
                 actor = new PropsActor(mapObject);
@@ -84,7 +84,7 @@ public class MainScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1.0f);
+        Gdx.gl.glClearColor(0.278f, 0.176f, 0.235f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         updateCamera();
         mainViewport.apply();
