@@ -27,8 +27,15 @@ public class StartScreen extends ScreenAdapter {
     // 纹理
     private final Texture texture;
 
+    // 图片控件
+    Image image;
+
     // 渲染时间步累计变量（当前场景被展示的时间总和）
     private float deltaSum;
+
+    private float i = 1;
+    private float j = 1;
+    private float k = 1;
 
     public StartScreen(FairyRogue mainScreen) {
 
@@ -43,12 +50,13 @@ public class StartScreen extends ScreenAdapter {
         texture = new Texture(Gdx.files.internal("ui/logo.jpg"));
 
         // 创建 Image
-        // 图片控件
-        Image image = new Image(new TextureRegion(texture));
+        image = new Image(new TextureRegion(texture));
 
         // 设置 image 的相关属性
         image.setPosition(stage.getWidth() / 2 - image.getWidth() / 2,
                 stage.getHeight() / 2 - image.getHeight() / 2);
+
+        image.setColor(1, 1, 1, 1);
 
         // 添加 image 到舞台
         stage.addActor(image);
@@ -64,17 +72,21 @@ public class StartScreen extends ScreenAdapter {
         // 累计渲染时间步
         deltaSum += delta;
 
-        if (deltaSum >= 3.0F) {
-            // 开始场景展示时间超过 3 秒, 通知 MainScreen 切换场景（启动主游戏界面）
+        if (deltaSum >= 6.0F) {
+            // 开始场景展示时间超过 6 秒, 通知 MainScreen 切换场景（启动主游戏界面）
             if (mainScreen != null) {
                 mainScreen.showMainScreen();
                 return;
             }
         }
 
-        // 使用淡蓝色清屏
-        //Gdx.gl.glClearColor(0.75F, 1, 0.98F, 1);
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        i = i - 0.00002f;
+        j = j - 0.00002f;
+        k = k - 0.00002f;
+
+        image.setColor(i, j, k, 1);
+        Gdx.gl.glClearColor(i, j, k, 1);
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // 更新舞台逻辑
