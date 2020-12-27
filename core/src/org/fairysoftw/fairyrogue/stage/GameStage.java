@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.actor.*;
 import org.fairysoftw.fairyrogue.props.Equipment;
 import org.fairysoftw.fairyrogue.props.Key;
@@ -85,15 +86,24 @@ public class GameStage extends Stage {
                         for (Props props : playerActor.backpack) {
                             if (props.propsType == PropsActor.PropsType.KEY) {
                                 if (doorActor.unlock(((Key) props).getId())) {
+
+                                    Assets.unlockSound.play();
+
                                     playerActor.backpack.removeValue(props, false);
                                 }
                             }
                         }
                     }
                     else if (doorActor.isClosed()) {
+
+                        Assets.doorSound.play();
+
                         doorActor.open();
                     }
                     else {
+
+                        Assets.doorSound.play();
+
                         doorActor.close();
                     }
                 }

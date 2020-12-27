@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import org.fairysoftw.fairyrogue.Assets;
 
 public class CreatureActor extends SpriteActor {
     boolean inBattle = false;
@@ -57,6 +58,9 @@ public class CreatureActor extends SpriteActor {
         long now = TimeUtils.nanoTime();
         if (now - lastAttack > 1000000000 / attackSpeed && !this.isDead() && opponent != null) {
             this.lastAttack = now;
+
+            Assets.attackSound.play();
+
             float realDamage = this.opponent.takeDamage(this.attackDamage, this.abilityPower, this);
         }
         else if (now - lastAttack > 0 && opponent != null) {
@@ -73,6 +77,9 @@ public class CreatureActor extends SpriteActor {
     }
 
     public void takeDeath() {
+
+        Assets.deathSound.play();
+
         this.remove();
         //TODO: add die animation
     }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.props.Equipment;
 import org.fairysoftw.fairyrogue.props.Props;
 import org.fairysoftw.fairyrogue.screen.MainScreen;
@@ -70,6 +71,9 @@ public class PlayerActor extends CreatureActor {
         if (backpack.size < backpackCapacity) {
             backpack.add(props);
         }
+
+        Assets.pickSound.play();
+
         if (props.propsType == PropsActor.PropsType.EQUIPMENT) {
             Equipment equipment = (Equipment) props;
             switch (equipment.equipmentType) {
@@ -108,6 +112,9 @@ public class PlayerActor extends CreatureActor {
     }
 
     public void equip(Equipment equipment) {
+
+        Assets.equipSound.play();
+
         switch (equipment.equipmentType) {
             case WEAPON:
                 weapon = equipment;
