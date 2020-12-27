@@ -11,12 +11,10 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import org.fairysoftw.fairyrogue.FairyRogue;
 
 /**
- * 欢迎界面, 实现 Screen 接口 或者 继承 ScreenAdapter 类, ScreenAdapter 类空实现了 Screen 接口的所有方法。
- * 这个场景使用我们团队自己的logo居中显示 3 秒钟当做是游戏的欢迎界面。
- * PS: 类似 Screen 这样的有许多方法的接口, 更多时候只需要实现其中一两个方法, 往往会有一个对应的便捷的空实现所有接口方法的 XXAdapter 类,
- * 例如 ApplicationListener >> ApplicationAdapter, InputProcessor >> InputAdapter
+ * 开始界面, 实现 Screen 接口 或者 继承 ScreenAdapter 类, ScreenAdapter 类空实现了 Screen 接口的所有方法。
+ * 这个界面包括了开始游戏、设置、关于、退出游戏四个选项，与其他几个界面相关联
  */
-public class EnterScreen extends ScreenAdapter {
+public class StartScreen extends ScreenAdapter {
     // 为了方便与 其他界面 进行交互, 创建 Screen 时将 FairyRogue 作为参数传进来。
     private final FairyRogue fairyRogue;
 
@@ -32,9 +30,7 @@ public class EnterScreen extends ScreenAdapter {
     // 渲染时间步累计变量（当前场景被展示的时间总和）
     private float deltaSum;
 
-    private float i = 0.0f;
-
-    public EnterScreen(FairyRogue fairyRogue) {
+    public StartScreen(FairyRogue fairyRogue) {
 
         this.fairyRogue = fairyRogue;
 
@@ -69,23 +65,15 @@ public class EnterScreen extends ScreenAdapter {
         // 累计渲染时间步
         deltaSum += delta;
 
-        if (deltaSum >= 10.0F) {
-            // 开始场景展示时间超过 10 秒, 通知 fairyRogue 切换场景（启动开始界面）
+        if (deltaSum >= 5.0F) {
+            // 开始场景展示时间超过 5 秒, 通知 MainScreen 切换场景（启动主游戏界面）
             if (fairyRogue != null) {
-                fairyRogue.showScreen(this, "startScreen");
+                fairyRogue.showScreen(this, "mainScreen");
                 return;
             }
         }
 
-        //由暗变亮，持续几秒钟后由亮变暗
-        if (deltaSum < 3.5)
-            i = i + 0.000025f;
-        else if (deltaSum > 6.5)
-            i = i - 0.000025f;
-
-        image.setColor(i, i, i, 1);
-        Gdx.gl.glClearColor(i, i, i, 1);
-
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // 更新舞台逻辑
