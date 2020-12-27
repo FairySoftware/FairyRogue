@@ -3,6 +3,8 @@ package org.fairysoftw.fairyrogue;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;
@@ -23,6 +25,16 @@ public class Assets {
     public static TextureRegion openedIronDoor = null;
     public static TextureRegion closedWoodDoor = null;
     public static TextureRegion openedWoodDoor = null;
+
+    public static Music bgm;
+
+    public static Sound attackSound;
+    public static Sound doorSound;
+    public static Sound unlockSound;
+    public static Sound pickSound;
+    public static Sound equipSound;
+    public static Sound deathSound;
+
     private static AssetDescriptor<Map> mapDescriptor =
             new AssetDescriptor<>("tiledmap/map_0.tmx", Map.class);
 
@@ -60,6 +72,18 @@ public class Assets {
                 }
             }
         }
+
+        bgm = Gdx.audio.newMusic(Gdx.files.internal("bgm/bgm.mp3"));
+        bgm.setLooping(true);
+        bgm.play();
+
+        attackSound = Gdx.audio.newSound(Gdx.files.internal("sounds/attack.mp3"));
+        doorSound = Gdx.audio.newSound(Gdx.files.internal("sounds/door.mp3"));
+        unlockSound = Gdx.audio.newSound(Gdx.files.internal("sounds/floor.mp3"));
+        pickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/item.mp3"));
+        equipSound = Gdx.audio.newSound(Gdx.files.internal("sounds/equip.mp3"));
+        deathSound = Gdx.audio.newSound(Gdx.files.internal("sounds/zone.mp3"));
+
         manager.finishLoading();
     }
 
