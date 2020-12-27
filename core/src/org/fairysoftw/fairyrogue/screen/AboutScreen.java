@@ -16,7 +16,7 @@ import org.fairysoftw.fairyrogue.FairyRogue;
  * PS: 类似 Screen 这样的有许多方法的接口, 更多时候只需要实现其中一两个方法, 往往会有一个对应的便捷的空实现所有接口方法的 XXAdapter 类,
  * 例如 ApplicationListener >> ApplicationAdapter, InputProcessor >> InputAdapter
  */
-public class EnterScreen extends ScreenAdapter {
+public class AboutScreen extends ScreenAdapter {
     // 为了方便与 其他界面 进行交互, 创建 Screen 时将 FairyRogue 作为参数传进来。
     private final FairyRogue fairyRogue;
 
@@ -32,9 +32,11 @@ public class EnterScreen extends ScreenAdapter {
     // 渲染时间步累计变量（当前场景被展示的时间总和）
     private float deltaSum;
 
-    private float i = 0.0f;
+    private float i = 1;
+    private float j = 1;
+    private float k = 1;
 
-    public EnterScreen(FairyRogue fairyRogue) {
+    public AboutScreen(FairyRogue fairyRogue) {
 
         this.fairyRogue = fairyRogue;
 
@@ -66,32 +68,7 @@ public class EnterScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        // 累计渲染时间步
-        deltaSum += delta;
-
-        if (deltaSum >= 10.0F) {
-            // 开始场景展示时间超过 10 秒, 通知 fairyRogue 切换场景（启动开始界面）
-            if (fairyRogue != null) {
-                fairyRogue.showScreen(this, "startScreen");
-                return;
-            }
-        }
-
-        //由暗变亮，持续几秒钟后由亮变暗
-        if (deltaSum < 3.5)
-            i = i + 0.000025f;
-        else if (deltaSum > 6.5)
-            i = i - 0.000025f;
-
-        image.setColor(i, i, i, 1);
-        Gdx.gl.glClearColor(i, i, i, 1);
-
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // 更新舞台逻辑
-        stage.act();
-        // 绘制舞台
-        stage.draw();
+        //TODO
     }
 
     @Override
