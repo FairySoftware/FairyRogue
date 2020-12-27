@@ -4,7 +4,7 @@ import com.badlogic.gdx.*;
 import org.fairysoftw.fairyrogue.screen.MainScreen;
 import org.fairysoftw.fairyrogue.screen.MenuScreen;
 import org.fairysoftw.fairyrogue.screen.SettingScreen;
-import org.fairysoftw.fairyrogue.screen.StartScreen;
+import org.fairysoftw.fairyrogue.screen.EnterScreen;
 
 public class FairyRogue extends Game {
     public static final int VIRTUAL_WIDTH = 960;
@@ -19,7 +19,7 @@ public class FairyRogue extends Game {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         Assets.load();
 
-        startScreen = new StartScreen(this);
+        startScreen = new EnterScreen(this);
         mainScreen = new MainScreen(this);
         menuScreen = new MenuScreen(this);
         settingScreen = new SettingScreen(this);
@@ -35,8 +35,8 @@ public class FairyRogue extends Game {
         setScreen(mainScreen);
 
         if (startScreen != null) {
-            // 由于 StartScreen 只有在游戏启动时展示一下, 之后都不需要展示,
-            // 所以启动完 GameScreen 后手动调用 StartScreen 的 dispose() 方法销毁开始场景。
+            // 由于 EnterScreen 只有在游戏启动时展示一下, 之后都不需要展示,
+            // 所以启动完 GameScreen 后手动调用 EnterScreen 的 dispose() 方法销毁开始场景。
             startScreen.dispose();
 
             // 场景销毁后, 场景变量值空, 防止二次调用 dispose() 方法

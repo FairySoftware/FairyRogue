@@ -17,7 +17,7 @@ import org.fairysoftw.fairyrogue.FairyRogue;
  * PS: 类似 Screen 这样的有许多方法的接口, 更多时候只需要实现其中一两个方法, 往往会有一个对应的便捷的空实现所有接口方法的 XXAdapter 类,
  * 例如 ApplicationListener >> ApplicationAdapter, InputProcessor >> InputAdapter
  */
-public class StartScreen extends ScreenAdapter {
+public class EnterScreen extends ScreenAdapter {
     // 为了方便与 MainScreen 进行交互, 创建 Screen 时将 MainScreen 作为参数传进来
     private final FairyRogue mainScreen;
 
@@ -37,7 +37,7 @@ public class StartScreen extends ScreenAdapter {
     private float j = 1;
     private float k = 1;
 
-    public StartScreen(FairyRogue mainScreen) {
+    public EnterScreen(FairyRogue mainScreen) {
 
         this.mainScreen = mainScreen;
 
@@ -80,6 +80,7 @@ public class StartScreen extends ScreenAdapter {
             }
         }
 
+        //从白到黑的渐变
         i = i - 0.00002f;
         j = j - 0.00002f;
         k = k - 0.00002f;
