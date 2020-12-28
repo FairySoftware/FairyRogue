@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="26" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="187">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="26" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="197">
  <properties>
-  <property name="npc_dialogue" value="map_0_dialogue.json"/>
+  <property name="npc_dialogue" value="map_0_dialogue.jso"/>
  </properties>
  <tileset firstgid="1" name="colored_packed" tilewidth="32" tileheight="32" tilecount="1056" columns="48">
   <image source="../tileset/colored_packed.png" width="1536" height="704"/>
@@ -391,6 +391,10 @@
     <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup id="4" name="Points">
+  <object id="195" name="birth_point" x="64" y="320" width="32" height="32"/>
+  <object id="196" name="clear_point" x="800" y="480" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="Objects_to_use">
   <object id="163" name="door" gid="1491" x="0" y="608" width="32" height="32">

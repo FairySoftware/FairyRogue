@@ -1,8 +1,7 @@
 {
   "game": {
     "maps": [
-      "tiledmap/map_0.tmx",
-      "tiledmap/map_1.tmx"
+      "tilemap/map_0.tmx"
     ],
     "bgm": "bgm.mp3"
   }

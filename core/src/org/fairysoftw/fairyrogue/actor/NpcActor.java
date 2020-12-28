@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.utils.Array;
@@ -20,11 +21,11 @@ public class NpcActor extends CreatureActor {
         super(region);
     }
 
-    public NpcActor(MapObject object) {
+    public NpcActor(MapObject object, TiledMap tiledMap) {
         super(object);
         this.dialogue = (String) object.getProperties().get("dialogue");
         if (object.getProperties().containsKey("bonus")) {
-            MapObjects toUseObjects = Assets.map.getLayers().get("Objects_to_use").getObjects();
+            MapObjects toUseObjects = tiledMap.getLayers().get("Objects_to_use").getObjects();
             for (MapObject toUseObject : toUseObjects) {
                 if((int)toUseObject.getProperties().get("id") == (int)object.getProperties().get("bonus")) {
                     this.bonus = Props.PropsFactory(toUseObject);
