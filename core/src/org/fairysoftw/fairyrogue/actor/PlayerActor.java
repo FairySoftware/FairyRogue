@@ -31,6 +31,7 @@ public class PlayerActor extends CreatureActor {
         super(mapObject);
         weapon.attackDamage = this.attackDamage;
         weapon.abilityPower= this.abilityPower;
+        weapon.attackSpeed = this.attackSpeed;
     }
 
     @Override
