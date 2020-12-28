@@ -331,7 +331,7 @@
     <property name="rarity" value="common"/>
    </properties>
   </object>
-  <object id="159" name="props" type="potion" gid="520" x="352" y="352" width="32" height="32">
+  <object id="159" name="props" type="potion" gid="1576" x="352" y="352" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="0"/>
     <property name="attackDamage" type="float" value="0"/>

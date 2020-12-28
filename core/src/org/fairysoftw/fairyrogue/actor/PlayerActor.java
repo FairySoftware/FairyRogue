@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.utils.Array;
 import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.props.Equipment;
+import org.fairysoftw.fairyrogue.props.Potion;
 import org.fairysoftw.fairyrogue.props.Props;
 import org.fairysoftw.fairyrogue.screen.MainScreen;
 
@@ -128,6 +129,14 @@ public class PlayerActor extends CreatureActor {
             }
             updateAttributes();
         }
+        else if (props.propsType == PropsActor.PropsType.POTION) {
+            this.usePotion((Potion) props);
+        }
+    }
+
+    public void usePotion(Potion potion) {
+        this.healthPoint -= potion.healthConsume;
+        this.magicPoint -= potion.magicConsume;
     }
 
     public void dropDown(Props props) {

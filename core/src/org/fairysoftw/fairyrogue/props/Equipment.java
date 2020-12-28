@@ -5,6 +5,17 @@ import com.badlogic.gdx.maps.MapProperties;
 import org.fairysoftw.fairyrogue.actor.PropsActor;
 
 public class Equipment extends Props {
+    public EquipmentType equipmentType;
+    public EquipmentQuality rarity;
+    public float attackDamage = 0;
+    public float attackSpeed = 0;
+    public float abilityPower = 0;
+    public float physicalDefence = 0;
+    public float magicalDefence = 0;
+    public float healthConsume = 0;
+    public float magicConsume = 0;
+    public float durability = 0;
+
     public enum EquipmentType {
         NONE,
         WEAPON,
@@ -58,17 +69,6 @@ public class Equipment extends Props {
     public Equipment(EquipmentType equipmentType) {
         this.equipmentType = equipmentType;
     }
-
-    public EquipmentType equipmentType;
-    public EquipmentQuality rarity;
-    public float attackDamage = 0;
-    public float attackSpeed = 0;
-    public float abilityPower = 0;
-    public float physicalDefence = 0;
-    public float magicalDefence = 0;
-    public float healthConsume = 0;
-    public float magicConsume = 0;
-    public float durability = 0;
 
     public Equipment(EquipmentType equipmentType,
                      float attackDamage,
