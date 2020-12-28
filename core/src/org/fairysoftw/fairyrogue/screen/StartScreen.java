@@ -74,6 +74,11 @@ public class StartScreen extends ScreenAdapter {
     }
 
     @Override
+    public void hide() {
+        activation = false;
+    }
+
+    @Override
     public void render(float delta) {
         // 累计渲染时间步
 

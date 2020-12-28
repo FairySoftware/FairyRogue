@@ -12,7 +12,7 @@ import org.fairysoftw.fairyrogue.FairyRogue;
 
 /**
  * 欢迎界面, 实现 Screen 接口 或者 继承 ScreenAdapter 类, ScreenAdapter 类空实现了 Screen 接口的所有方法。
- * 这个场景使用我们团队自己的logo居中显示 3 秒钟当做是游戏的欢迎界面。
+ * 这个场景使用我们团队自己的logo居中显示 5 秒钟当做是游戏的欢迎界面。
  * PS: 类似 Screen 这样的有许多方法的接口, 更多时候只需要实现其中一两个方法, 往往会有一个对应的便捷的空实现所有接口方法的 XXAdapter 类,
  * 例如 ApplicationListener >> ApplicationAdapter, InputProcessor >> InputAdapter
  */
