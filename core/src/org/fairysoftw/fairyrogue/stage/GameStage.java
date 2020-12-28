@@ -2,6 +2,7 @@ package org.fairysoftw.fairyrogue.stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -33,6 +35,8 @@ import org.fairysoftw.fairyrogue.props.Key;
 import org.fairysoftw.fairyrogue.props.Potion;
 import org.fairysoftw.fairyrogue.props.Props;
 import org.fairysoftw.fairyrogue.screen.MainScreen;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class GameStage extends Stage {
     private TiledMap currentMap;
@@ -139,7 +143,8 @@ public class GameStage extends Stage {
                 actor = new MonsterActor(mapObject);
             }
             else if (object.getName().contains("npc")) {
-                actor = new NpcActor(mapObject, map);
+                String id = object.getProperties().get("id").toString();
+                actor = new NpcActor(mapObject, map, loadNpcDialogues(id));
             }
             else if (object.getName().contains("props")) {
                 actor = new PropsActor(mapObject);
@@ -149,6 +154,23 @@ public class GameStage extends Stage {
                 actor.setY(mapObject.getY());
                 this.addActor(actor);
             }
+        }
+    }
+
+    private JSONObject loadNpcDialogues(String id) {
+        FileHandle handle;
+        try {
+            handle = Gdx.files.local("dialogue/" + (String) currentMap.getProperties().get("npc_dialogue"));
+        } catch (Exception e) {
+            return null;
+        }
+        String content = handle.readString();
+        JSONObject gameJson = new JSONObject(content);
+        try{
+            return gameJson.getJSONObject(id).getJSONObject("dialogue");
+        }
+        catch (JSONException E){
+            return null;
         }
     }
 
@@ -197,7 +219,7 @@ public class GameStage extends Stage {
                 double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
                 if (distance < 33 && Gdx.input.isKeyJustPressed(Input.Keys.F)) {
                     toLogMonsters.add((CreatureActor) actor);
-                    playerActor.takeDialogue((NpcActor) actor);
+                    playerActor.takeDialogue((NpcActor) actor, ((NpcActor)actor).getDialogue());
                 }
             }
             else if (actor instanceof MonsterActor) {
@@ -312,6 +334,10 @@ public class GameStage extends Stage {
 
     public PlayerActor getPlayerActor() {
         return playerActor;
+    }
+
+    public TiledMap getCurrentMap() {
+        return currentMap;
     }
 
     @Override

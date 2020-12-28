@@ -11,33 +11,48 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.utils.Array;
 import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.props.Props;
+import org.fairysoftw.fairyrogue.stage.GameStage;
 import org.fairysoftw.fairyrogue.ui.NpcDialog;
+import org.json.JSONObject;
 
 public class NpcActor extends CreatureActor {
-    public String dialogue;
-    public Props bonus;
+    JSONObject dialogue;
 
     public NpcActor(TextureRegion region) {
         super(region);
     }
 
-    public NpcActor(MapObject object, TiledMap tiledMap) {
+    public NpcActor(MapObject object, TiledMap tiledMap, JSONObject dialogueJson) {
         super(object);
-        this.dialogue = (String) object.getProperties().get("dialogue");
-        if (object.getProperties().containsKey("bonus")) {
-            MapObjects toUseObjects = tiledMap.getLayers().get("Objects_to_use").getObjects();
-            for (MapObject toUseObject : toUseObjects) {
-                if((int)toUseObject.getProperties().get("id") == (int)object.getProperties().get("bonus")) {
-                    this.bonus = Props.PropsFactory(toUseObject);
+        this.dialogue = dialogueJson;
+    }
+
+    public JSONObject getDialogue() {
+        return dialogue;
+    }
+
+    public void takeDialogue(Stage stage, PlayerActor playerActor, JSONObject dialogueJson) {
+        String content = dialogueJson.getString("content");
+        MapObjects mapObjects = ((GameStage)this.getStage()).getCurrentMap().getLayers().get("Objects_to_use").getObjects();
+        Props bonus = null;
+        Array<JSONObject> choices = null;
+        if(dialogueJson.has("bonus")) {
+            for (MapObject mapObject : mapObjects) {
+                if ((int) mapObject.getProperties().get("id") == dialogueJson.getInt("bonus")) {
+                    bonus = Props.PropsFactory(mapObject);
                 }
             }
         }
-    }
+        if(dialogueJson.has("choices")) {
+            choices = new Array<>();
+            for(Object object:dialogueJson.getJSONArray("choices")) {
+                JSONObject jsonObject = (JSONObject) object;
+                choices.add(jsonObject);
+            }
+        }
 
-    public void takeDialogue(Stage stage, PlayerActor playerActor) {
-        Dialog dialog = new NpcDialog("", Assets.skin, "dialog", this, playerActor);
-        dialog.text(dialogue + "\n >Enter");
-        dialog.key(Input.Keys.ENTER, true);
+        Dialog dialog = new NpcDialog("", Assets.skin, "dialog", this, playerActor, bonus, choices);
+        dialog.text(content);
         dialog.show(stage);
         dialog.setPosition(stage.getCamera().position.x, stage.getCamera().position.y + 50);
         Gdx.input.setInputProcessor(stage);

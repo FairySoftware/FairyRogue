@@ -13,6 +13,7 @@ import org.fairysoftw.fairyrogue.props.Equipment;
 import org.fairysoftw.fairyrogue.props.Potion;
 import org.fairysoftw.fairyrogue.props.Props;
 import org.fairysoftw.fairyrogue.screen.MainScreen;
+import org.json.JSONObject;
 
 public class PlayerActor extends CreatureActor {
     private Vector2 lastPosition = new Vector2();
@@ -169,10 +170,10 @@ public class PlayerActor extends CreatureActor {
         updateAttributes();
     }
 
-    public void takeDialogue(NpcActor actor) {
+    public void takeDialogue(NpcActor actor, JSONObject dialogueJson) {
         if(!inDialogue) {
             this.inDialogue = true;
-            actor.takeDialogue(this.getStage(), this);
+            actor.takeDialogue(this.getStage(), this, dialogueJson);
         }
     }
 

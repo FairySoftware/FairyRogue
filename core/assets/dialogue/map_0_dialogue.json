@@ -1,0 +1,31 @@
+{
+  "144": {
+    "dialogue": {
+      "content": "Please save my master, he is getting trouble in the room above.",
+      "choices": [
+        {
+          "content": "Sure, I will.",
+          "dialogue": {
+            "content": "Thank you for your help."
+          }
+        },
+        {
+          "content": "No, I don't want to wast time.",
+          "dialogue": {
+            "content": "Oh..."
+          }
+        }
+      ]
+    }
+  },
+  "148": {
+    "dialogue": {
+      "content": "Thank you for saving my life. Here is a little gift.",
+      "bonus": 184
+    }
+  }
+}
+
+2. 有content, choices
+3. 只有content
+4. 有content，bonus
