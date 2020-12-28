@@ -32,29 +32,34 @@ public class NpcActor extends CreatureActor {
     }
 
     public void takeDialogue(Stage stage, PlayerActor playerActor, JSONObject dialogueJson) {
-        String content = dialogueJson.getString("content");
-        MapObjects mapObjects = ((GameStage)this.getStage()).getCurrentMap().getLayers().get("Objects_to_use").getObjects();
-        Props bonus = null;
-        Array<JSONObject> choices = null;
-        if(dialogueJson.has("bonus")) {
-            for (MapObject mapObject : mapObjects) {
-                if ((int) mapObject.getProperties().get("id") == dialogueJson.getInt("bonus")) {
-                    bonus = Props.PropsFactory(mapObject);
+        if(dialogueJson != null) {
+            String content = dialogueJson.getString("content");
+            MapObjects mapObjects = ((GameStage) this.getStage()).getCurrentMap().getLayers().get("Objects_to_use").getObjects();
+            Props bonus = null;
+            Array<JSONObject> choices = null;
+            if (dialogueJson.has("bonus")) {
+                for (MapObject mapObject : mapObjects) {
+                    if ((int) mapObject.getProperties().get("id") == dialogueJson.getInt("bonus")) {
+                        bonus = Props.PropsFactory(mapObject);
+                    }
                 }
             }
-        }
-        if(dialogueJson.has("choices")) {
-            choices = new Array<>();
-            for(Object object:dialogueJson.getJSONArray("choices")) {
-                JSONObject jsonObject = (JSONObject) object;
-                choices.add(jsonObject);
+            if (dialogueJson.has("choices")) {
+                choices = new Array<>();
+                for (Object object : dialogueJson.getJSONArray("choices")) {
+                    JSONObject jsonObject = (JSONObject) object;
+                    choices.add(jsonObject);
+                }
             }
-        }
 
-        Dialog dialog = new NpcDialog("", Assets.skin, "dialog", this, playerActor, bonus, choices);
-        dialog.text(content);
-        dialog.show(stage);
-        dialog.setPosition(stage.getCamera().position.x, stage.getCamera().position.y + 50);
-        Gdx.input.setInputProcessor(stage);
+            Dialog dialog = new NpcDialog("", Assets.skin, "dialog", this, playerActor, bonus, choices);
+            dialog.text(content);
+            dialog.show(stage);
+            dialog.setPosition(stage.getCamera().position.x, stage.getCamera().position.y + 50);
+            Gdx.input.setInputProcessor(stage);
+        }
+        else {
+            playerActor.overDialogue();
+        }
     }
 }

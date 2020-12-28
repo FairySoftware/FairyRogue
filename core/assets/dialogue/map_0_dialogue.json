@@ -1,5 +1,5 @@
 {
-  "144": {
+  "148": {
     "dialogue": {
       "content": "Please save my master, he is getting trouble in the room above.",
       "choices": [
@@ -18,7 +18,7 @@
       ]
     }
   },
-  "148": {
+  "144": {
     "dialogue": {
       "content": "Thank you for saving my life. Here is a little gift.",
       "bonus": 184

@@ -159,12 +159,13 @@ public class GameStage extends Stage {
 
     private JSONObject loadNpcDialogues(String id) {
         FileHandle handle;
+        String content;
         try {
             handle = Gdx.files.local("dialogue/" + (String) currentMap.getProperties().get("npc_dialogue"));
+             content = handle.readString();
         } catch (Exception e) {
             return null;
         }
-        String content = handle.readString();
         JSONObject gameJson = new JSONObject(content);
         try{
             return gameJson.getJSONObject(id).getJSONObject("dialogue");
