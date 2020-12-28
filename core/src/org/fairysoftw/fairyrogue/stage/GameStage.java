@@ -20,6 +20,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -41,7 +43,6 @@ public class GameStage extends Stage {
     private PlayerActor playerActor;
     private Rectangle birthPoint;
     private Rectangle clearPoint;
-    private boolean clear = false;
 
 
     public GameStage(Viewport viewport, Batch batch) {
@@ -122,9 +123,17 @@ public class GameStage extends Stage {
                 doorActor.refresh();
                 actor = doorActor;
             }
-            else if (object.getName().contains("player") && lastStageActor == null) {
-                this.playerActor = new PlayerActor(mapObject);
-                actor = this.playerActor;
+            else if (object.getName().contains("player")) {
+                if(lastStageActor == null) {
+                    this.playerActor = new PlayerActor(mapObject);
+                    actor = this.playerActor;
+                }
+                else {
+                    this.playerActor = lastStageActor;
+                    this.addActor(playerActor);
+                }
+                this.playerActor.setX(birthPoint.x);
+                this.playerActor.setY(birthPoint.y);
             }
             else if (object.getName().contains("monster")) {
                 actor = new MonsterActor(mapObject);
@@ -141,12 +150,6 @@ public class GameStage extends Stage {
                 this.addActor(actor);
             }
         }
-        if(lastStageActor != null){
-            this.playerActor = lastStageActor;
-            this.addActor(playerActor);
-        }
-        this.playerActor.setX(birthPoint.x);
-        this.playerActor.setY(birthPoint.y);
     }
 
     public boolean isClear(){
@@ -177,7 +180,7 @@ public class GameStage extends Stage {
         Rectangle playerRectangle = new Rectangle();
         Array<Rectangle> rectangles = new Array<>();
         Array<Actor> actors = this.getActors();
-        Array<CreatureActor> toLogActors = new Array<>();
+        Array<CreatureActor> toLogMonsters = new Array<>();
         for (Actor actor : actors) {
             if (actor instanceof PlayerActor) {
                 playerActor = (PlayerActor) actor;
@@ -193,7 +196,7 @@ public class GameStage extends Stage {
                 Vector2 distanceVector = new Vector2(actor.getX() - playerActor.getX(), actor.getY() - playerActor.getY());
                 double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
                 if (distance < 33 && Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-                    toLogActors.add((CreatureActor) actor);
+                    toLogMonsters.add((CreatureActor) actor);
                     playerActor.takeDialogue((NpcActor) actor);
                 }
             }
@@ -208,7 +211,7 @@ public class GameStage extends Stage {
                 Vector2 distanceVector = new Vector2(actor.getX() - playerActor.getX(), actor.getY() - playerActor.getY());
                 double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
                 if (distance < 33) {
-                    toLogActors.add((CreatureActor) actor);
+                    toLogMonsters.add((CreatureActor) actor);
                 }
             }
             else if (actor instanceof DoorActor) {
@@ -280,22 +283,7 @@ public class GameStage extends Stage {
                 }
             }
         }
-
-        String str = "";
-        for (CreatureActor actor : toLogActors) {
-            str += "HP: " + actor.getHealthPoint() + "\n" +
-                    "MP: " + actor.getMagicPoint() + "\n" +
-                    "AD: " + actor.getAttackDamage() + "\n" +
-                    "AP: " + actor.getAbilityPower() + "\n" +
-                    "AS: " + actor.getAttackSpeed() + "\n" +
-                    "PD: " + actor.getPhysicalDefence() + "\n" +
-                    "MD: " + actor.getMagicalDefence() + "\n\n";
-        }
-        this.getBatch().begin();
-        BitmapFont font = new BitmapFont();
-        font.setColor(Color.RED);
-        font.draw(this.getBatch(), str, this.getCamera().position.x + 370, this.getCamera().position.y + 370);
-        this.getBatch().end();
+        displayAttribute(toLogMonsters);
     }
 
     private void updateCamera() {
@@ -310,16 +298,62 @@ public class GameStage extends Stage {
     @Override
     public void addActor(Actor actor) {
         super.addActor(actor);
-        miniMapStage.addActor(actor);
         if (actor instanceof SpriteActor) {
             ((SpriteActor) actor).miniMapStage = this.miniMapStage;
             if (actor instanceof PlayerActor) {
                 this.playerActor = (PlayerActor) actor;
             }
         }
+        if(!(actor instanceof WidgetGroup))
+        {
+            miniMapStage.addActor(actor);
+        }
     }
 
     public PlayerActor getPlayerActor() {
         return playerActor;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
+
+    public void displayAttribute(Array<CreatureActor> toLogMonsters) {
+        updateCamera();
+        mainViewport.apply();
+        mapRenderer.setView(mainCamera);
+        BitmapFont font = new BitmapFont();
+        String playerAttribute = "";
+        playerAttribute += "HP: " + playerActor.getHealthPoint() + "\n" +
+                "MP: " + playerActor.getMagicPoint() + "\n" +
+                "AD: " + playerActor.getAttackDamage() + "\n" +
+                "AP: " + playerActor.getAbilityPower() + "\n" +
+                "AS: " + playerActor.getAttackSpeed() + "\n" +
+                "PD: " + playerActor.getPhysicalDefence() + "\n" +
+                "MD: " + playerActor.getMagicalDefence() + "\n\n";
+
+        this.getBatch().begin();
+        font.draw(this.getBatch(), playerAttribute,
+                this.getCamera().position.x - FairyRogue.VIRTUAL_WIDTH/2f + 20,
+                this.getCamera().position.y+FairyRogue.VIRTUAL_HEIGHT/2f - 20);
+        this.getBatch().end();
+
+        String monstersAttribute = "";
+        for (CreatureActor actor : toLogMonsters) {
+            monstersAttribute += "HP: " + actor.getHealthPoint() + "\n" +
+                    "MP: " + actor.getMagicPoint() + "\n" +
+                    "AD: " + actor.getAttackDamage() + "\n" +
+                    "AP: " + actor.getAbilityPower() + "\n" +
+                    "AS: " + actor.getAttackSpeed() + "\n" +
+                    "PD: " + actor.getPhysicalDefence() + "\n" +
+                    "MD: " + actor.getMagicalDefence() + "\n\n";
+        }
+        this.getBatch().begin();
+        font.setColor(Color.RED);
+        font.draw(this.getBatch(), monstersAttribute,
+                this.getCamera().position.x + FairyRogue.VIRTUAL_WIDTH/2f - 70,
+                this.getCamera().position.y+FairyRogue.VIRTUAL_HEIGHT/2f - 20);
+        this.getBatch().end();
     }
 }
