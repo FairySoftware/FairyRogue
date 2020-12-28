@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.utils.Array;
 import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.props.Equipment;
@@ -61,6 +62,27 @@ public class PlayerActor extends CreatureActor {
                 sprite.setX(sprite.getX() + 32);
             }
         }
+    }
+
+    @Override
+    public void takeDeath() {
+        Assets.deathSound.play();
+        Dialog dialog = new Dialog("", Assets.skin, "dialog"){
+            @Override
+            protected void result(Object object) {
+                reborn();
+            }
+        };
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.text("you have die!!!" + "\n >Enter");
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.show(this.getStage());
+        dialog.setPosition(this.getStage().getCamera().position.x, this.getStage().getCamera().position.y + 50);
+        Gdx.input.setInputProcessor(this.getStage());
+    }
+
+    public void reborn() {
+        Gdx.app.exit();
     }
 
     public void undoAct() {
