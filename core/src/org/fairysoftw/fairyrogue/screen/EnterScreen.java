@@ -44,7 +44,7 @@ public class EnterScreen extends ScreenAdapter {
         stage = new Stage(new StretchViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT));
 
         // 创建为纹理
-        texture = new Texture(Gdx.files.internal("ui/logo.jpg"));
+        texture = new Texture(Gdx.files.internal("screen/logo.jpg"));
 
         // 创建 Image
         image = new Image(new TextureRegion(texture));
@@ -69,7 +69,7 @@ public class EnterScreen extends ScreenAdapter {
         // 累计渲染时间步
         deltaSum += delta;
 
-        if (deltaSum >= 10.0F) {
+        if (deltaSum >= 5.0F) {
             // 开始场景展示时间超过 10 秒, 通知 fairyRogue 切换场景（启动开始界面）
             if (fairyRogue != null) {
                 fairyRogue.showScreen(this, "startScreen");
@@ -78,10 +78,10 @@ public class EnterScreen extends ScreenAdapter {
         }
 
         //由暗变亮，持续几秒钟后由亮变暗
-        if (deltaSum < 3.5)
-            i = i + 0.000025f;
-        else if (deltaSum > 6.5)
-            i = i - 0.000025f;
+        if (deltaSum < 1.75)
+            i = i + 0.00005f;
+        else if (deltaSum > 3.25)
+            i = i - 0.00005f;
 
         image.setColor(i, i, i, 1);
         Gdx.gl.glClearColor(i, i, i, 1);

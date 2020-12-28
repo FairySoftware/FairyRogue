@@ -46,7 +46,7 @@ public class AboutScreen extends ScreenAdapter {
         stage = new Stage(new StretchViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT));
 
         // 创建为纹理
-        texture = new Texture(Gdx.files.internal("ui/logo.jpg"));
+        texture = new Texture(Gdx.files.internal("screen/logo.jpg"));
 
         // 创建 Image
         image = new Image(new TextureRegion(texture));
