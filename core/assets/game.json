@@ -1,0 +1,38 @@
+{
+  "game": {
+    "maps": [
+      {
+        "path": "tiledmap/map_0.tmx",
+        "npc": [
+          {
+            "id": 144,
+            "dialogue": {
+              "content": "Please save my master, he is getting trouble in the room above.",
+              "choice": [
+                {
+                  "content": "Sure, I will.",
+                  "dialogue": {
+                    "content": "Thank you for your help."
+                  }
+                },
+                {
+                  "content": "No, I don't want to wast time.",
+                  "dialogue": {
+                    "content": "Oh..."
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": 148,
+            "dialogue": {
+              "content": "Thank you for saving my life. Here is a little gift.",
+              "bonus": 184
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
