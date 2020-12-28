@@ -36,10 +36,10 @@ public class Assets {
     public static Sound deathSound;
 
     private static AssetDescriptor<Map> mapDescriptor =
-            new AssetDescriptor<>("tiledmap/map_0.tmx", Map.class);
+            new AssetDescriptor<>("tilemap/map_0.tmx", Map.class);
 
     public static void load() {
-        map = new TmxMapLoader().load("tiledmap/map_0.tmx");
+        map = new TmxMapLoader().load("tilemap/map_0.tmx");
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         MapObjects mapObjects = map.getLayers().get("Objects_to_use").getObjects();
         for (MapObject mapObject : mapObjects) {
