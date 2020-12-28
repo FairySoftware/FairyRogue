@@ -188,11 +188,11 @@ public class PlayerActor extends CreatureActor {
         this.attackSpeed = weapon.attackSpeed;
         this.attackDamage = weapon.attackDamage;
         this.abilityPower = weapon.abilityPower;
-        this.physicalDefence += apparel_head.physicalDefence +
+        this.physicalDefence = apparel_head.physicalDefence +
                 apparel_upper_body.physicalDefence +
                 apparel_lower_body.physicalDefence +
                 accessories.physicalDefence;
-        this.magicalDefence += apparel_head.magicalDefence +
+        this.magicalDefence = apparel_head.magicalDefence +
                 apparel_upper_body.magicalDefence +
                 apparel_lower_body.magicalDefence +
                 accessories.magicalDefence;
