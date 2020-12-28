@@ -49,6 +49,8 @@ public class FairyRogue extends Game {
             case "aboutScreen":
                 setScreen(aboutScreen);
                 break;
+            case "exit":
+                Gdx.app.exit();
             default:
                 return;
         }
@@ -66,6 +68,10 @@ public class FairyRogue extends Game {
     @Override
     public void dispose() {
         Assets.dispose();
+        startScreen.dispose();
         mainScreen.dispose();
+        settingScreen.dispose();
+        aboutScreen.dispose();
+        menuScreen.dispose();
     }
 }
