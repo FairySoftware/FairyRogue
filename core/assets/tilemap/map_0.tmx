@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="26" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="187">
+ <properties>
+  <property name="npc_dialogue" value="map_0_dialogue.json"/>
+ </properties>
  <tileset firstgid="1" name="colored_packed" tilewidth="32" tileheight="32" tilecount="1056" columns="48">
   <image source="../tileset/colored_packed.png" width="1536" height="704"/>
  </tileset>

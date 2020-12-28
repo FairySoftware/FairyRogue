@@ -3,6 +3,8 @@ package org.fairysoftw.fairyrogue;
 import com.badlogic.gdx.*;
 import org.fairysoftw.fairyrogue.screen.*;
 
+import java.io.IOException;
+
 public class FairyRogue extends Game {
     public static final int VIRTUAL_WIDTH = 960;
     public static final int VIRTUAL_HEIGHT = 768;

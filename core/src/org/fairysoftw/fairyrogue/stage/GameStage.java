@@ -3,10 +3,14 @@ package org.fairysoftw.fairyrogue.stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,22 +18,94 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.fairysoftw.fairyrogue.Assets;
+import org.fairysoftw.fairyrogue.FairyRogue;
 import org.fairysoftw.fairyrogue.actor.*;
 import org.fairysoftw.fairyrogue.props.Equipment;
 import org.fairysoftw.fairyrogue.props.Key;
 import org.fairysoftw.fairyrogue.props.Potion;
 import org.fairysoftw.fairyrogue.props.Props;
+import org.fairysoftw.fairyrogue.screen.MainScreen;
 
 public class GameStage extends Stage {
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private MiniMapStage miniMapStage;
+    private OrthographicCamera mainCamera;
+    private Viewport mainViewport;
+    private PlayerActor playerActor;
+
 
     public GameStage(Viewport viewport, Batch batch) {
         super(viewport, batch);
     }
 
-    public GameStage() {
+    public GameStage(TiledMap map, PlayerActor lastStageActor) {
         super();
+        mainCamera = new OrthographicCamera();
+        mainViewport = new ExtendViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT, mainCamera);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, this.getBatch());
+        miniMapStage = new MiniMapStage(mapRenderer, this.getBatch());
+        this.setViewport(mainViewport);
+
+        for (MapObject object : map.getLayers().get("Objects").getObjects()) {
+            TiledMapTileMapObject mapObject = (TiledMapTileMapObject) object;
+            Actor actor = null;
+            if (object.getName().contains("wall")) {
+                actor = new WallActor(mapObject.getTextureRegion());
+            }
+            else if (object.getName().contains("door")) {
+                actor = new DoorActor(mapObject);
+            }
+            else if (object.getName().contains("player") && lastStageActor == null) {
+                this.playerActor = new PlayerActor(mapObject);
+                actor = this.playerActor;
+            }
+            else if (object.getName().contains("monster")) {
+                actor = new MonsterActor(mapObject);
+            }
+            else if (object.getName().contains("npc")) {
+                actor = new NpcActor(mapObject);
+            }
+            else if (object.getName().contains("props")) {
+                actor = new PropsActor(mapObject);
+            }
+            if (actor != null) {
+                actor.setX(mapObject.getX());
+                actor.setY(mapObject.getY());
+                this.addActor(actor);
+            }
+        }
+        if(lastStageActor != null){
+            this.playerActor = lastStageActor;
+            this.addActor(playerActor);
+        }
+    }
+
+    @Override
+    public void draw() {
+        updateCamera();
+        mainViewport.apply();
+//        batch.begin();
+//        font.draw(batch,"HP: " + playerActor.getHealthPoint() + "\n" +
+//                "MP: " + playerActor.getMagicPoint() + "\n" +
+//                "AD: " + playerActor.getAttackDamage() + "\n" +
+//                "AP: " + playerActor.getAbilityPower() + "\n" +
+//                "AS: " + playerActor.getAttackSpeed() + "\n" +
+//                "PD: " + playerActor.getPhysicalDefence() + "\n" +
+//                "MD: " + playerActor.getMagicalDefence() + "\n", mainCamera.position.x - 470, mainCamera.position.y + 370);
+//        batch.end();
+        //TODO: add private batch
+        //TODO: fix creature attributes display problem
+        mapRenderer.setView(mainCamera);
+        mapRenderer.render();
+        super.draw();
+        miniMapStage.draw();
+    }
+
+    public void resize(int width, int height) {
+        mainViewport.update(width, height);
     }
 
     @Override
@@ -158,5 +234,26 @@ public class GameStage extends Stage {
         font.setColor(Color.RED);
         font.draw(this.getBatch(), str, this.getCamera().position.x + 370, this.getCamera().position.y + 370);
         this.getBatch().end();
+    }
+
+    private void updateCamera() {
+        if (!playerActor.isInBattle()) {
+            mainCamera.position.x = playerActor.getX();
+            mainCamera.position.y = playerActor.getY();
+        }
+
+        mainCamera.update();
+    }
+
+    @Override
+    public void addActor(Actor actor) {
+        super.addActor(actor);
+        miniMapStage.addActor(actor);
+        if (actor instanceof SpriteActor) {
+            ((SpriteActor) actor).miniMapStage = this.miniMapStage;
+            if (actor instanceof PlayerActor) {
+                this.playerActor = (PlayerActor) actor;
+            }
+        }
     }
 }

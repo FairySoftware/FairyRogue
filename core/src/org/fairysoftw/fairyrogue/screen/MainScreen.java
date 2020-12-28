@@ -4,77 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import org.fairysoftw.fairyrogue.Assets;
-import org.fairysoftw.fairyrogue.FairyRogue;
-import org.fairysoftw.fairyrogue.actor.*;
 import org.fairysoftw.fairyrogue.stage.GameStage;
-import org.fairysoftw.fairyrogue.stage.MiniMapStage;
 
 public class MainScreen extends ScreenAdapter {
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private Viewport mainViewport;
-    private SpriteBatch batch;
-    private GameStage stage;
-    private MiniMapStage miniMapStage;
-    private PlayerActor playerActor;
-    private OrthographicCamera mainCamera;
-    public static BitmapFont font;
-    private Table table = new Table();
+    public static GameStage stage;
 
     public MainScreen(Game game) {
-        mainCamera = new OrthographicCamera();
-        mainViewport = new ExtendViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT, mainCamera);
-        batch = new SpriteBatch();
-        stage = new GameStage(mainViewport, batch);
-        mapRenderer = new OrthogonalTiledMapRenderer(Assets.map, batch);
-        mapRenderer.setView(mainCamera);
-        miniMapStage = new MiniMapStage(mapRenderer, batch);
-        font = new BitmapFont();
-        table.setFillParent(true);
-        stage.addActor(table);
-
-        for (MapObject object : Assets.map.getLayers().get("Objects").getObjects()) {
-            TiledMapTileMapObject mapObject = (TiledMapTileMapObject) object;
-            Actor actor = null;
-            if (object.getName().contains("wall")) {
-                actor = new WallActor(mapObject.getTextureRegion());
-            }
-            else if (object.getName().contains("door")) {
-                actor = new DoorActor(mapObject);
-            }
-            else if (object.getName().contains("player")) {
-                playerActor = new PlayerActor(mapObject);
-                actor = playerActor;
-            }
-            else if (object.getName().contains("monster")) {
-                actor = new MonsterActor(mapObject);
-            }
-            else if (object.getName().contains("npc")) {
-                actor = new NpcActor(mapObject);
-            }
-            else if (object.getName().contains("props")) {
-                actor = new PropsActor(mapObject);
-            }
-            if (actor != null) {
-                actor.setX(mapObject.getX());
-                actor.setY(mapObject.getY());
-                stage.addActor(actor);
-                miniMapStage.addActor(actor);
-                ((SpriteActor) actor).miniMapStage = miniMapStage;
-            }
-        }
+        stage = new GameStage(Assets.map, null);
     }
 
     @Override
@@ -86,41 +23,17 @@ public class MainScreen extends ScreenAdapter {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.278f, 0.176f, 0.235f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        updateCamera();
-        mainViewport.apply();
-        mapRenderer.setView(mainCamera);
-        mapRenderer.render();
         stage.act();
-        batch.begin();
-        font.draw(batch,"HP: " + playerActor.getHealthPoint() + "\n" +
-                "MP: " + playerActor.getMagicPoint() + "\n" +
-                "AD: " + playerActor.getAttackDamage() + "\n" +
-                "AP: " + playerActor.getAbilityPower() + "\n" +
-                "AS: " + playerActor.getAttackSpeed() + "\n" +
-                "PD: " + playerActor.getPhysicalDefence() + "\n" +
-                "MD: " + playerActor.getMagicalDefence() + "\n", mainCamera.position.x - 470, mainCamera.position.y + 370);
-        batch.end();
         stage.draw();
-        miniMapStage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        mainViewport.update(width, height);
-    }
-
-    private void updateCamera() {
-        if (!playerActor.isInBattle()) {
-            mainCamera.position.x = playerActor.getX();
-            mainCamera.position.y = playerActor.getY();
-        }
-
-        mainCamera.update();
+        stage.resize(width, height);
     }
 
     @Override
     public void dispose() {
-        mapRenderer.dispose();
         stage.dispose();
     }
 
