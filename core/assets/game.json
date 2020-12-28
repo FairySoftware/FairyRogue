@@ -1,0 +1,10 @@
+{
+  "game": {
+    "maps": [
+      "tilemap/map_0.tmx",
+      "tilemap/map_1.tmx",
+      "tilemap/map_2.tmx"
+    ],
+    "bgm": "bgm.mp3"
+  }
+}

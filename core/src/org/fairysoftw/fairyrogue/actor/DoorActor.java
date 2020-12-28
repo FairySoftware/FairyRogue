@@ -6,12 +6,13 @@ import org.fairysoftw.fairyrogue.Assets;
 
 public class DoorActor extends SpriteActor {
 
-    private String id = "";
+    public String id = "";
     private boolean locked = false;
     private boolean closed = false;
-    private TextureRegion lockedDoor = null;
-    private TextureRegion closedDoor = null;
-    private TextureRegion openedDoor = null;
+    public TextureRegion lockedDoor = null;
+    public TextureRegion closedDoor = null;
+    public TextureRegion openedDoor = null;
+    String material;
 
     public DoorActor(TextureRegion region) {
         super(region);
@@ -21,28 +22,7 @@ public class DoorActor extends SpriteActor {
         super(object);
         locked = (boolean) object.getProperties().get("locked");
         closed = (boolean) object.getProperties().get("closed");
-        String material = (String) object.getProperties().get("material");
-        switch (material) {
-            case "wood":
-                closedDoor = Assets.closedWoodDoor;
-                openedDoor = Assets.openedWoodDoor;
-                break;
-            case "iron":
-                lockedDoor = Assets.lockedIronDoor;
-                closedDoor = Assets.closedIronDoor;
-                openedDoor = Assets.openedIronDoor;
-                id = (String) object.getProperties().get("id");
-                break;
-        }
-        if (this.locked) {
-            this.sprite.setRegion(lockedDoor);
-        }
-        else if (this.closed) {
-            this.sprite.setRegion(closedDoor);
-        }
-        else {
-            this.sprite.setRegion(openedDoor);
-        }
+        material = (String) object.getProperties().get("material");
     }
 
     public boolean isLocked() {
@@ -87,5 +67,20 @@ public class DoorActor extends SpriteActor {
         }
     }
 
+    public String getMaterial() {
+        return material;
+    }
+
+    public void refresh() {
+        if (this.locked) {
+            this.sprite.setRegion(lockedDoor);
+        }
+        else if (this.closed) {
+            this.sprite.setRegion(closedDoor);
+        }
+        else {
+            this.sprite.setRegion(openedDoor);
+        }
+    }
     //TODO: finish door open & close animation
 }

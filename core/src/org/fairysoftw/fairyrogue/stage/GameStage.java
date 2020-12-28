@@ -2,34 +2,197 @@ package org.fairysoftw.fairyrogue.stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.fairysoftw.fairyrogue.Assets;
+import org.fairysoftw.fairyrogue.FairyRogue;
 import org.fairysoftw.fairyrogue.actor.*;
 import org.fairysoftw.fairyrogue.props.Equipment;
 import org.fairysoftw.fairyrogue.props.Key;
 import org.fairysoftw.fairyrogue.props.Potion;
 import org.fairysoftw.fairyrogue.props.Props;
+import org.fairysoftw.fairyrogue.screen.MainScreen;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class GameStage extends Stage {
+    private TiledMap currentMap;
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private MiniMapStage miniMapStage;
+    private OrthographicCamera mainCamera;
+    private Viewport mainViewport;
+    private PlayerActor playerActor;
+    private Rectangle birthPoint;
+    private Rectangle clearPoint;
+
 
     public GameStage(Viewport viewport, Batch batch) {
         super(viewport, batch);
     }
 
-    public GameStage() {
+    public GameStage(TiledMap map, PlayerActor lastStageActor) {
         super();
+        currentMap = map;
+        mainCamera = new OrthographicCamera();
+        mainViewport = new ExtendViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT, mainCamera);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, this.getBatch());
+        miniMapStage = new MiniMapStage(mapRenderer, this.getBatch());
+        this.setViewport(mainViewport);
+        birthPoint = ((RectangleMapObject)map.getLayers().get("Points")
+                .getObjects().get("birth_point")).getRectangle();
+        clearPoint = ((RectangleMapObject)map.getLayers().get("Points")
+                .getObjects().get("clear_point")).getRectangle();
+
+        TextureRegion lockedIronDoor = null;
+        TextureRegion closedIronDoor = null;
+        TextureRegion openedIronDoor = null;
+        TextureRegion closedWoodDoor = null;
+        TextureRegion openedWoodDoor = null;
+
+        MapObjects mapObjects = map.getLayers().get("Objects_to_use").getObjects();
+        for (MapObject mapObject : mapObjects) {
+            TiledMapTileMapObject tileMapObject = (TiledMapTileMapObject) mapObject;
+            if (tileMapObject.getName().contains("door")) {
+                MapProperties mapProperties = tileMapObject.getProperties();
+                TextureRegion textureRegion = tileMapObject.getTextureRegion();
+                if (mapProperties.get("material").equals("iron")) {
+                    switch ((String) mapProperties.get("status")) {
+                        case "locked":
+                            lockedIronDoor = textureRegion;
+                            break;
+                        case "closed":
+                            closedIronDoor = textureRegion;
+                            break;
+                        case "opened":
+                            openedIronDoor = textureRegion;
+                            break;
+                    }
+                }
+                if (mapProperties.get("material").equals("wood")) {
+                    switch ((String) mapProperties.get("status")) {
+                        case "closed":
+                            closedWoodDoor = textureRegion;
+                            break;
+                        case "opened":
+                            openedWoodDoor = textureRegion;
+                            break;
+                    }
+                }
+            }
+        }
+
+        for (MapObject object : map.getLayers().get("Objects").getObjects()) {
+            TiledMapTileMapObject mapObject = (TiledMapTileMapObject) object;
+            Actor actor = null;
+            if (object.getName().contains("wall")) {
+                actor = new WallActor(mapObject.getTextureRegion());
+            }
+            else if (object.getName().contains("door")) {
+                DoorActor doorActor = new DoorActor(mapObject);
+                switch (doorActor.getMaterial()) {
+                    case "wood":
+                        doorActor.closedDoor = closedWoodDoor;
+                        doorActor.openedDoor = openedWoodDoor;
+                        break;
+                    case "iron":
+                        doorActor.lockedDoor = lockedIronDoor;
+                        doorActor.closedDoor = closedIronDoor;
+                        doorActor.openedDoor = openedIronDoor;
+                        doorActor.id = (String) object.getProperties().get("id");
+                        break;
+                }
+                doorActor.refresh();
+                actor = doorActor;
+            }
+            else if (object.getName().contains("player")) {
+                if(lastStageActor == null) {
+                    this.playerActor = new PlayerActor(mapObject);
+                    actor = this.playerActor;
+                }
+                else {
+                    this.playerActor = lastStageActor;
+                    this.addActor(playerActor);
+                }
+                this.playerActor.setX(birthPoint.x);
+                this.playerActor.setY(birthPoint.y);
+            }
+            else if (object.getName().contains("monster")) {
+                actor = new MonsterActor(mapObject);
+            }
+            else if (object.getName().contains("npc")) {
+                String id = object.getProperties().get("id").toString();
+                actor = new NpcActor(mapObject, map, loadNpcDialogues(id));
+            }
+            else if (object.getName().contains("props")) {
+                actor = new PropsActor(mapObject);
+            }
+            if (actor != null) {
+                actor.setX(mapObject.getX());
+                actor.setY(mapObject.getY());
+                this.addActor(actor);
+            }
+        }
+    }
+
+    private JSONObject loadNpcDialogues(String id) {
+        FileHandle handle;
+        try {
+            handle = Gdx.files.local("dialogue/" + (String) currentMap.getProperties().get("npc_dialogue"));
+        } catch (Exception e) {
+            return null;
+        }
+        String content = handle.readString();
+        JSONObject gameJson = new JSONObject(content);
+        try{
+            return gameJson.getJSONObject(id).getJSONObject("dialogue");
+        }
+        catch (JSONException E){
+            return null;
+        }
+    }
+
+    public boolean isClear(){
+        Rectangle rectangle = new Rectangle(playerActor.getX(), playerActor.getY(),
+                playerActor.getWidth(), playerActor.getHeight());
+        return rectangle.overlaps(clearPoint);
+    }
+
+    @Override
+    public void draw() {
+        updateCamera();
+        mainViewport.apply();
+        //TODO: fix creature attributes display problem
+        mapRenderer.setView(mainCamera);
+        mapRenderer.render();
+        super.draw();
+        miniMapStage.draw();
+    }
+
+    public void resize(int width, int height) {
+        mainViewport.update(width, height);
     }
 
     @Override
@@ -39,7 +202,7 @@ public class GameStage extends Stage {
         Rectangle playerRectangle = new Rectangle();
         Array<Rectangle> rectangles = new Array<>();
         Array<Actor> actors = this.getActors();
-        Array<CreatureActor> toLogActors = new Array<>();
+        Array<CreatureActor> toLogMonsters = new Array<>();
         for (Actor actor : actors) {
             if (actor instanceof PlayerActor) {
                 playerActor = (PlayerActor) actor;
@@ -55,8 +218,8 @@ public class GameStage extends Stage {
                 Vector2 distanceVector = new Vector2(actor.getX() - playerActor.getX(), actor.getY() - playerActor.getY());
                 double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
                 if (distance < 33 && Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-                    toLogActors.add((CreatureActor) actor);
-                    playerActor.takeDialogue((NpcActor) actor);
+                    toLogMonsters.add((CreatureActor) actor);
+                    playerActor.takeDialogue((NpcActor) actor, ((NpcActor)actor).getDialogue());
                 }
             }
             else if (actor instanceof MonsterActor) {
@@ -70,7 +233,7 @@ public class GameStage extends Stage {
                 Vector2 distanceVector = new Vector2(actor.getX() - playerActor.getX(), actor.getY() - playerActor.getY());
                 double distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
                 if (distance < 33) {
-                    toLogActors.add((CreatureActor) actor);
+                    toLogMonsters.add((CreatureActor) actor);
                 }
             }
             else if (actor instanceof DoorActor) {
@@ -142,10 +305,69 @@ public class GameStage extends Stage {
                 }
             }
         }
+        displayAttribute(toLogMonsters);
+    }
 
-        String str = "";
-        for (CreatureActor actor : toLogActors) {
-            str += "HP: " + actor.getHealthPoint() + "\n" +
+    private void updateCamera() {
+        if (!playerActor.isInBattle()) {
+            mainCamera.position.x = playerActor.getX();
+            mainCamera.position.y = playerActor.getY();
+        }
+
+        mainCamera.update();
+    }
+
+    @Override
+    public void addActor(Actor actor) {
+        super.addActor(actor);
+        if (actor instanceof SpriteActor) {
+            ((SpriteActor) actor).miniMapStage = this.miniMapStage;
+            if (actor instanceof PlayerActor) {
+                this.playerActor = (PlayerActor) actor;
+            }
+        }
+        if(!(actor instanceof WidgetGroup))
+        {
+            miniMapStage.addActor(actor);
+        }
+    }
+
+    public PlayerActor getPlayerActor() {
+        return playerActor;
+    }
+
+    public TiledMap getCurrentMap() {
+        return currentMap;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
+
+    public void displayAttribute(Array<CreatureActor> toLogMonsters) {
+        updateCamera();
+        mainViewport.apply();
+        mapRenderer.setView(mainCamera);
+        BitmapFont font = new BitmapFont();
+        String playerAttribute = "";
+        playerAttribute += "HP: " + playerActor.getHealthPoint() + "\n" +
+                "MP: " + playerActor.getMagicPoint() + "\n" +
+                "AD: " + playerActor.getAttackDamage() + "\n" +
+                "AP: " + playerActor.getAbilityPower() + "\n" +
+                "AS: " + playerActor.getAttackSpeed() + "\n" +
+                "PD: " + playerActor.getPhysicalDefence() + "\n" +
+                "MD: " + playerActor.getMagicalDefence() + "\n\n";
+
+        this.getBatch().begin();
+        font.draw(this.getBatch(), playerAttribute,
+                this.getCamera().position.x - FairyRogue.VIRTUAL_WIDTH/2f + 20,
+                this.getCamera().position.y+FairyRogue.VIRTUAL_HEIGHT/2f - 20);
+        this.getBatch().end();
+
+        String monstersAttribute = "";
+        for (CreatureActor actor : toLogMonsters) {
+            monstersAttribute += "HP: " + actor.getHealthPoint() + "\n" +
                     "MP: " + actor.getMagicPoint() + "\n" +
                     "AD: " + actor.getAttackDamage() + "\n" +
                     "AP: " + actor.getAbilityPower() + "\n" +
@@ -154,9 +376,10 @@ public class GameStage extends Stage {
                     "MD: " + actor.getMagicalDefence() + "\n\n";
         }
         this.getBatch().begin();
-        BitmapFont font = new BitmapFont();
         font.setColor(Color.RED);
-        font.draw(this.getBatch(), str, this.getCamera().position.x + 370, this.getCamera().position.y + 370);
+        font.draw(this.getBatch(), monstersAttribute,
+                this.getCamera().position.x + FairyRogue.VIRTUAL_WIDTH/2f - 70,
+                this.getCamera().position.y+FairyRogue.VIRTUAL_HEIGHT/2f - 20);
         this.getBatch().end();
     }
 }
