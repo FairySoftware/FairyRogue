@@ -87,29 +87,19 @@ public class PlayerActor extends CreatureActor {
             Equipment equipment = (Equipment) props;
             switch (equipment.equipmentType) {
                 case WEAPON:
-                    if (this.weapon.equipmentType == Equipment.EquipmentType.NONE) {
-                        this.weapon = equipment;
-                    }
+                    this.weapon = equipment;
                     break;
                 case APPAREL_HEAD:
-                    if (this.apparel_head.equipmentType == Equipment.EquipmentType.NONE) {
-                        this.apparel_head = equipment;
-                    }
+                    this.apparel_head = equipment;
                     break;
                 case APPAREL_UPPER_BODY:
-                    if (this.apparel_upper_body.equipmentType == Equipment.EquipmentType.NONE) {
-                        this.apparel_upper_body = equipment;
-                    }
+                    this.apparel_upper_body = equipment;
                     break;
                 case APPAREL_LOWER_BODY:
-                    if (this.apparel_lower_body.equipmentType == Equipment.EquipmentType.NONE) {
-                        this.apparel_lower_body = equipment;
-                    }
+                    this.apparel_lower_body = equipment;
                     break;
                 case ACCESSORIES:
-                    if (this.accessories.equipmentType == Equipment.EquipmentType.NONE) {
-                        this.accessories = equipment;
-                    }
+                    this.accessories = equipment;
                     break;
             }
             updateAttributes();
