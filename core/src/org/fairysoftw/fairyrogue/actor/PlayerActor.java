@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.props.Equipment;
 import org.fairysoftw.fairyrogue.props.Potion;
@@ -77,10 +78,6 @@ public class PlayerActor extends CreatureActor {
     }
 
     public void pickUp(Props props) {
-        if (backpack.size < backpackCapacity) {
-            backpack.add(props);
-        }
-
         Assets.pickSound.play();
 
         if (props.propsType == PropsActor.PropsType.EQUIPMENT) {
@@ -112,6 +109,36 @@ public class PlayerActor extends CreatureActor {
     public void usePotion(Potion potion) {
         this.healthPoint -= potion.healthConsume;
         this.magicPoint -= potion.magicConsume;
+    }
+
+    @Override
+    public void takeAttack() {
+        long now = TimeUtils.nanoTime();
+        if (now - lastAttack > 1000000000 / attackSpeed && !this.isDead() && opponent != null) {
+            float healthConsume = this.weapon.healthConsume +
+                    this.apparel_head.healthConsume +
+                    this.apparel_upper_body.healthConsume +
+                    this.apparel_lower_body.healthConsume +
+                    this.accessories.healthConsume;
+            float magicConsume = this.weapon.magicConsume +
+                    this.apparel_head.magicConsume +
+                    this.apparel_upper_body.magicConsume +
+                    this.apparel_lower_body.magicConsume +
+                    this.accessories.magicConsume;
+            this.healthPoint -= healthConsume;
+            this.magicPoint -= magicConsume;
+            this.lastAttack = now;
+
+            Assets.attackSound.play();
+
+            float realDamage = this.opponent.takeDamage(this.attackDamage, this.abilityPower, this);
+        }
+        else if (now - lastAttack > 0 && opponent != null) {
+            float s = (now - lastAttack) / (1000000000 / attackSpeed);
+            this.setX((float) (posBeforeBattle.x + (opponent.getX() - posBeforeBattle.x) * s * 0.5));
+            this.setY((float) (posBeforeBattle.y + (opponent.getY() - posBeforeBattle.y) * s * 0.5));
+        }
+
     }
 
     public void dropDown(Props props) {

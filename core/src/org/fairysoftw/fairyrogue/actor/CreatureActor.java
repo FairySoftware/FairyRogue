@@ -18,7 +18,7 @@ public class CreatureActor extends SpriteActor {
     protected float physicalDefence = 0;
     protected float magicalDefence = 0;
     protected long lastAttack = 0;
-    private Vector2 posBeforeBattle;
+    protected Vector2 posBeforeBattle;
 
     public CreatureActor(TextureRegion region) {
         super(region);
