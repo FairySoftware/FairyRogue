@@ -104,6 +104,9 @@ public class PlayerActor extends CreatureActor {
         else if (props.propsType == PropsActor.PropsType.POTION) {
             this.usePotion((Potion) props);
         }
+        else if (props.propsType == PropsActor.PropsType.KEY) {
+            this.backpack.add(props);
+        }
     }
 
     public void usePotion(Potion potion) {
