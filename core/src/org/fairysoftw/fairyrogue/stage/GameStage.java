@@ -39,6 +39,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GameStage extends Stage {
+    public static int MAIN_LOCATION_X=300;
+    public static int MAIN_LOCATION_Y=0;
     private TiledMap currentMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private MiniMapStage miniMapStage;
@@ -47,6 +49,8 @@ public class GameStage extends Stage {
     private PlayerActor playerActor;
     private Rectangle birthPoint;
     private Rectangle clearPoint;
+
+    private AttributeStage attributeStage;
 
 
     public GameStage(Viewport viewport, Batch batch) {
@@ -65,6 +69,7 @@ public class GameStage extends Stage {
                 .getObjects().get("birth_point")).getRectangle();
         clearPoint = ((RectangleMapObject)map.getLayers().get("Points")
                 .getObjects().get("clear_point")).getRectangle();
+        attributeStage = new AttributeStage(this.getBatch());
 
         TextureRegion lockedIronDoor = null;
         TextureRegion closedIronDoor = null;
@@ -188,12 +193,14 @@ public class GameStage extends Stage {
     @Override
     public void draw() {
         updateCamera();
+        mainViewport.setScreenPosition(MAIN_LOCATION_X,MAIN_LOCATION_Y);
         mainViewport.apply();
         //TODO: fix creature attributes display problem
         mapRenderer.setView(mainCamera);
         mapRenderer.render();
         super.draw();
         miniMapStage.draw();
+        attributeStage.draw();
     }
 
     public void resize(int width, int height) {
@@ -310,13 +317,13 @@ public class GameStage extends Stage {
                 }
             }
         }
-        displayAttribute(toLogMonsters);
+        setAttribute(toLogMonsters);
     }
 
     private void updateCamera() {
         if (!playerActor.isInBattle()) {
-            mainCamera.position.x = playerActor.getX();
-            mainCamera.position.y = playerActor.getY();
+            mainCamera.position.x = playerActor.getX()+MAIN_LOCATION_X/2;
+            mainCamera.position.y = playerActor.getY()+MAIN_LOCATION_Y/2;
         }
 
         mainCamera.update();
@@ -386,5 +393,28 @@ public class GameStage extends Stage {
                 this.getCamera().position.x + FairyRogue.VIRTUAL_WIDTH/2f - 70,
                 this.getCamera().position.y+FairyRogue.VIRTUAL_HEIGHT/2f - 20);
         this.getBatch().end();
+    }
+
+    public void setAttribute(Array<CreatureActor> toLogMonsters){
+        String playerAttribute = "";
+        playerAttribute += "HP: " + playerActor.getHealthPoint() + "\n" +
+                "MP: " + playerActor.getMagicPoint() + "\n" +
+                "AD: " + playerActor.getAttackDamage() + "\n" +
+                "AP: " + playerActor.getAbilityPower() + "\n" +
+                "AS: " + playerActor.getAttackSpeed() + "\n" +
+                "PD: " + playerActor.getPhysicalDefence() + "\n" +
+                "MD: " + playerActor.getMagicalDefence() + "\n\n";
+
+        String monstersAttribute = "";
+        for (CreatureActor actor : toLogMonsters) {
+            monstersAttribute += "HP: " + actor.getHealthPoint() + "\n" +
+                    "MP: " + actor.getMagicPoint() + "\n" +
+                    "AD: " + actor.getAttackDamage() + "\n" +
+                    "AP: " + actor.getAbilityPower() + "\n" +
+                    "AS: " + actor.getAttackSpeed() + "\n" +
+                    "PD: " + actor.getPhysicalDefence() + "\n" +
+                    "MD: " + actor.getMagicalDefence() + "\n\n";
+        }
+        attributeStage.setAttributeToStr(playerAttribute, monstersAttribute);
     }
 }
