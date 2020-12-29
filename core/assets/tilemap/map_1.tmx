@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="749">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="753">
+ <properties>
+  <property name="npc_dialogue" value="map_1_dialogue.json"/>
+ </properties>
  <tileset firstgid="1" name="colored_packed" tilewidth="32" tileheight="32" tilecount="1056" columns="48">
   <image source="../tileset/colored_packed.png" width="1536" height="704"/>
  </tileset>
@@ -24,14 +27,14 @@
 0,0,0,0,0,1,1,1,1,1,725,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
 0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
 1062,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
-1062,291,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
+1062,291,992,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
 1062,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
 0,0,0,0,0,0,0,0,0,1,725,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
-0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,7,1,1,1,0,0,0,0,
+0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,7,1,989,1,0,0,0,0,
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,292,1,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -251,7 +254,7 @@
     <property name="attackDamage" type="float" value="0"/>
     <property name="attackSpeed" type="float" value="0"/>
     <property name="bonus" type="int" value="184"/>
-    <property name="dialogue" value="Thank you, my warrir. I will give you a sword. It was made by the best craftsmen of my people"/>
+    <property name="dialogue" value="Thank you, my warrir. I will help you restore your HP."/>
     <property name="healthPoint" type="float" value="3"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
@@ -326,7 +329,7 @@
   </object>
   <object id="683" name="monster" gid="1328" x="768" y="672" width="32" height="32">
    <properties>
-    <property name="abilityPower" type="float" value="0"/>
+    <property name="abilityPower" type="float" value="1"/>
     <property name="attackDamage" type="float" value="3"/>
     <property name="attackSpeed" type="float" value="1"/>
     <property name="healthPoint" type="float" value="10"/>
@@ -506,18 +509,6 @@
     <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
-  <object id="703" name="props" type="potion" gid="1626" x="320" y="768" width="32" height="32">
-   <properties>
-    <property name="abilityPower" type="float" value="0"/>
-    <property name="attackDamage" type="float" value="3"/>
-    <property name="attackSpeed" type="float" value="0"/>
-    <property name="durability" type="float" value="0"/>
-    <property name="healthConsume" type="float" value="0"/>
-    <property name="magicConsume" type="float" value="-50"/>
-    <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="0"/>
-   </properties>
-  </object>
   <object id="704" name="props" type="equipment" gid="1189" x="192" y="320" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="0"/>
@@ -532,7 +523,7 @@
     <property name="rarity" value="common"/>
    </properties>
   </object>
-  <object id="705" name="props" type="potion" gid="1576" x="608" y="160" width="32" height="32">
+  <object id="705" name="props" type="potion" gid="1576" x="320" y="768" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="0"/>
     <property name="attackDamage" type="float" value="0"/>
@@ -607,8 +598,20 @@
     <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
+  <object id="751" name="props" type="potion" gid="1576" x="608" y="160" width="32" height="32">
+   <properties>
+    <property name="abilityPower" type="float" value="0"/>
+    <property name="attackDamage" type="float" value="0"/>
+    <property name="attackSpeed" type="float" value="0"/>
+    <property name="durability" type="float" value="0"/>
+    <property name="healthConsume" type="float" value="-20"/>
+    <property name="magicConsume" type="float" value="0"/>
+    <property name="magicalDefence" type="float" value="0"/>
+    <property name="physicalDefence" type="float" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
- <objectgroup id="6" name="Objects_to_use" visible="0">
+ <objectgroup id="6" name="Objects_to_use">
   <object id="740" name="door" gid="1489" x="0" y="960" width="32" height="32">
    <properties>
     <property name="material" value="iron"/>
@@ -637,6 +640,18 @@
    <properties>
     <property name="material" value="wood"/>
     <property name="status" value="opened"/>
+   </properties>
+  </object>
+  <object id="752" name="props" type="potion" gid="1576" x="160" y="960" width="32" height="32">
+   <properties>
+    <property name="abilityPower" type="float" value="0"/>
+    <property name="attackDamage" type="float" value="0"/>
+    <property name="attackSpeed" type="float" value="0"/>
+    <property name="durability" type="float" value="0"/>
+    <property name="healthConsume" type="float" value="-50"/>
+    <property name="magicConsume" type="float" value="0"/>
+    <property name="magicalDefence" type="float" value="0"/>
+    <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
  </objectgroup>
