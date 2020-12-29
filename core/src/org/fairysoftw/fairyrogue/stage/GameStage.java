@@ -261,8 +261,8 @@ public class GameStage extends Stage {
                         for (Props props : playerActor.backpack) {
                             if (props.propsType == PropsActor.PropsType.KEY) {
                                 if (doorActor.unlock(((Key) props).getId())) {
-
-                                    Assets.unlockSound.play();
+                                    if(Assets.isOpenSound())
+                                        Assets.unlockSound.play();
 
                                     playerActor.backpack.removeValue(props, false);
                                 }
@@ -270,14 +270,14 @@ public class GameStage extends Stage {
                         }
                     }
                     else if (doorActor.isClosed()) {
-
-                        Assets.doorSound.play();
+                        if(Assets.isOpenSound())
+                            Assets.doorSound.play();
 
                         doorActor.open();
                     }
                     else {
-
-                        Assets.doorSound.play();
+                        if(Assets.isOpenSound())
+                            Assets.doorSound.play();
 
                         doorActor.close();
                     }

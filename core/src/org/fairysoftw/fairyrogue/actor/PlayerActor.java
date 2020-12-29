@@ -69,7 +69,8 @@ public class PlayerActor extends CreatureActor {
 
     @Override
     public void takeDeath() {
-        Assets.deathSound.play();
+        if(Assets.isOpenSound())
+            Assets.deathSound.play();
     }
 
     public void undoAct() {
@@ -78,7 +79,8 @@ public class PlayerActor extends CreatureActor {
     }
 
     public void pickUp(Props props) {
-        Assets.pickSound.play();
+        if(Assets.isOpenSound())
+            Assets.pickSound.play();
 
         if (props.propsType == PropsActor.PropsType.EQUIPMENT) {
             Equipment equipment = (Equipment) props;
@@ -126,8 +128,8 @@ public class PlayerActor extends CreatureActor {
             if((magicPoint < 0) || healthPoint < 0) {
                 return;
             }
-
-            Assets.attackSound.play();
+            if(Assets.isOpenSound())
+                Assets.attackSound.play();
 
             float realDamage = this.opponent.takeDamage(this.attackDamage, this.abilityPower, this);
         }
@@ -144,8 +146,8 @@ public class PlayerActor extends CreatureActor {
     }
 
     public void equip(Equipment equipment) {
-
-        Assets.equipSound.play();
+        if(Assets.isOpenSound())
+            Assets.equipSound.play();
 
         switch (equipment.equipmentType) {
             case WEAPON:

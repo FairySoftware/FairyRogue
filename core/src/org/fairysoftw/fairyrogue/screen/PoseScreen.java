@@ -14,11 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import org.fairysoftw.fairyrogue.FairyRogue;
 
-/**
- * 开始界面, 实现 Screen 接口 或者 继承 ScreenAdapter 类, ScreenAdapter 类空实现了 Screen 接口的所有方法。
- * 这个界面包括了开始游戏、设置、关于、退出游戏四个选项，与其他几个界面相关联
- */
-public class StartScreen extends ScreenAdapter {
+public class PoseScreen extends ScreenAdapter {
     // 为了方便与 其他界面 进行交互, 创建 Screen 时将 FairyRogue 作为参数传进来。
     private final FairyRogue fairyRogue;
 
@@ -35,18 +31,18 @@ public class StartScreen extends ScreenAdapter {
     Image image;
 
     // 开始按钮
-    private Button startButton;
+    private Button continueButton;
 
     // 设置按钮
-    private Button settingsButton;
+    private Button restartButton;
 
     // 关于按钮
-    private Button aboutButton;
+    private Button settingButton;
 
     // 退出按钮
     private Button exitButton;
 
-    public StartScreen(FairyRogue fairyRogue) {
+    public PoseScreen(FairyRogue fairyRogue) {
 
         this.fairyRogue = fairyRogue;
 
@@ -61,9 +57,9 @@ public class StartScreen extends ScreenAdapter {
         // 添加 image 到舞台
         stage.addActor(image);
         //添加 button 到舞台
-        stage.addActor(startButton);
-        stage.addActor(settingsButton);
-        stage.addActor(aboutButton);
+        stage.addActor(continueButton);
+        stage.addActor(restartButton);
+        stage.addActor(settingButton);
         stage.addActor(exitButton);
 
     }
@@ -85,7 +81,7 @@ public class StartScreen extends ScreenAdapter {
     public void render(float delta) {
         // 累计渲染时间步
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0.6f, 0.8f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // 更新舞台逻辑
@@ -107,109 +103,113 @@ public class StartScreen extends ScreenAdapter {
 
     private void setBackground() {
         // 创建为纹理
-        texture = new Texture(Gdx.files.internal("screen/background.jpg"));
+        texture = new Texture(Gdx.files.internal("screen/pose.png"));
 
         // 创建 Image
         image = new Image(new TextureRegion(texture));
 
+        image.setScale(0.3f);
+
         // 设置 image 的相关属性
-        image.setPosition(stage.getWidth() / 2 - image.getWidth() / 2,
-                stage.getHeight() / 2 - image.getHeight() / 2);
+        image.setPosition(stage.getWidth() / 3 - 15,
+                stage.getHeight() - image.getHeight() / 2 + 100);
 
         image.setColor(1, 1, 1, 1);
     }
 
     private void setButton() {
         //创建 弹起 和 按下 两种状态的纹理
-        Texture startUpTexture = new Texture(Gdx.files.internal("screen/button/Start.png"));
-        Texture startDownTexture = new Texture(Gdx.files.internal("screen/button/Start_n.png"));
+        Texture continueUpTexture = new Texture(Gdx.files.internal("screen/button/Continue.png"));
+        Texture continueDownTexture = new Texture(Gdx.files.internal("screen/button/Continue_n.png"));
 
-        Texture settingsUpTexture = new Texture(Gdx.files.internal("screen/button/Settings.png"));
-        Texture settingsDownTexture = new Texture(Gdx.files.internal("screen/button/Settings_n.png"));
+        Texture restartUpTexture = new Texture(Gdx.files.internal("screen/button/NewGame.png"));
+        Texture restartDownTexture = new Texture(Gdx.files.internal("screen/button/NewGame_n.png"));
 
-        Texture aboutUpTexture = new Texture(Gdx.files.internal("screen/button/About.png"));
-        Texture aboutDownTexture = new Texture(Gdx.files.internal("screen/button/About_n.png"));
+        Texture settingUpTexture = new Texture(Gdx.files.internal("screen/button/Settings.png"));
+        Texture settingDownTexture = new Texture(Gdx.files.internal("screen/button/Settings_n.png"));
 
-        Texture exitUpTexture = new Texture(Gdx.files.internal("screen/button/Exit.png"));
-        Texture exitDownTexture = new Texture(Gdx.files.internal("screen/button/Exit_n.png"));
+        Texture exitUpTexture = new Texture(Gdx.files.internal("screen/button/ReturnToMenu.png"));
+        Texture exitDownTexture = new Texture(Gdx.files.internal("screen/button/ReturnToMenu_n.png"));
 
         //创建 ButtonStyle
-        Button.ButtonStyle startStyle = new Button.ButtonStyle();
-        Button.ButtonStyle settingsStyle = new Button.ButtonStyle();
-        Button.ButtonStyle aboutStyle = new Button.ButtonStyle();
+        Button.ButtonStyle continueStyle = new Button.ButtonStyle();
+        Button.ButtonStyle restartStyle = new Button.ButtonStyle();
+        Button.ButtonStyle settingStyle = new Button.ButtonStyle();
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
 
         // 设置 style 的 弹起 和 按下 状态的纹理区域 并且创建 按钮
-        startStyle.up = new TextureRegionDrawable(new TextureRegion(startUpTexture));
-        startStyle.down = new TextureRegionDrawable(new TextureRegion(startDownTexture));
-        startButton = new Button(startStyle);
+        continueStyle.up = new TextureRegionDrawable(new TextureRegion(continueUpTexture));
+        continueStyle.down = new TextureRegionDrawable(new TextureRegion(continueDownTexture));
+        continueButton = new Button(continueStyle);
 
-        settingsStyle.up = new TextureRegionDrawable(new TextureRegion(settingsUpTexture));
-        settingsStyle.down = new TextureRegionDrawable(new TextureRegion(settingsDownTexture));
-        settingsButton = new Button(settingsStyle);
+        restartStyle.up = new TextureRegionDrawable(new TextureRegion(restartUpTexture));
+        restartStyle.down = new TextureRegionDrawable(new TextureRegion(restartDownTexture));
+        restartButton = new Button(restartStyle);
 
-        aboutStyle.up = new TextureRegionDrawable(new TextureRegion(aboutUpTexture));
-        aboutStyle.down = new TextureRegionDrawable(new TextureRegion(aboutDownTexture));
-        aboutButton = new Button(aboutStyle);
+        settingStyle.up = new TextureRegionDrawable(new TextureRegion(settingUpTexture));
+        settingStyle.down = new TextureRegionDrawable(new TextureRegion(settingDownTexture));
+        settingButton = new Button(settingStyle);
 
         exitStyle.up = new TextureRegionDrawable(new TextureRegion(exitUpTexture));
         exitStyle.down = new TextureRegionDrawable(new TextureRegion(exitDownTexture));
         exitButton = new Button(exitStyle);
 
         // 设置按钮的缩放比和位置
-        startButton.setTransform(true);
-        startButton.setScale(0.3f);
-        startButton.setPosition(stage.getWidth() / 2 - startButton.getWidth() / 5,
-                stage.getHeight() / 2 - startButton.getHeight() / 2);
+        continueButton.setTransform(true);
+        continueButton.setScale(0.3f);
+        continueButton.setPosition(stage.getWidth() / 2 - continueButton.getWidth() / 5,
+                stage.getHeight() / 2 - continueButton.getHeight() / 2 + 100);
 
-        settingsButton.setTransform(true);
-        settingsButton.setScale(0.3f);
-        settingsButton.setPosition(stage.getWidth() / 2 - settingsButton.getWidth() / 5,
-                stage.getHeight() / 2 - settingsButton.getHeight() / 2 - 70);
+        restartButton.setTransform(true);
+        restartButton.setScale(0.3f);
+        restartButton.setPosition(stage.getWidth() / 2 - restartButton.getWidth() / 5,
+                stage.getHeight() / 2 - restartButton.getHeight() / 2 - 70 + 100);
 
-        aboutButton.setTransform(true);
-        aboutButton.setScale(0.3f);
-        aboutButton.setPosition(stage.getWidth() / 2 - aboutButton.getWidth() / 5,
-                stage.getHeight() / 2 - aboutButton.getHeight() / 2 - 140);
+        settingButton.setTransform(true);
+        settingButton.setScale(0.3f);
+        settingButton.setPosition(stage.getWidth() / 2 - settingButton.getWidth() / 5,
+                stage.getHeight() / 2 - settingButton.getHeight() / 2 - 140 + 100);
 
         exitButton.setTransform(true);
         exitButton.setScale(0.3f);
         exitButton.setPosition(stage.getWidth() / 2 - exitButton.getWidth() / 5,
-                stage.getHeight() / 2 - exitButton.getHeight() / 2 - 210);
+                stage.getHeight() / 2 - exitButton.getHeight() / 2 - 210 + 100);
 
         // 给开始按钮添加点击监听器
-        startButton.addListener(new ClickListener() {
+        continueButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!activation)
                     return;
 
                 System.out.println("start clicked!");
-                fairyRogue.showScreen(null, "mainScreen");
+                fairyRogue.showScreen(null, "mainScreen_continue");
             }
         });
 
         // 给设置按钮添加点击监听器
-        settingsButton.addListener(new ClickListener() {
+        restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!activation)
                     return;
 
-                System.out.println("settings clicked!");
-                fairyRogue.showScreen(null, "settingScreen");
+                System.out.println("restart clicked!");
+                fairyRogue.restartGame();
+                fairyRogue.showScreen(null, "mainScreen");
             }
         });
 
         // 给关于按钮添加点击监听器
-        aboutButton.addListener(new ClickListener() {
+        settingButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!activation)
                     return;
 
-                System.out.println("about clicked!");
-                fairyRogue.showScreen(null, "aboutScreen");
+                System.out.println("setting clicked!");
+
+                fairyRogue.showScreen(null, "settingScreenInGame");
             }
         });
 
@@ -220,8 +220,8 @@ public class StartScreen extends ScreenAdapter {
                 if (!activation)
                     return;
 
-                System.out.println("exit clicked!");
-                fairyRogue.showScreen(null, "exit");
+                System.out.println("return to menu clicked!");
+                fairyRogue.showScreen(null, "startScreen");
             }
         });
     }
