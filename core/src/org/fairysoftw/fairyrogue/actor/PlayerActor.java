@@ -69,22 +69,6 @@ public class PlayerActor extends CreatureActor {
     @Override
     public void takeDeath() {
         Assets.deathSound.play();
-        Dialog dialog = new Dialog("", Assets.skin, "dialog"){
-            @Override
-            protected void result(Object object) {
-                reborn();
-            }
-        };
-        dialog.key(Input.Keys.ENTER, true);
-        dialog.text("you have die!!!" + "\n >Enter");
-        dialog.key(Input.Keys.ENTER, true);
-        dialog.show(this.getStage());
-        dialog.setPosition(this.getStage().getCamera().position.x, this.getStage().getCamera().position.y + 50);
-        Gdx.input.setInputProcessor(this.getStage());
-    }
-
-    public void reborn() {
-        Gdx.app.exit();
     }
 
     public void undoAct() {

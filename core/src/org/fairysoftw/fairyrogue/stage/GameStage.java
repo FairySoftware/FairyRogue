@@ -181,6 +181,10 @@ public class GameStage extends Stage {
         return rectangle.overlaps(clearPoint);
     }
 
+    public boolean isGameOver() {
+        return playerActor.isDead();
+    }
+
     @Override
     public void draw() {
         updateCamera();

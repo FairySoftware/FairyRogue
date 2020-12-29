@@ -20,7 +20,6 @@ public class FairyRogue extends Game {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         Assets.load();
-        loadGameMapsPath();
         setScreen(new EnterScreen(this));
     }
 
@@ -46,6 +45,7 @@ public class FairyRogue extends Game {
                 setScreen(new StartScreen(this));
                 break;
             case "mainScreen":
+                loadGameMapsPath();
                 setScreen(new MainScreen(this, maps, null));
                 break;
             case "settingScreen":

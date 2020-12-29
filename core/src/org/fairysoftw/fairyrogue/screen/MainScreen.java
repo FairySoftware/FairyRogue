@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import org.fairysoftw.fairyrogue.Assets;
+import org.fairysoftw.fairyrogue.FairyRogue;
 import org.fairysoftw.fairyrogue.actor.PlayerActor;
 import org.fairysoftw.fairyrogue.stage.GameStage;
 import org.json.JSONObject;
@@ -33,7 +34,11 @@ public class MainScreen extends ScreenAdapter {
     }
 
     private void gameClear() {
-        Gdx.app.exit();
+        game.setScreen(new MenuScreen(game));
+    }
+
+    public void gameOver() {
+        game.setScreen(new StartScreen((FairyRogue) game));
     }
 
     @Override
@@ -46,6 +51,10 @@ public class MainScreen extends ScreenAdapter {
         if (stage.isClear()) {
             nextStage();
             this.stage.dispose();
+            return;
+        }
+        else if(stage.isGameOver()) {
+            gameOver();
             return;
         }
         Gdx.gl.glClearColor(0, 0, 0, 1.0f);
