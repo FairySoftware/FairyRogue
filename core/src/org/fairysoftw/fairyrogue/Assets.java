@@ -17,6 +17,7 @@ public class Assets {
     public static Sound pickSound;
     public static Sound equipSound;
     public static Sound deathSound;
+    private static boolean openSound;
 
     public static void load() {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
@@ -37,5 +38,17 @@ public class Assets {
 
     public static void dispose() {
         manager.dispose();
+    }
+
+    public static boolean isOpenSound() {
+        return openSound;
+    }
+
+    public static void openSound() {
+        openSound = true;
+    }
+
+    public static void closeSound() {
+        openSound = false;
     }
 }

@@ -15,6 +15,9 @@ public class FairyRogue extends Game {
     public static final int VIRTUAL_WIDTH = 960;
     public static final int VIRTUAL_HEIGHT = 768;
     private Array<TiledMap> maps;
+    private String settingExitType;
+    private Screen mainScreen;
+    private Screen settingScreen;
 
     @Override
     public void create() {
@@ -34,6 +37,7 @@ public class FairyRogue extends Game {
             maps.add(tmxMapLoader.load(String.valueOf(a)));
         }
     }
+
     /**
      * 开始场景展示完毕后调用该方法切换到主游戏场景
      */
@@ -46,10 +50,24 @@ public class FairyRogue extends Game {
                 break;
             case "mainScreen":
                 loadGameMapsPath();
-                setScreen(new MainScreen(this, maps, null));
+                mainScreen = new MainScreen(this, maps, null);
+            case "mainScreen_continue":
+                setScreen(mainScreen);
                 break;
             case "settingScreen":
-                setScreen(new SettingScreen(this));
+                settingExitType = "startScreen";
+                if (settingScreen == null)
+                    settingScreen = new SettingScreen(this);
+                setScreen(settingScreen);
+                break;
+            case "settingScreenInGame":
+                settingExitType = "poseScreen";
+                if (settingScreen == null)
+                    settingScreen = new SettingScreen(this);
+                setScreen(settingScreen);
+                break;
+            case "poseScreen":
+                setScreen(new PoseScreen(this));
                 break;
             case "aboutScreen":
                 setScreen(new AboutScreen(this));
@@ -71,4 +89,14 @@ public class FairyRogue extends Game {
     public void dispose() {
         Assets.dispose();
     }
+
+    public void restartGame() {
+//        mainScreen.dispose();
+//        mainScreen = new MainScreen(this);
+    }
+
+    public String getSettingExitType() {
+        return this.settingExitType;
+    }
+
 }

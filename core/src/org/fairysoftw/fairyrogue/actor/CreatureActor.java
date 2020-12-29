@@ -58,12 +58,11 @@ public class CreatureActor extends SpriteActor {
         long now = TimeUtils.nanoTime();
         if (now - lastAttack > 1000000000 / attackSpeed && !this.isDead() && opponent != null) {
             this.lastAttack = now;
-
-            Assets.attackSound.play();
+            if (Assets.isOpenSound())
+                Assets.attackSound.play();
 
             float realDamage = this.opponent.takeDamage(this.attackDamage, this.abilityPower, this);
-        }
-        else if (now - lastAttack > 0 && opponent != null) {
+        } else if (now - lastAttack > 0 && opponent != null) {
             float s = (now - lastAttack) / (1000000000 / attackSpeed);
             this.setX((float) (posBeforeBattle.x + (opponent.getX() - posBeforeBattle.x) * s * 0.5));
             this.setY((float) (posBeforeBattle.y + (opponent.getY() - posBeforeBattle.y) * s * 0.5));
@@ -77,8 +76,8 @@ public class CreatureActor extends SpriteActor {
     }
 
     public void takeDeath() {
-
-        Assets.deathSound.play();
+        if (Assets.isOpenSound())
+            Assets.deathSound.play();
 
         this.remove();
         //TODO: add die animation
