@@ -115,18 +115,13 @@ public class PlayerActor extends CreatureActor {
     public void takeAttack() {
         long now = TimeUtils.nanoTime();
         if (now - lastAttack > 1000000000 / attackSpeed && !this.isDead() && opponent != null) {
-            float healthConsume = this.weapon.healthConsume +
-                    this.apparel_head.healthConsume +
-                    this.apparel_upper_body.healthConsume +
-                    this.apparel_lower_body.healthConsume +
-                    this.accessories.healthConsume;
-            float magicConsume = this.weapon.magicConsume +
-                    this.apparel_head.magicConsume +
-                    this.apparel_upper_body.magicConsume +
-                    this.apparel_lower_body.magicConsume +
-                    this.accessories.magicConsume;
+            float healthConsume = this.weapon.healthConsume;
+            float magicConsume = this.weapon.magicConsume;
             this.healthPoint -= healthConsume;
             this.magicPoint -= magicConsume;
+            if(magicPoint <= 0 || healthPoint <= 0) {
+                return;
+            }
             this.lastAttack = now;
 
             Assets.attackSound.play();
