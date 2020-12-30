@@ -11,6 +11,9 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.fairysoftw.fairyrogue.FairyRogue;
 
+/** {@inheritDoc}
+ * the stage that display minimap
+ */
 public class MiniMapStage extends Stage {
     private MapRenderer mapRenderer;
     private OrthographicCamera camera;
@@ -19,6 +22,11 @@ public class MiniMapStage extends Stage {
     private Batch batch;
     private final float alpha = 0.5f;
 
+    /**
+     * minimap constructor
+     * @param mapRenderer minimap renderer
+     * @param batch draw batch
+     */
     public MiniMapStage(MapRenderer mapRenderer, Batch batch) {
         this.mapRenderer = mapRenderer;
         this.batch = batch;
