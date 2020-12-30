@@ -33,7 +33,7 @@ public class PlayerActor extends CreatureActor {
 
     /**
      * constructor of PlayerActor
-     * @param region texture rigion
+     * @param region texture region
      */
     public PlayerActor(TextureRegion region) {
         super(region);
@@ -177,7 +177,7 @@ public class PlayerActor extends CreatureActor {
 
             float realDamage = this.opponent.takeDamage(this.attackDamage, this.abilityPower, this);
         }
-        // play attack animaiton
+        // play attack animation
         else if (now - lastAttack > 0 && opponent != null) {
             float s = (now - lastAttack) / (1000000000 / attackSpeed);
             this.setX((float) (posBeforeBattle.x + (opponent.getX() - posBeforeBattle.x) * s * 0.5));
