@@ -32,7 +32,7 @@ public class MainScreen extends ScreenAdapter {
     }
 
     public void gameOver() {
-        game.setScreen(new StartScreen((FairyRogue) game));
+        game.setScreen(new DeathScreen((FairyRogue) game));
     }
 
     @Override

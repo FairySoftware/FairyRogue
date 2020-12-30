@@ -103,7 +103,7 @@ public class PauseScreen extends ScreenAdapter {
 
     private void setBackground() {
         // 创建为纹理
-        texture = new Texture(Gdx.files.internal("screen/Pause.png"));
+        texture = new Texture(Gdx.files.internal("screen/pause.png"));
 
         // 创建 Image
         image = new Image(new TextureRegion(texture));
