@@ -17,7 +17,7 @@ import org.fairysoftw.fairyrogue.FairyRogue;
  * PS: 类似 Screen 这样的有许多方法的接口, 更多时候只需要实现其中一两个方法, 往往会有一个对应的便捷的空实现所有接口方法的 XXAdapter 类,
  * 例如 ApplicationListener >> ApplicationAdapter, InputProcessor >> InputAdapter
  */
-public class EnterScreen extends ScreenAdapter {
+public class WinScreen extends ScreenAdapter {
     // 为了方便与 其他界面 进行交互, 创建 Screen 时将 FairyRogue 作为参数传进来。
     private final FairyRogue fairyRogue;
 
@@ -33,9 +33,7 @@ public class EnterScreen extends ScreenAdapter {
     // 渲染时间步累计变量（当前场景被展示的时间总和）
     private float deltaSum;
 
-    private float i = 0.0f;
-
-    public EnterScreen(FairyRogue fairyRogue) {
+    public WinScreen(FairyRogue fairyRogue) {
 
         this.fairyRogue = fairyRogue;
 
@@ -45,7 +43,7 @@ public class EnterScreen extends ScreenAdapter {
         stage = new Stage(new StretchViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT));
 
         // 创建为纹理
-        texture = new Texture(Gdx.files.internal("screen/logo.jpg"));
+        texture = new Texture(Gdx.files.internal("screen/win.png"));
 
         // 创建 Image
         image = new Image(new TextureRegion(texture));
@@ -70,7 +68,7 @@ public class EnterScreen extends ScreenAdapter {
         // 累计渲染时间步
         deltaSum += delta;
 
-        if (deltaSum >= 5.0F || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+        if (deltaSum >= 10.0F || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
             // 开始场景展示时间超过 10 秒, 通知 fairyRogue 切换场景（启动开始界面）
             if (fairyRogue != null) {
                 fairyRogue.showScreen(this, "startScreen");
@@ -78,15 +76,8 @@ public class EnterScreen extends ScreenAdapter {
             }
         }
 
-        //由暗变亮，持续几秒钟后由亮变暗
-        if (deltaSum < 1.75)
-            i = i + 0.0002f;
-        else if (deltaSum > 3.25)
-            i = i - 0.0002f;
-
-        image.setColor(i, i, i, 1);
-        Gdx.gl.glClearColor(i, i, i, 1);
-
+        image.setColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0.5f, 0.8f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // 更新舞台逻辑

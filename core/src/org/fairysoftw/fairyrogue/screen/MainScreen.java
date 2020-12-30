@@ -28,7 +28,7 @@ public class MainScreen extends ScreenAdapter {
     }
 
     private void gameClear() {
-        game.setScreen(new MenuScreen(game));
+        game.setScreen(new WinScreen((FairyRogue) game));
     }
 
     public void gameOver() {
@@ -42,7 +42,9 @@ public class MainScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        if (stage.isClear()) {
+        if (stage.isClear() && maps.size == 0) {
+            this.gameClear();
+        } else if (stage.isClear()) {
             nextStage();
             this.stage.dispose();
             return;

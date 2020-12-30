@@ -1,6 +1,7 @@
 package org.fairysoftw.fairyrogue.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -69,7 +70,7 @@ public class DeathScreen extends ScreenAdapter {
         // 累计渲染时间步
         deltaSum += delta;
 
-        if (deltaSum >= 5.0F) {
+        if (deltaSum >= 5.0F || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
             // 开始场景展示时间超过 10 秒, 通知 fairyRogue 切换场景（启动开始界面）
             if (fairyRogue != null) {
                 fairyRogue.showScreen(this, "startScreen");

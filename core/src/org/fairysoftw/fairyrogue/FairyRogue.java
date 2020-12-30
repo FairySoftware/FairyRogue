@@ -22,7 +22,7 @@ public class FairyRogue extends Game {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         Assets.load();
-        setScreen(new EnterScreen(this));
+        setScreen(new WinScreen(this));
     }
 
     private void loadGameMapsPath() {
