@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import org.fairysoftw.fairyrogue.FairyRogue;
 
-public class PoseScreen extends ScreenAdapter {
+public class PauseScreen extends ScreenAdapter {
     // 为了方便与 其他界面 进行交互, 创建 Screen 时将 FairyRogue 作为参数传进来。
     private final FairyRogue fairyRogue;
 
@@ -42,7 +42,7 @@ public class PoseScreen extends ScreenAdapter {
     // 退出按钮
     private Button exitButton;
 
-    public PoseScreen(FairyRogue fairyRogue) {
+    public PauseScreen(FairyRogue fairyRogue) {
 
         this.fairyRogue = fairyRogue;
 
@@ -103,7 +103,7 @@ public class PoseScreen extends ScreenAdapter {
 
     private void setBackground() {
         // 创建为纹理
-        texture = new Texture(Gdx.files.internal("screen/pose.png"));
+        texture = new Texture(Gdx.files.internal("screen/Pause.png"));
 
         // 创建 Image
         image = new Image(new TextureRegion(texture));

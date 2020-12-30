@@ -4,19 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.FairyRogue;
 import org.fairysoftw.fairyrogue.actor.PlayerActor;
 import org.fairysoftw.fairyrogue.stage.GameStage;
-import org.json.JSONObject;
-
-import java.util.List;
 
 public class MainScreen extends ScreenAdapter {
     private GameStage stage;
@@ -62,7 +55,7 @@ public class MainScreen extends ScreenAdapter {
         stage.act();
         stage.draw();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(new PoseScreen((FairyRogue) game));
+            game.setScreen(new PauseScreen((FairyRogue) game));
         }
     }
 

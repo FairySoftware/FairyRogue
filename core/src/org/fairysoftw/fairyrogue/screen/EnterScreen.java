@@ -79,9 +79,9 @@ public class EnterScreen extends ScreenAdapter {
 
         //由暗变亮，持续几秒钟后由亮变暗
         if (deltaSum < 1.75)
-            i = i + 0.00005f;
+            i = i + 0.0002f;
         else if (deltaSum > 3.25)
-            i = i - 0.00005f;
+            i = i - 0.0002f;
 
         image.setColor(i, i, i, 1);
         Gdx.gl.glClearColor(i, i, i, 1);
