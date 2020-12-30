@@ -11,7 +11,8 @@ import org.fairysoftw.fairyrogue.FairyRogue;
 import org.fairysoftw.fairyrogue.actor.PlayerActor;
 import org.fairysoftw.fairyrogue.stage.GameStage;
 
-/** {@inheritDoc}
+/**
+ * {@inheritDoc}
  * main screen that display the main game scene
  * will be change to next main screen every time clear a stage
  * will be change to setting screen when press esc
@@ -27,8 +28,9 @@ public class MainScreen extends ScreenAdapter {
 
     /**
      * main screen constructor
-     * @param game major game class instance
-     * @param maps the map array store next maps
+     *
+     * @param game            major game class instance
+     * @param maps            the map array store next maps
      * @param lastPlayerActor last stage player
      */
     public MainScreen(Game game, Array<TiledMap> maps, PlayerActor lastPlayerActor) {
@@ -62,7 +64,8 @@ public class MainScreen extends ScreenAdapter {
         game.setScreen(new DeathScreen((FairyRogue) game));
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * will be called every this screen shows
      */
     @Override
@@ -73,6 +76,7 @@ public class MainScreen extends ScreenAdapter {
     /**
      * render screen method
      * will be called every tick
+     *
      * @param delta time interval between ticks
      */
     @Override
@@ -106,7 +110,8 @@ public class MainScreen extends ScreenAdapter {
 
     /**
      * resize the window
-     * @param width window width
+     *
+     * @param width  window width
      * @param height windows height
      */
     @Override
