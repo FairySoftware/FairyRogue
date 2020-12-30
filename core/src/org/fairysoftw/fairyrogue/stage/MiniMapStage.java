@@ -39,15 +39,27 @@ public class MiniMapStage extends Stage {
         viewport.setScreenPosition(-FairyRogue.VIRTUAL_WIDTH / 3, -FairyRogue.VIRTUAL_HEIGHT / 3);
     }
 
+    /**
+     * add actor to the stage
+     * @param actor
+     */
     @Override
     public void addActor(Actor actor) {
         this.group.addActor(actor);
     }
 
+    /**
+     * remove actor from stage
+     * @param actor
+     * @param bool
+     */
     public void remove(Actor actor, boolean bool) {
         group.removeActor(actor, bool);
     }
 
+    /**
+     * draw stage to the screen
+     */
     @Override
     public void draw() {
         viewport.apply();
@@ -60,6 +72,11 @@ public class MiniMapStage extends Stage {
 }
 
 class NotUniqueGroup extends Group {
+    /**
+     * add actor to group
+     * solved the problem that a actor cannot be added to two stage
+     * @param actor
+     */
     @Override
     public void addActor(Actor actor) {
         this.getChildren().add(actor);
