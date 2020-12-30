@@ -212,8 +212,6 @@ public class SettingScreen extends ScreenAdapter {
         // manually set the selected / unselected state of the check box
         musicCheckBox[2].setChecked(true);
         soundCheckBox[0].setChecked(true);
-        Assets.bgm.setVolume(0.5f);
-        Assets.openSound();
 
         // Set the (checked / unselected) state change listener for the check box
         for (int index = 0; index < 5; index++) {
@@ -231,7 +229,7 @@ public class SettingScreen extends ScreenAdapter {
                                 musicCheckBox[i].setChecked(false);
                         }
                         //change volume
-                        Assets.bgm.setVolume(finalIndex * 0.25f);
+                        Assets.bgm.setVolume(finalIndex * 0.1f);
                     } else {
                         //Turn off the volume
                         // there is no way to make the check box unchangeable. So turn off the volume.

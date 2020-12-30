@@ -27,6 +27,8 @@ public class FairyRogue extends Game {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         Assets.load();
+        Assets.openSound();
+        Assets.bgm.setVolume(0.2f);
         setScreen(new EnterScreen(this));
     }
 
@@ -116,4 +118,10 @@ public class FairyRogue extends Game {
 //        mainScreen = new MainScreen(this);
 //    }
 
+    @Override
+    public void setScreen(Screen screen) {
+        super.setScreen(screen);
+        if (screen instanceof MainScreen)
+            mainScreen = screen;
+    }
 }
