@@ -45,6 +45,9 @@ public class PauseScreen extends ScreenAdapter {
     // setting Button
     private Button settingButton;
 
+    // help Button
+    private Button helpButton;
+
     // exit Button
     private Button exitButton;
 
@@ -71,6 +74,7 @@ public class PauseScreen extends ScreenAdapter {
         stage.addActor(continueButton);
         stage.addActor(restartButton);
         stage.addActor(settingButton);
+        stage.addActor(helpButton);
         stage.addActor(exitButton);
 
     }
@@ -140,6 +144,9 @@ public class PauseScreen extends ScreenAdapter {
         Texture settingUpTexture = new Texture(Gdx.files.internal("screen/button/Settings.png"));
         Texture settingDownTexture = new Texture(Gdx.files.internal("screen/button/Settings_n.png"));
 
+        Texture helpUpTexture = new Texture(Gdx.files.internal("screen/button/Help.png"));
+        Texture helpDownTexture = new Texture(Gdx.files.internal("screen/button/Help_n.png"));
+
         Texture exitUpTexture = new Texture(Gdx.files.internal("screen/button/ReturnToMenu.png"));
         Texture exitDownTexture = new Texture(Gdx.files.internal("screen/button/ReturnToMenu_n.png"));
 
@@ -147,6 +154,7 @@ public class PauseScreen extends ScreenAdapter {
         Button.ButtonStyle continueStyle = new Button.ButtonStyle();
         Button.ButtonStyle restartStyle = new Button.ButtonStyle();
         Button.ButtonStyle settingStyle = new Button.ButtonStyle();
+        Button.ButtonStyle helpStyle = new Button.ButtonStyle();
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
 
         //Set the texture area of the pop-up and press state of the style and create the button
@@ -161,6 +169,10 @@ public class PauseScreen extends ScreenAdapter {
         settingStyle.up = new TextureRegionDrawable(new TextureRegion(settingUpTexture));
         settingStyle.down = new TextureRegionDrawable(new TextureRegion(settingDownTexture));
         settingButton = new Button(settingStyle);
+
+        helpStyle.up = new TextureRegionDrawable(new TextureRegion(helpUpTexture));
+        helpStyle.down = new TextureRegionDrawable(new TextureRegion(helpDownTexture));
+        helpButton = new Button(helpStyle);
 
         exitStyle.up = new TextureRegionDrawable(new TextureRegion(exitUpTexture));
         exitStyle.down = new TextureRegionDrawable(new TextureRegion(exitDownTexture));
@@ -182,10 +194,15 @@ public class PauseScreen extends ScreenAdapter {
         settingButton.setPosition(stage.getWidth() / 2 - settingButton.getWidth() / 5,
                 stage.getHeight() / 2 - settingButton.getHeight() / 2 - 140 + 100);
 
+        helpButton.setTransform(true);
+        helpButton.setScale(0.3f);
+        helpButton.setPosition(stage.getWidth() / 2 - helpButton.getWidth() / 5,
+                stage.getHeight() / 2 - helpButton.getHeight() / 2 - 210 + 100);
+
         exitButton.setTransform(true);
         exitButton.setScale(0.3f);
         exitButton.setPosition(stage.getWidth() / 2 - exitButton.getWidth() / 5,
-                stage.getHeight() / 2 - exitButton.getHeight() / 2 - 210 + 100);
+                stage.getHeight() / 2 - exitButton.getHeight() / 2 - 280 + 100);
 
         //Add click listener to start button
         continueButton.addListener(new ClickListener() {
@@ -221,6 +238,18 @@ public class PauseScreen extends ScreenAdapter {
 
                 System.out.println("setting clicked!");
                 fairyRogue.showScreen(null, "settingScreenInGame");
+            }
+        });
+
+        //Add click listener to help button
+        helpButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!activation)
+                    return;
+
+                System.out.println("setting clicked!");
+                fairyRogue.showScreen(null, "helpScreen");
             }
         });
 
