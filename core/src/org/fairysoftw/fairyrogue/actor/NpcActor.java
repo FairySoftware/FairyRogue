@@ -55,7 +55,7 @@ public class NpcActor extends CreatureActor {
             Dialog dialog = new NpcDialog("", Assets.skin, "dialog", this, playerActor, bonus, choices);
             dialog.text(content);
             dialog.show(stage);
-            dialog.setPosition(stage.getCamera().position.x, stage.getCamera().position.y + 50);
+            dialog.setPosition(stage.getCamera().position.x-GameStage.MAIN_LOCATION_X, stage.getCamera().position.y + 50);
             Gdx.input.setInputProcessor(stage);
         }
         else {
