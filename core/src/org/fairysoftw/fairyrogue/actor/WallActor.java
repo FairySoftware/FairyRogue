@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 
 /**
- * WallActor mainly contains the walls objects from map
+ * actor mainly contains the walls objects from map and has its own action
  */
 public class WallActor extends SpriteActor {
     /**

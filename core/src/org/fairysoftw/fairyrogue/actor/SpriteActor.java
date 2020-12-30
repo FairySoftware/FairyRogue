@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import org.fairysoftw.fairyrogue.stage.MiniMapStage;
 
 /**
- * used
+ * actor that have tiled map object and can be display on the screen with its own action
  */
 public class SpriteActor extends Actor {
     //sprite is used to set map textureRegion and set location and size
