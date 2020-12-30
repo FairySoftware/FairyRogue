@@ -12,11 +12,11 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import org.fairysoftw.fairyrogue.FairyRogue;
 
 /**
- * EnterScreen implement the Screen interface or inherit the ScreenAdapter class.
+ * AboutScreen implement the Screen interface or inherit the ScreenAdapter class.
  * The ScreenAdapter class implements all the methods of the Screen interface.
- * This scene will just show our logo for a few seconds.
+ * This scene will show when the player win the game.
  */
-public class EnterScreen extends ScreenAdapter {
+public class WinScreen extends ScreenAdapter {
     // To facilitate interaction with other interfaces,
     // FairyRogue is passed in as a parameter when creating screen.
     private final FairyRogue fairyRogue;
@@ -33,22 +33,20 @@ public class EnterScreen extends ScreenAdapter {
     //Total rendering time of the current scene
     private float deltaSum;
 
-    private float i = 0.0f;
-
     /**
-     * Constructs a <code>EnterScreen</code> object.
+     * Constructs a <code>WinScreen</code> object.
      * There is no create () method in screen, and the show () method may be called many times.
      * Generally, it is better to do some initialization operations in the construction method
      *
      * @param fairyRogue the parameter passed in to facilitate interaction with other interfaces.
      */
-    public EnterScreen(FairyRogue fairyRogue) {
+    public WinScreen(FairyRogue fairyRogue) {
 
         this.fairyRogue = fairyRogue;
 
         stage = new Stage(new StretchViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT));
 
-        texture = new Texture(Gdx.files.internal("screen/logo.jpg"));
+        texture = new Texture(Gdx.files.internal("screen/win.png"));
 
         image = new Image(new TextureRegion(texture));
 
@@ -70,7 +68,7 @@ public class EnterScreen extends ScreenAdapter {
         //Cumulative rendering time
         deltaSum += delta;
 
-        if (deltaSum >= 5.0F || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+        if (deltaSum >= 10.0F || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
             // the scene display for more than 5 seconds or press any key will inform FairyRogue to switch the scene
             if (fairyRogue != null) {
                 fairyRogue.showScreen(this, "startScreen");
@@ -78,15 +76,8 @@ public class EnterScreen extends ScreenAdapter {
             }
         }
 
-        //From dark to light, lasting for a few seconds, then from light to dark
-        if (deltaSum < 1.75)
-            i = i + 0.0002f;
-        else if (deltaSum > 3.25)
-            i = i - 0.0002f;
-
-        image.setColor(i, i, i, 1);
-        Gdx.gl.glClearColor(i, i, i, 1);
-
+        image.setColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0.5f, 0.8f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act();

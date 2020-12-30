@@ -10,6 +10,11 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+/**
+ * Game class is An ApplicationListener that delegates to a Screen.
+ * This allows an application to easily have multiple screens.
+ * FairyRogue class extends Game class, and implemented more methods.
+ */
 public class FairyRogue extends Game {
     public static final int VIRTUAL_WIDTH = 960;
     public static final int VIRTUAL_HEIGHT = 768;
@@ -25,6 +30,9 @@ public class FairyRogue extends Game {
         setScreen(new EnterScreen(this));
     }
 
+    /**
+     * load the game MapsPath
+     */
     private void loadGameMapsPath() {
         FileHandle handle = Gdx.files.local("game.json");
         String content = handle.readString();
@@ -38,11 +46,13 @@ public class FairyRogue extends Game {
     }
 
     /**
-     * 开始场景展示完毕后调用该方法切换到主游戏场景
+     * Show the specified screen
+     *
+     * @param screen the screen instance who called this method.
+     * @param type   the screen that want to show.
      */
     public void showScreen(Screen screen, String type) {
 
-        // 设置当前场景为主游戏场景
         switch (type) {
             case "startScreen":
                 setScreen(new StartScreen(this));
@@ -77,9 +87,11 @@ public class FairyRogue extends Game {
                 return;
         }
 
+        // Since EnterScreen can only be displayed when the game starts,
+        // it doesn't need to be displayed later,
+        // So after starting EnterScreen,
+        // manually call the dispose () method of EnterScreen to destroy the start scene.
         if (screen instanceof EnterScreen) {
-            // 由于 EnterScreen 只有在游戏启动时展示一下, 之后都不需要展示,
-            // 所以启动完 GameScreen 后手动调用 AboutScreen 的 dispose() 方法销毁开始场景。
             screen.dispose();
         }
     }
@@ -89,13 +101,19 @@ public class FairyRogue extends Game {
         Assets.dispose();
     }
 
-    public void restartGame() {
-//        mainScreen.dispose();
-//        mainScreen = new MainScreen(this);
-    }
-
+    /**
+     * get the settingScreen's return type,
+     * make sure the settingScreen can return the right screen.
+     *
+     * @return String parameter. the exit type of screen.
+     */
     public String getSettingExitType() {
         return this.settingExitType;
     }
+
+//    public void restartGame() {
+//        mainScreen.dispose();
+//        mainScreen = new MainScreen(this);
+//    }
 
 }
