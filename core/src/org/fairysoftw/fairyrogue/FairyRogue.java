@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 import org.fairysoftw.fairyrogue.screen.*;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.List;
 
 public class FairyRogue extends Game {
@@ -67,7 +66,7 @@ public class FairyRogue extends Game {
                 setScreen(settingScreen);
                 break;
             case "poseScreen":
-                setScreen(new PoseScreen(this));
+                setScreen(new PauseScreen(this));
                 break;
             case "aboutScreen":
                 setScreen(new AboutScreen(this));
