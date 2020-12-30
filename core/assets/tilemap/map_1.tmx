@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="753">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="756">
  <properties>
   <property name="npc_dialogue" value="map_1_dialogue.json"/>
  </properties>
@@ -287,8 +287,8 @@
    <properties>
     <property name="abilityPower" type="float" value="0"/>
     <property name="attackDamage" type="float" value="4"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="20"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
@@ -298,8 +298,8 @@
    <properties>
     <property name="abilityPower" type="float" value="0"/>
     <property name="attackDamage" type="float" value="4"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="20"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
@@ -309,8 +309,8 @@
    <properties>
     <property name="abilityPower" type="float" value="0"/>
     <property name="attackDamage" type="float" value="4"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="20"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
@@ -320,8 +320,8 @@
    <properties>
     <property name="abilityPower" type="float" value="0"/>
     <property name="attackDamage" type="float" value="4"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="20"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
@@ -340,7 +340,7 @@
   </object>
   <object id="684" name="monster" gid="1328" x="768" y="640" width="32" height="32">
    <properties>
-    <property name="abilityPower" type="float" value="0"/>
+    <property name="abilityPower" type="float" value="1"/>
     <property name="attackDamage" type="float" value="3"/>
     <property name="attackSpeed" type="float" value="1"/>
     <property name="healthPoint" type="float" value="10"/>
@@ -353,19 +353,8 @@
    <properties>
     <property name="abilityPower" type="float" value="3"/>
     <property name="attackDamage" type="float" value="5"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="50"/>
-    <property name="magicPoint" type="float" value="0"/>
-    <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
-   </properties>
-  </object>
-  <object id="686" name="monster" gid="1374" x="576" y="288" width="32" height="32">
-   <properties>
-    <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="2"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
+    <property name="attackSpeed" type="float" value="0.5"/>
+    <property name="healthPoint" type="float" value="20"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="2"/>
@@ -379,7 +368,7 @@
     <property name="healthPoint" type="float" value="30"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
+    <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
   <object id="688" name="monster" gid="1374" x="544" y="160" width="32" height="32">
@@ -401,95 +390,62 @@
     <property name="healthPoint" type="float" value="30"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
+    <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
   <object id="690" name="monster" gid="1088" x="480" y="544" width="32" height="32">
    <properties>
-    <property name="abilityPower" type="float" value="0"/>
-    <property name="attackDamage" type="float" value="5"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="21"/>
+    <property name="abilityPower" type="float" value="2"/>
+    <property name="attackDamage" type="float" value="6"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="50"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="0"/>
+    <property name="physicalDefence" type="float" value="2"/>
    </properties>
   </object>
   <object id="691" name="monster" gid="1088" x="544" y="608" width="32" height="32">
    <properties>
-    <property name="abilityPower" type="float" value="0"/>
-    <property name="attackDamage" type="float" value="5"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="21"/>
+    <property name="abilityPower" type="float" value="2"/>
+    <property name="attackDamage" type="float" value="6"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="50"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="0"/>
+    <property name="physicalDefence" type="float" value="2"/>
    </properties>
   </object>
   <object id="693" name="monster" gid="1088" x="544" y="480" width="32" height="32">
    <properties>
-    <property name="abilityPower" type="float" value="0"/>
-    <property name="attackDamage" type="float" value="5"/>
+    <property name="abilityPower" type="float" value="2"/>
+    <property name="attackDamage" type="float" value="6"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="50"/>
+    <property name="magicPoint" type="float" value="0"/>
+    <property name="magicalDefence" type="float" value="0"/>
+    <property name="physicalDefence" type="float" value="2"/>
+   </properties>
+  </object>
+  <object id="694" name="monster" gid="1088" x="384" y="288" width="32" height="32">
+   <properties>
+    <property name="abilityPower" type="float" value="2"/>
+    <property name="attackDamage" type="float" value="3"/>
     <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="21"/>
+    <property name="healthPoint" type="float" value="20"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
-  <object id="694" name="monster" gid="1088" x="384" y="288" width="32" height="32">
-   <properties>
-    <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="2"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
-    <property name="magicPoint" type="float" value="0"/>
-    <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
-   </properties>
-  </object>
   <object id="695" name="monster" gid="1088" x="352" y="288" width="32" height="32">
    <properties>
-    <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="2"/>
+    <property name="abilityPower" type="float" value="2"/>
+    <property name="attackDamage" type="float" value="3"/>
     <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
+    <property name="healthPoint" type="float" value="20"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
-   </properties>
-  </object>
-  <object id="698" name="monster" gid="1088" x="224" y="320" width="32" height="32">
-   <properties>
-    <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="2"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
-    <property name="magicPoint" type="float" value="0"/>
-    <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
-   </properties>
-  </object>
-  <object id="699" name="monster" gid="1088" x="256" y="288" width="32" height="32">
-   <properties>
-    <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="2"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
-    <property name="magicPoint" type="float" value="0"/>
-    <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
-   </properties>
-  </object>
-  <object id="700" name="monster" gid="1088" x="192" y="352" width="32" height="32">
-   <properties>
-    <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="2"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
-    <property name="magicPoint" type="float" value="0"/>
-    <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
+    <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
   <object id="701" name="props" type="key" gid="1618" x="224" y="288" width="32" height="32">
@@ -500,21 +456,21 @@
   <object id="702" name="props" type="potion" gid="1626" x="576" y="160" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="0"/>
-    <property name="attackDamage" type="float" value="3"/>
+    <property name="attackDamage" type="float" value="0"/>
     <property name="attackSpeed" type="float" value="0"/>
     <property name="durability" type="float" value="0"/>
-    <property name="healthConsume" type="float" value="-20"/>
-    <property name="magicConsume" type="float" value="0"/>
+    <property name="healthConsume" type="float" value="0"/>
+    <property name="magicConsume" type="float" value="-20"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
   <object id="704" name="props" type="equipment" gid="1189" x="192" y="320" width="32" height="32">
    <properties>
-    <property name="abilityPower" type="float" value="0"/>
-    <property name="attackDamage" type="float" value="3"/>
-    <property name="attackSpeed" type="float" value="3"/>
-    <property name="durability" type="float" value="-100"/>
+    <property name="abilityPower" type="float" value="2"/>
+    <property name="attackDamage" type="float" value="4"/>
+    <property name="attackSpeed" type="float" value="4"/>
+    <property name="durability" type="float" value="-150"/>
     <property name="equipment_type" value="weapon"/>
     <property name="healthConsume" type="float" value="0"/>
     <property name="magicConsume" type="float" value="0"/>
@@ -529,7 +485,7 @@
     <property name="attackDamage" type="float" value="0"/>
     <property name="attackSpeed" type="float" value="0"/>
     <property name="durability" type="float" value="0"/>
-    <property name="healthConsume" type="float" value="-20"/>
+    <property name="healthConsume" type="float" value="-40"/>
     <property name="magicConsume" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
@@ -538,42 +494,42 @@
   <object id="706" name="monster" gid="1471" x="160" y="544" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="5"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="50"/>
+    <property name="attackDamage" type="float" value="6"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="25"/>
     <property name="magicPoint" type="float" value="0"/>
-    <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
+    <property name="magicalDefence" type="float" value="1"/>
+    <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
   <object id="707" name="monster" gid="1471" x="128" y="544" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="2"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="30"/>
+    <property name="attackDamage" type="float" value="6"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="25"/>
     <property name="magicPoint" type="float" value="0"/>
-    <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
+    <property name="magicalDefence" type="float" value="1"/>
+    <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
   <object id="708" name="monster" gid="1471" x="96" y="544" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="5"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="50"/>
+    <property name="attackDamage" type="float" value="6"/>
+    <property name="attackSpeed" type="float" value="2"/>
+    <property name="healthPoint" type="float" value="25"/>
     <property name="magicPoint" type="float" value="0"/>
-    <property name="magicalDefence" type="float" value="0"/>
-    <property name="physicalDefence" type="float" value="2"/>
+    <property name="magicalDefence" type="float" value="1"/>
+    <property name="physicalDefence" type="float" value="0"/>
    </properties>
   </object>
   <object id="712" name="monster" gid="1371" x="352" y="768" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="3"/>
-    <property name="attackDamage" type="float" value="4"/>
-    <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="20"/>
+    <property name="attackDamage" type="float" value="2"/>
+    <property name="attackSpeed" type="float" value="0.5"/>
+    <property name="healthPoint" type="float" value="10"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="2"/>
@@ -604,10 +560,43 @@
     <property name="attackDamage" type="float" value="0"/>
     <property name="attackSpeed" type="float" value="0"/>
     <property name="durability" type="float" value="0"/>
-    <property name="healthConsume" type="float" value="-20"/>
+    <property name="healthConsume" type="float" value="-40"/>
     <property name="magicConsume" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="753" name="monster" gid="1130" x="256" y="288" width="32" height="32">
+   <properties>
+    <property name="abilityPower" type="float" value="5"/>
+    <property name="attackDamage" type="float" value="6"/>
+    <property name="attackSpeed" type="float" value="1"/>
+    <property name="healthPoint" type="float" value="20"/>
+    <property name="magicPoint" type="float" value="0"/>
+    <property name="magicalDefence" type="float" value="0"/>
+    <property name="physicalDefence" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="754" name="monster" gid="1130" x="224" y="320" width="32" height="32">
+   <properties>
+    <property name="abilityPower" type="float" value="5"/>
+    <property name="attackDamage" type="float" value="6"/>
+    <property name="attackSpeed" type="float" value="1"/>
+    <property name="healthPoint" type="float" value="20"/>
+    <property name="magicPoint" type="float" value="0"/>
+    <property name="magicalDefence" type="float" value="0"/>
+    <property name="physicalDefence" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="755" name="monster" gid="1130" x="192" y="352" width="32" height="32">
+   <properties>
+    <property name="abilityPower" type="float" value="5"/>
+    <property name="attackDamage" type="float" value="6"/>
+    <property name="attackSpeed" type="float" value="1"/>
+    <property name="healthPoint" type="float" value="20"/>
+    <property name="magicPoint" type="float" value="0"/>
+    <property name="magicalDefence" type="float" value="0"/>
+    <property name="physicalDefence" type="float" value="1"/>
    </properties>
   </object>
  </objectgroup>
@@ -648,7 +637,7 @@
     <property name="attackDamage" type="float" value="0"/>
     <property name="attackSpeed" type="float" value="0"/>
     <property name="durability" type="float" value="0"/>
-    <property name="healthConsume" type="float" value="-50"/>
+    <property name="healthConsume" type="float" value="-60"/>
     <property name="magicConsume" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
