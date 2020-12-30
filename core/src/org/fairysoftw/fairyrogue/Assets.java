@@ -6,6 +6,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+/**
+ * This class controls game sound effects and game background music
+ */
 public class Assets {
     private static final AssetManager manager = new AssetManager();
 
@@ -19,6 +22,9 @@ public class Assets {
     public static Sound deathSound;
     private static boolean openSound;
 
+    /**
+     * load the music and sound files locally
+     */
     public static void load() {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
@@ -36,18 +42,32 @@ public class Assets {
         manager.finishLoading();
     }
 
+    /**
+     * relinquish resources
+     */
     public static void dispose() {
         manager.dispose();
     }
 
+    /**
+     * check the sound is open or not
+     *
+     * @return true for open sound and false for not open sound
+     */
     public static boolean isOpenSound() {
         return openSound;
     }
 
+    /**
+     * get sound open
+     */
     public static void openSound() {
         openSound = true;
     }
 
+    /**
+     * get sound closed
+     */
     public static void closeSound() {
         openSound = false;
     }
