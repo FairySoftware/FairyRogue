@@ -83,6 +83,9 @@ public class FairyRogue extends Game {
             case "aboutScreen":
                 setScreen(new AboutScreen(this));
                 break;
+            case "helpScreen":
+                setScreen(new HelpScreen(this));
+                break;
             case "exit":
                 Gdx.app.exit();
             default:
