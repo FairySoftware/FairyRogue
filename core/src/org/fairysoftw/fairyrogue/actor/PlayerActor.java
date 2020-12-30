@@ -34,7 +34,7 @@ public class PlayerActor extends CreatureActor {
     public PlayerActor(MapObject mapObject) {
         super(mapObject);
         weapon.attackDamage = this.attackDamage;
-        weapon.abilityPower= this.abilityPower;
+        weapon.abilityPower = this.abilityPower;
         weapon.attackSpeed = this.attackSpeed;
     }
 
@@ -47,29 +47,26 @@ public class PlayerActor extends CreatureActor {
             if (Gdx.input.isKeyJustPressed(Input.Keys.K) ||
                     Gdx.input.isKeyJustPressed(Input.Keys.UP))//up
             {
-                sprite.setY(((int)sprite.getY()) + 32);
-            }
-            else if (Gdx.input.isKeyJustPressed(Input.Keys.J) ||
+                sprite.setY(((int) sprite.getY()) + 32);
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.J) ||
                     Gdx.input.isKeyJustPressed(Input.Keys.DOWN))//down
             {
-                sprite.setY(((int)sprite.getY()) - 32);
-            }
-            else if (Gdx.input.isKeyJustPressed(Input.Keys.H) ||
+                sprite.setY(((int) sprite.getY()) - 32);
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.H) ||
                     Gdx.input.isKeyJustPressed(Input.Keys.LEFT))//left
             {
-                sprite.setX(((int)sprite.getX()) - 32);
-            }
-            else if (Gdx.input.isKeyJustPressed(Input.Keys.L) ||
+                sprite.setX(((int) sprite.getX()) - 32);
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.L) ||
                     Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))//right
             {
-                sprite.setX(((int)sprite.getX()) + 32);
+                sprite.setX(((int) sprite.getX()) + 32);
             }
         }
     }
 
     @Override
     public void takeDeath() {
-        if(Assets.isOpenSound())
+        if (Assets.isOpenSound())
             Assets.deathSound.play();
     }
 
@@ -79,7 +76,7 @@ public class PlayerActor extends CreatureActor {
     }
 
     public void pickUp(Props props) {
-        if(Assets.isOpenSound())
+        if (Assets.isOpenSound())
             Assets.pickSound.play();
 
         if (props.propsType == PropsActor.PropsType.EQUIPMENT) {
@@ -102,11 +99,9 @@ public class PlayerActor extends CreatureActor {
                     break;
             }
             updateAttributes();
-        }
-        else if (props.propsType == PropsActor.PropsType.POTION) {
+        } else if (props.propsType == PropsActor.PropsType.POTION) {
             this.usePotion((Potion) props);
-        }
-        else if (props.propsType == PropsActor.PropsType.KEY) {
+        } else if (props.propsType == PropsActor.PropsType.KEY) {
             this.backpack.add(props);
         }
     }
@@ -125,15 +120,14 @@ public class PlayerActor extends CreatureActor {
             float magicConsume = this.weapon.magicConsume;
             this.healthPoint -= healthConsume;
             this.magicPoint -= magicConsume;
-            if((magicPoint < 0) || healthPoint < 0) {
+            if ((magicPoint < 0) || healthPoint < 0) {
                 return;
             }
-            if(Assets.isOpenSound())
+            if (Assets.isOpenSound())
                 Assets.attackSound.play();
 
             float realDamage = this.opponent.takeDamage(this.attackDamage, this.abilityPower, this);
-        }
-        else if (now - lastAttack > 0 && opponent != null) {
+        } else if (now - lastAttack > 0 && opponent != null) {
             float s = (now - lastAttack) / (1000000000 / attackSpeed);
             this.setX((float) (posBeforeBattle.x + (opponent.getX() - posBeforeBattle.x) * s * 0.5));
             this.setY((float) (posBeforeBattle.y + (opponent.getY() - posBeforeBattle.y) * s * 0.5));
@@ -146,7 +140,7 @@ public class PlayerActor extends CreatureActor {
     }
 
     public void equip(Equipment equipment) {
-        if(Assets.isOpenSound())
+        if (Assets.isOpenSound())
             Assets.equipSound.play();
 
         switch (equipment.equipmentType) {
@@ -172,7 +166,7 @@ public class PlayerActor extends CreatureActor {
     }
 
     public void takeDialogue(NpcActor actor, JSONObject dialogueJson) {
-        if(!inDialogue) {
+        if (!inDialogue) {
             this.inDialogue = true;
             actor.takeDialogue(this.getStage(), this, dialogueJson);
         }
