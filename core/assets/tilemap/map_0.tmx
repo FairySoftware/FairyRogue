@@ -273,9 +273,9 @@
   <object id="147" name="monster" gid="1466" x="608" y="64" width="32" height="32">
    <properties>
     <property name="abilityPower" type="float" value="0"/>
-    <property name="attackDamage" type="float" value="1"/>
+    <property name="attackDamage" type="float" value="5"/>
     <property name="attackSpeed" type="float" value="1"/>
-    <property name="healthPoint" type="float" value="10"/>
+    <property name="healthPoint" type="float" value="21"/>
     <property name="magicPoint" type="float" value="0"/>
     <property name="magicalDefence" type="float" value="0"/>
     <property name="physicalDefence" type="float" value="0"/>
