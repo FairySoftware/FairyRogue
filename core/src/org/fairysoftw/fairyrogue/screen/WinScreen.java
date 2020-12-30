@@ -12,49 +12,49 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import org.fairysoftw.fairyrogue.FairyRogue;
 
 /**
- * 欢迎界面, 实现 Screen 接口 或者 继承 ScreenAdapter 类, ScreenAdapter 类空实现了 Screen 接口的所有方法。
- * 这个场景使用我们团队自己的logo居中显示 5 秒钟当做是游戏的欢迎界面。
- * PS: 类似 Screen 这样的有许多方法的接口, 更多时候只需要实现其中一两个方法, 往往会有一个对应的便捷的空实现所有接口方法的 XXAdapter 类,
- * 例如 ApplicationListener >> ApplicationAdapter, InputProcessor >> InputAdapter
+ * AboutScreen implement the Screen interface or inherit the ScreenAdapter class.
+ * The ScreenAdapter class implements all the methods of the Screen interface.
+ * This scene will show when the player win the game.
  */
 public class WinScreen extends ScreenAdapter {
-    // 为了方便与 其他界面 进行交互, 创建 Screen 时将 FairyRogue 作为参数传进来。
+    // To facilitate interaction with other interfaces,
+    // FairyRogue is passed in as a parameter when creating screen.
     private final FairyRogue fairyRogue;
 
-    // 舞台
+    // stage
     private final Stage stage;
 
-    // 纹理
+    // texture
     private final Texture texture;
 
-    // 图片控件
+    // image
     Image image;
 
-    // 渲染时间步累计变量（当前场景被展示的时间总和）
+    //Total rendering time of the current scene
     private float deltaSum;
 
+    /**
+     * Constructs a <code>WinScreen</code> object.
+     * There is no create () method in screen, and the show () method may be called many times.
+     * Generally, it is better to do some initialization operations in the construction method
+     *
+     * @param fairyRogue the parameter passed in to facilitate interaction with other interfaces.
+     */
     public WinScreen(FairyRogue fairyRogue) {
 
         this.fairyRogue = fairyRogue;
 
-        // 在 Screen 中没有 create() 方法, show() 方法有可能被调用多次, 所有一般在构造方法中做一些初始化操作较好
-
-        // 使用伸展视口（StretchViewport）创建舞台
         stage = new Stage(new StretchViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT));
 
-        // 创建为纹理
         texture = new Texture(Gdx.files.internal("screen/win.png"));
 
-        // 创建 Image
         image = new Image(new TextureRegion(texture));
 
-        // 设置 image 的相关属性
         image.setPosition(stage.getWidth() / 2 - image.getWidth() / 2,
                 stage.getHeight() / 2 - image.getHeight() / 2);
 
         image.setColor(1, 1, 1, 1);
 
-        // 添加 image 到舞台
         stage.addActor(image);
     }
 
@@ -65,11 +65,11 @@ public class WinScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        // 累计渲染时间步
+        //Cumulative rendering time
         deltaSum += delta;
 
         if (deltaSum >= 10.0F || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-            // 开始场景展示时间超过 10 秒, 通知 fairyRogue 切换场景（启动开始界面）
+            // the scene display for more than 5 seconds or press any key will inform FairyRogue to switch the scene
             if (fairyRogue != null) {
                 fairyRogue.showScreen(this, "startScreen");
                 return;
@@ -80,15 +80,12 @@ public class WinScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.5f, 0.8f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // 更新舞台逻辑
         stage.act();
-        // 绘制舞台
         stage.draw();
     }
 
     @Override
     public void dispose() {
-        // 当应用退出时释放资源
         if (texture != null) {
             texture.dispose();
         }

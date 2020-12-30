@@ -15,52 +15,60 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import org.fairysoftw.fairyrogue.FairyRogue;
 
 /**
- * 开始界面, 实现 Screen 接口 或者 继承 ScreenAdapter 类, ScreenAdapter 类空实现了 Screen 接口的所有方法。
- * 这个界面包括了开始游戏、设置、关于、退出游戏四个选项，与其他几个界面相关联
+ * StartScreen implement the Screen interface or inherit the ScreenAdapter class.
+ * The ScreenAdapter class implements all the methods of the Screen interface.
+ * This screen is a very import screen class besides the game screen(MainScreen)
+ * it is associated with other screes.
  */
 public class StartScreen extends ScreenAdapter {
-    // 为了方便与 其他界面 进行交互, 创建 Screen 时将 FairyRogue 作为参数传进来。
+    // To facilitate interaction with other interfaces,
+    // FairyRogue is passed in as a parameter when creating screen.
     private final FairyRogue fairyRogue;
 
-    //记录是否在这个界面，防止误触发
+    // Record whether it is in this interface to prevent false triggering
     private boolean activation = false;
 
-    // 舞台
+    // stage
     private final Stage stage;
 
-    // 纹理
+    // texture
     private Texture texture;
 
-    // 图片控件
+    // image
     Image image;
 
-    // 开始按钮
+    // start Button
     private Button startButton;
 
-    // 设置按钮
+    // settings Button
     private Button settingsButton;
 
-    // 关于按钮
+    // about Button
     private Button aboutButton;
 
-    // 退出按钮
+    // exit Button
     private Button exitButton;
 
+    /**
+     * Constructs a <code>StartScreen</code> object.
+     * There is no create () method in screen, and the show () method may be called many times.
+     * Generally, it is better to do some initialization operations in the construction method
+     *
+     * @param fairyRogue the parameter passed in to facilitate interaction with other interfaces.
+     */
     public StartScreen(FairyRogue fairyRogue) {
 
         this.fairyRogue = fairyRogue;
 
-        // 在 Screen 中没有 create() 方法, show() 方法有可能被调用多次, 所有一般在构造方法中做一些初始化操作较好
-        // 使用伸展视口（StretchViewport）创建舞台
         stage = new Stage(new StretchViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT));
 
         setBackground();
 
         setButton();
 
-        // 添加 image 到舞台
+        // add image to stage
         stage.addActor(image);
-        //添加 button 到舞台
+        //add button to stage
         stage.addActor(startButton);
         stage.addActor(settingsButton);
         stage.addActor(aboutButton);
@@ -72,7 +80,8 @@ public class StartScreen extends ScreenAdapter {
     public void show() {
         activation = true;
 
-        // 将输入处理设置到舞台（必须设置, 否则点击按钮没效果）
+        // Set the input processing to the stage
+        // it must be set, otherwise it will not work if you click the button
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -83,20 +92,16 @@ public class StartScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        // 累计渲染时间步
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // 更新舞台逻辑
         stage.act();
-        // 绘制舞台
         stage.draw();
     }
 
     @Override
     public void dispose() {
-        // 当应用退出时释放资源
         if (texture != null) {
             texture.dispose();
         }
@@ -105,22 +110,25 @@ public class StartScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * set the background of this screen
+     */
     private void setBackground() {
-        // 创建为纹理
         texture = new Texture(Gdx.files.internal("screen/background.jpg"));
 
-        // 创建 Image
         image = new Image(new TextureRegion(texture));
 
-        // 设置 image 的相关属性
         image.setPosition(stage.getWidth() / 2 - image.getWidth() / 2,
                 stage.getHeight() / 2 - image.getHeight() / 2);
 
         image.setColor(1, 1, 1, 1);
     }
 
+    /**
+     * set the button of this screen
+     */
     private void setButton() {
-        //创建 弹起 和 按下 两种状态的纹理
+        // Create textures in both bounce and press states
         Texture startUpTexture = new Texture(Gdx.files.internal("screen/button/Start.png"));
         Texture startDownTexture = new Texture(Gdx.files.internal("screen/button/Start_n.png"));
 
@@ -133,13 +141,13 @@ public class StartScreen extends ScreenAdapter {
         Texture exitUpTexture = new Texture(Gdx.files.internal("screen/button/Exit.png"));
         Texture exitDownTexture = new Texture(Gdx.files.internal("screen/button/Exit_n.png"));
 
-        //创建 ButtonStyle
+        //create ButtonStyle
         Button.ButtonStyle startStyle = new Button.ButtonStyle();
         Button.ButtonStyle settingsStyle = new Button.ButtonStyle();
         Button.ButtonStyle aboutStyle = new Button.ButtonStyle();
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
 
-        // 设置 style 的 弹起 和 按下 状态的纹理区域 并且创建 按钮
+        //Set the texture area of the pop-up and press state of the style and create the button
         startStyle.up = new TextureRegionDrawable(new TextureRegion(startUpTexture));
         startStyle.down = new TextureRegionDrawable(new TextureRegion(startDownTexture));
         startButton = new Button(startStyle);
@@ -156,7 +164,7 @@ public class StartScreen extends ScreenAdapter {
         exitStyle.down = new TextureRegionDrawable(new TextureRegion(exitDownTexture));
         exitButton = new Button(exitStyle);
 
-        // 设置按钮的缩放比和位置
+        //Set the zoom ratio and position of the button
         startButton.setTransform(true);
         startButton.setScale(0.3f);
         startButton.setPosition(stage.getWidth() / 2 - startButton.getWidth() / 5,
@@ -177,7 +185,7 @@ public class StartScreen extends ScreenAdapter {
         exitButton.setPosition(stage.getWidth() / 2 - exitButton.getWidth() / 5,
                 stage.getHeight() / 2 - exitButton.getHeight() / 2 - 210);
 
-        // 给开始按钮添加点击监听器
+        //Add click listener to start button
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -189,7 +197,7 @@ public class StartScreen extends ScreenAdapter {
             }
         });
 
-        // 给设置按钮添加点击监听器
+        //Add click listener to settings button
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -201,7 +209,7 @@ public class StartScreen extends ScreenAdapter {
             }
         });
 
-        // 给关于按钮添加点击监听器
+        //Add click listener to about button
         aboutButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -213,7 +221,7 @@ public class StartScreen extends ScreenAdapter {
             }
         });
 
-        // 给退出按钮添加点击监听器
+        //Add click listener to exit button
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

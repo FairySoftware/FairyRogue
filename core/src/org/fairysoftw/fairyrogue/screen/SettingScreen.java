@@ -19,45 +19,56 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import org.fairysoftw.fairyrogue.Assets;
 import org.fairysoftw.fairyrogue.FairyRogue;
 
+/**
+ * SettingScreen implement the Screen interface or inherit the ScreenAdapter class.
+ * The ScreenAdapter class implements all the methods of the Screen interface.
+ * This screen is used to change some settings in this game.
+ */
 public class SettingScreen extends ScreenAdapter {
-    // 为了方便与 其他界面 进行交互, 创建 Screen 时将 FairyRogue 作为参数传进来。
+    // To facilitate interaction with other interfaces,
+    // FairyRogue is passed in as a parameter when creating screen.
     protected final FairyRogue fairyRogue;
 
-    //记录是否在这个界面，防止误触发
+    // Record whether it is in this interface to prevent false triggering
     protected boolean activation = false;
 
-    // 舞台
+    // stage
     private final Stage stage;
 
-    // 纹理
+    // texture
     private Texture texture;
 
-    // 图片控件
+    // image
     Image image;
     Image musicImage;
     Image soundImage;
 
-    // 复选框选中状态的纹理
+    // checkbox On Texture
     private Texture checkboxOnTexture;
 
-    // 复选框未选中状态的纹理
+    // checkbox Off Texture
     private Texture checkboxOffTexture;
 
-    // 位图字体
+    // bitmap Font
     private BitmapFont bitmapFont;
 
-    // 复选框
+    // checkBox
     private final CheckBox[] musicCheckBox = new CheckBox[5];
     private final CheckBox[] soundCheckBox = new CheckBox[2];
 
-    // 退出按钮
+    // exit Button
     protected Button exitButton;
 
+    /**
+     * Constructs a <code>SettingScreen</code> object.
+     * There is no create () method in screen, and the show () method may be called many times.
+     * Generally, it is better to do some initialization operations in the construction method
+     *
+     * @param fairyRogue the parameter passed in to facilitate interaction with other interfaces.
+     */
     public SettingScreen(FairyRogue fairyRogue) {
         this.fairyRogue = fairyRogue;
 
-        // 在 Screen 中没有 create() 方法, show() 方法有可能被调用多次, 所有一般在构造方法中做一些初始化操作较好
-        // 使用伸展视口（StretchViewport）创建舞台
         stage = new Stage(new StretchViewport(FairyRogue.VIRTUAL_WIDTH, FairyRogue.VIRTUAL_HEIGHT));
 
         setBackground();
@@ -66,15 +77,15 @@ public class SettingScreen extends ScreenAdapter {
 
         setButton();
 
-        // 添加 image 到舞台
+        // add image to stage
         stage.addActor(image);
         stage.addActor(musicImage);
         stage.addActor(soundImage);
 
-        //添加 exit button 到舞台
+        //add exit button to stage
         stage.addActor(exitButton);
 
-        //添加 checkBox 到舞台
+        //add checkBox to stage
         for (int i = 0; i < 5; i++) {
             stage.addActor(musicCheckBox[i]);
         }
@@ -86,7 +97,9 @@ public class SettingScreen extends ScreenAdapter {
     @Override
     public void show() {
         activation = true;
-        // 将输入处理设置到舞台（必须设置, 否则点击没效果）
+
+        // Set the input processing to the stage
+        // it must be set, otherwise it will not work if you click the button
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -104,15 +117,12 @@ public class SettingScreen extends ScreenAdapter {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // 更新舞台逻辑
         stage.act();
-        // 绘制舞台
         stage.draw();
     }
 
     @Override
     public void dispose() {
-        // 当应用退出时释放资源
         if (texture != null) {
             texture.dispose();
         }
@@ -130,13 +140,14 @@ public class SettingScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * set the background of this screen
+     */
     private void setBackground() {
-        // 创建为纹理
         texture = new Texture(Gdx.files.internal("screen/background.jpg"));
         Texture musicTexture = new Texture(Gdx.files.internal("screen/button/Music.png"));
         Texture soundTexture = new Texture(Gdx.files.internal("screen/button/Sound.png"));
 
-        // 创建 Image
         image = new Image(new TextureRegion(texture));
         musicImage = new Image(new TextureRegion(musicTexture));
         soundImage = new Image(new TextureRegion(soundTexture));
@@ -144,7 +155,6 @@ public class SettingScreen extends ScreenAdapter {
         musicImage.setScale(0.3f);
         soundImage.setScale(0.3f);
 
-        // 设置 image 的相关属性
         image.setPosition(stage.getWidth() / 2 - image.getWidth() / 2, stage.getHeight() / 2 - image.getHeight() / 2);
         musicImage.setPosition(150, 150);
         soundImage.setPosition(150, 100);
@@ -154,34 +164,32 @@ public class SettingScreen extends ScreenAdapter {
         soundImage.setColor(1, 1, 1, 1);
     }
 
+    /**
+     * set the checkbox of this screen
+     */
     private void setCheckbox() {
 
-        /*
-         * 第 1 步: 创建复选框 选中 和 未选中 两种状态的纹理, 以及创建位图字体（用于显示复选框的文本）
-         */
+        // Create a check box checked and unselected texture,
+        // and create a bitmap font (used to display the text of the check box)
         checkboxOnTexture = new Texture(Gdx.files.internal("screen/checkbox/checkbox_on.png"));
         checkboxOffTexture = new Texture(Gdx.files.internal("screen/checkbox/checkbox_off.png"));
 
         bitmapFont = new BitmapFont();
 
-        /*
-         * 第 2 步: 创建 CheckBoxStyle
-         */
+        // Create check box style
         CheckBox.CheckBoxStyle style = new CheckBox.CheckBoxStyle();
 
-        // 设置 style 的 选中 和 未选中 状态的纹理区域
+        // Set the selected and unselected texture regions of style
         style.checkboxOn = new TextureRegionDrawable(new TextureRegion(checkboxOnTexture));
         style.checkboxOff = new TextureRegionDrawable(new TextureRegion(checkboxOffTexture));
 
-        // 设置复选框文本的位图字体
+        // Sets the bitmap font for the check box text
         style.font = bitmapFont;
 
-        // 也可以设置复选框文本的字体颜色（RGBA）
+        // can also set the check box text font color (RGBA)
         // style.fontColor = new Color(1, 0, 0, 1);
 
-        /*
-         * 第 3 步: 创建 CheckBox
-         */
+        //create check box
         musicCheckBox[0] = new CheckBox("0%", style);
         musicCheckBox[1] = new CheckBox("25%", style);
         musicCheckBox[2] = new CheckBox("50%", style);
@@ -191,7 +199,7 @@ public class SettingScreen extends ScreenAdapter {
         soundCheckBox[0] = new CheckBox("Open", style);
         soundCheckBox[1] = new CheckBox("Close", style);
 
-        // 设置复选框的位置
+        // Set the location of the check box
         musicCheckBox[0].setPosition(450, 200);
         musicCheckBox[1].setPosition(550, 200);
         musicCheckBox[2].setPosition(650, 200);
@@ -201,13 +209,13 @@ public class SettingScreen extends ScreenAdapter {
         soundCheckBox[0].setPosition(550, 150);
         soundCheckBox[1].setPosition(750, 150);
 
-        // 可以手动设置复选框的选中状/未选中态
+        // manually set the selected / unselected state of the check box
         musicCheckBox[2].setChecked(true);
         soundCheckBox[0].setChecked(true);
         Assets.bgm.setVolume(0.5f);
         Assets.openSound();
 
-        // 设置复选框的（选中/未选中）状态改变监听器
+        // Set the (checked / unselected) state change listener for the check box
         for (int index = 0; index < 5; index++) {
 
             final int finalIndex = index;
@@ -222,10 +230,11 @@ public class SettingScreen extends ScreenAdapter {
                             if (musicCheckBox[i].isChecked() && i != finalIndex)
                                 musicCheckBox[i].setChecked(false);
                         }
-                        //改变音量
+                        //change volume
                         Assets.bgm.setVolume(finalIndex * 0.25f);
                     } else {
-                        //关闭音量 （这里没有办法让复选框勾选后不可改变。所以就关闭音量）
+                        //Turn off the volume
+                        // there is no way to make the check box unchangeable. So turn off the volume.
                         Assets.bgm.setVolume(0);
                     }
 
@@ -248,13 +257,14 @@ public class SettingScreen extends ScreenAdapter {
                             if (soundCheckBox[i].isChecked() && i != finalIndex)
                                 soundCheckBox[i].setChecked(false);
                         }
-                        //改变音量
+                        //change volume
                         if (finalIndex == 0)
                             Assets.openSound();
                         else
                             Assets.closeSound();
                     } else {
-                        //关闭音量 （这里没有办法让复选框勾选后不可改变。所以就关闭音量）
+                        //Turn off the volume
+                        // there is no way to make the check box unchangeable. So turn off the volume.
                         Assets.closeSound();
                     }
 
@@ -264,12 +274,15 @@ public class SettingScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * set the button of this screen
+     */
     protected void setButton() {
-        //创建 弹起 和 按下 两种状态的纹理
+        // create textures in both bounce and press states
         Texture exitUpTexture = new Texture(Gdx.files.internal("screen/button/Exit.png"));
         Texture exitDownTexture = new Texture(Gdx.files.internal("screen/button/Exit_n.png"));
 
-        //创建 ButtonStyle
+        // create ButtonStyle
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
 
         exitStyle.up = new TextureRegionDrawable(new TextureRegion(exitUpTexture));
@@ -280,7 +293,7 @@ public class SettingScreen extends ScreenAdapter {
         exitButton.setScale(0.3f);
         exitButton.setPosition(750, 0);
 
-        // 给退出按钮添加点击监听器
+        // add click listener to exit button
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
