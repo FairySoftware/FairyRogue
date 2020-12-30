@@ -13,11 +13,29 @@ import org.fairysoftw.fairyrogue.props.Props;
 import org.json.JSONObject;
 
 
+/** {@inheritDoc}
+ * This dialog is use to display the npc dialogue with character.
+ */
 public class NpcDialog extends Dialog {
+    // the player that initiate the dialogue
     private PlayerActor playerActor;
+    // the npc that player talk with
     public NpcActor npcActor;
+    // the bonus may player receive when dialogue over
     private Props bonus;
+    // the choices that player can choose
     private Array<JSONObject> choices;
+
+    /**
+     *
+     * @param title title of the dialogue
+     * @param skin skin that dialogue apply
+     * @param windowStyleName windows style name that dialogue have
+     * @param npc npc that player talk with
+     * @param player the player that initiate the dialogue
+     * @param bonus the bonus may player receive when dialogue over
+     * @param choices the choices that player can choose
+     */
     public NpcDialog(String title, Skin skin, String windowStyleName, NpcActor npc, PlayerActor player, Props bonus, Array<JSONObject> choices) {
         super(title, skin, windowStyleName);
         this.playerActor = player;
@@ -33,6 +51,11 @@ public class NpcDialog extends Dialog {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * override the key press result
+     * @param object
+     */
     @Override
     protected void result(Object object) {
         playerActor.overDialogue();
