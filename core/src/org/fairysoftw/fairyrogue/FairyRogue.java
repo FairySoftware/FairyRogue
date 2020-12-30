@@ -116,4 +116,10 @@ public class FairyRogue extends Game {
 //        mainScreen = new MainScreen(this);
 //    }
 
+    @Override
+    public void setScreen(Screen screen) {
+        super.setScreen(screen);
+        if (screen instanceof MainScreen)
+            mainScreen = screen;
+    }
 }
